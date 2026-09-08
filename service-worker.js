@@ -1,5 +1,5 @@
-const CACHE = 'dulus-gym-track-v2';
-const ASSETS = ['./', './index.html', './styles.css', './storage.js', './app.js', './manifest.webmanifest', './icons/icon-192.svg', './icons/icon-512.svg'];
+const CACHE = 'dulus-gym-track-v3';
+const ASSETS = ['./', './index.html', './styles.css', './library.css', './storage.js', './exercises.js', './app.js', './library.js', './manifest.webmanifest', './icons/icon-192.svg', './icons/icon-512.svg'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil(self.clients.claim()));
 self.addEventListener('fetch', event => event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request))));

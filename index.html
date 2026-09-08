@@ -8,6 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="apple-touch-icon" href="icons/icon-192.svg" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="library.css" />
     <title>Dulus Gym Track</title>
   </head>
   <body>
@@ -45,6 +46,7 @@
 
       <section id="screen-workout" class="screen" aria-labelledby="workout-heading">
         <div class="screen-intro"><p class="label">PROGRAMACIÓN</p><h2 id="workout-heading">Entrenamientos</h2><p>Rutinas activas de tu equipo para esta semana.</p></div>
+        <button class="library-cta" id="open-exercise-library" type="button"><span class="metric-icon blue">⌘</span><span><small>BIBLIOTECA DE EJERCICIOS</small><strong>Explorar ejercicios</strong></span><span class="cta-arrow">›</span></button>
         <div id="workout-list" class="program-list"></div>
       </section>
 
@@ -67,6 +69,22 @@
 
       <section id="screen-student-detail" class="screen" aria-labelledby="student-detail-name">
         <div class="view-toolbar"><button class="back-button" type="button" data-back="students" aria-label="Volver a alumnos">‹</button><p class="label">FICHA DE ALUMNO</p></div><div id="student-detail"></div>
+      </section>
+
+      <section id="screen-library" class="screen" aria-labelledby="library-heading">
+        <div class="view-toolbar"><button class="back-button" type="button" data-back="workout" aria-label="Volver a entrenamientos">‹</button><div><p class="label">RECURSOS DE ENTRENAMIENTO</p><h2 id="library-heading">Biblioteca</h2></div></div>
+        <p class="students-subtitle">Explora técnicas y movimientos listos para incorporarse a futuras rutinas.</p>
+        <div class="library-filters" aria-label="Filtros de ejercicios">
+          <label class="library-search"><span class="sr-only">Buscar ejercicio</span><input id="exercise-search" type="search" placeholder="Buscar por nombre" autocomplete="off" /></label>
+          <div class="library-selects"><label>Grupo muscular<select id="exercise-muscle-filter"><option value="">Todos los grupos</option></select></label><label>Con pesas<select id="exercise-load-filter"><option value="">Todos</option><option value="true">Con pesas</option><option value="false">Sin pesas</option></select></label></div>
+          <div class="equipment-chips" id="equipment-filters" aria-label="Filtrar por equipamiento"></div>
+        </div>
+        <p class="library-count" id="exercise-count" aria-live="polite"></p>
+        <div id="exercise-list" class="exercise-list"></div>
+      </section>
+
+      <section id="screen-library-detail" class="screen" aria-labelledby="exercise-detail-title">
+        <div class="view-toolbar"><button class="back-button" type="button" data-back="library" aria-label="Volver a la biblioteca">‹</button><p class="label">BIBLIOTECA DE EJERCICIOS</p></div><div id="exercise-detail"></div>
       </section>
     </main>
 
@@ -101,6 +119,8 @@
       <button class="nav-item" type="button" data-screen="profile"><span class="nav-icon">♙</span><span>Perfil</span></button>
     </nav>
     <script src="storage.js"></script>
+    <script src="exercises.js"></script>
     <script src="app.js"></script>
+    <script src="library.js"></script>
   </body>
 </html>
