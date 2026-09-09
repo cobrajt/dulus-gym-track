@@ -54,6 +54,8 @@ const DulusStorage = (() => {
     getSetting: key => run(STORES.settings, 'readonly', store => store.get(key)).then(record => record?.value),
     saveSetting: (key, value) => run(STORES.settings, 'readwrite', store => store.put({ key, value })),
     getMeta: key => run(STORES.meta, 'readonly', store => store.get(key)).then(record => record?.value),
-    saveMeta: (key, value) => run(STORES.meta, 'readwrite', store => store.put({ key, value }))
+    saveMeta: (key, value) => run(STORES.meta, 'readwrite', store => store.put({ key, value })),
+    getWorkouts: () => run(STORES.workouts, 'readonly', store => store.getAll()),
+    saveWorkout: workout => run(STORES.workouts, 'readwrite', store => store.put(workout))
   };
 })();
