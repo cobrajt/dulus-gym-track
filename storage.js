@@ -3,16 +3,10 @@ const DulusStorage = (() => {
   const DB_NAME = 'dulus-gym-track';
   const DB_VERSION = 1;
   const STORES = {
-    students: 'students',
-    settings: 'settings',
-    meta: 'meta',
-    workouts: 'workouts',
-    exerciseLibrary: 'exerciseLibrary',
-    nutrition: 'nutrition',
-    community: 'community'
+    students: 'students', settings: 'settings', meta: 'meta', workouts: 'workouts',
+    exerciseLibrary: 'exerciseLibrary', nutrition: 'nutrition', community: 'community'
   };
   let databasePromise;
-
   const open = () => {
     if (!('indexedDB' in window)) return Promise.reject(new Error('IndexedDB no está disponible'));
     if (databasePromise) return databasePromise;
@@ -33,7 +27,6 @@ const DulusStorage = (() => {
     });
     return databasePromise;
   };
-
   const run = async (storeName, mode, action) => {
     const db = await open();
     return new Promise((resolve, reject) => {
@@ -46,11 +39,13 @@ const DulusStorage = (() => {
       transaction.onerror = () => reject(transaction.error || new Error(`Transacción fallida en ${storeName}`));
     });
   };
-
   return {
     stores: STORES,
     getStudents: () => run(STORES.students, 'readonly', store => store.getAll()),
     saveStudent: student => run(STORES.students, 'readwrite', store => store.put(student)),
+    getWorkouts: () => run(STORES.workouts, 'readonly', store => store.getAll()),
+    saveWorkout: workout => run(STORES.workouts, 'readwrite', store => store.put(workout)),
+    deleteWorkout: id => run(STORES.workouts, 'readwrite', store => store.delete(id)),
     getSetting: key => run(STORES.settings, 'readonly', store => store.get(key)).then(record => record?.value),
     saveSetting: (key, value) => run(STORES.settings, 'readwrite', store => store.put({ key, value })),
     getMeta: key => run(STORES.meta, 'readonly', store => store.get(key)).then(record => record?.value),
