@@ -66,3 +66,45 @@ const setupExerciseLibrary = () => {
 };
 
 setupExerciseLibrary();
+
+/* Objetivos múltiples por alumno. Se monta sobre el formulario existente para mantener compatibilidad. */
+const DULUS_GOALS = ['Perder grasa','Bajar de peso','Ganar masa muscular','Recomposición corporal','Aumentar glúteos','Definir abdomen','Aumentar piernas','Tonificar / definir','Ganar fuerza','Mejorar resistencia','Mejorar condición física','Rendimiento deportivo','Mejorar movilidad','Mejorar flexibilidad','Mejorar postura','Salud general','Mantener peso','Subir de peso de forma saludable','Recuperación / retorno al ejercicio'];
+const setupMultiGoals = () => {
+  const form = document.querySelector('#student-form');
+  const legacy = form?.querySelector('select[name="goal"]');
+  if (!form || !legacy || form.querySelector('#dulus-goal-fieldset')) return;
+  const legacyLabel = legacy.closest('label');
+  if (legacyLabel) legacyLabel.hidden = true;
+  legacy.required = false;
+  legacyLabel?.insertAdjacentHTML('afterend', `<fieldset class="goal-fieldset" id="dulus-goal-fieldset"><legend>Objetivos</legend><p class="goal-help">Selecciona todos los objetivos que apliquen y después marca cuál es la prioridad actual.</p><div class="goal-options">${DULUS_GOALS.map(goal=>`<label class="goal-chip"><input type="checkbox" name="goals" value="${escapeExerciseText(goal)}"><span>${escapeExerciseText(goal)}</span></label>`).join('')}</div><label class="custom-goal-label">Otro objetivo<input id="custom-goal" type="text" maxlength="60" placeholder="Ej. mejorar salto vertical"></label><input id="custom-goal-hidden" type="hidden" name="goals" disabled><label>Objetivo principal<select id="primary-goal" name="primaryGoal" required><option value="">Selecciona uno o más objetivos</option></select></label><p class="goal-form-message" id="goal-form-message" aria-live="polite"></p></fieldset>`);
+  const checks = [...form.querySelectorAll('input[name="goals"][type="checkbox"]')];
+  const custom = form.querySelector('#custom-goal');
+  const customHidden = form.querySelector('#custom-goal-hidden');
+  const primary = form.querySelector('#primary-goal');
+  const message = form.querySelector('#goal-form-message');
+  const sync = () => {
+    const customValue = custom.value.trim();
+    customHidden.disabled = !customValue;
+    customHidden.value = customValue;
+    const selected = checks.filter(input=>input.checked).map(input=>input.value);
+    if (customValue) selected.push(customValue);
+    const previous = primary.value;
+    primary.innerHTML = `<option value="">${selected.length ? 'Elige la prioridad' : 'Selecciona uno o más objetivos'}</option>${selected.map(goal=>`<option value="${escapeExerciseText(goal)}">${escapeExerciseText(goal)}</option>`).join('')}`;
+    primary.value = selected.includes(previous) ? previous : (selected[0] || '');
+    message.textContent = selected.length ? `${selected.length} objetivo${selected.length===1?'':'s'} seleccionado${selected.length===1?'':'s'}.` : '';
+  };
+  checks.forEach(input=>input.addEventListener('change',sync));
+  custom.addEventListener('input',sync);
+  form.addEventListener('reset',()=>setTimeout(sync,0));
+  form.addEventListener('submit',event=>{
+    sync();
+    const count = checks.filter(input=>input.checked).length + (custom.value.trim()?1:0);
+    if (!count) {
+      event.preventDefault(); event.stopImmediatePropagation();
+      message.textContent = 'Selecciona por lo menos un objetivo.';
+      form.querySelector('#dulus-goal-fieldset').scrollIntoView({behavior:'smooth',block:'center'});
+    }
+  }, true);
+  sync();
+};
+setupMultiGoals();
