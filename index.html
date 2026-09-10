@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="library.css" />
     <link rel="stylesheet" href="workouts.css" />
+    <link rel="stylesheet" href="experience.css" />
     <title>Dulus Gym Track</title>
   </head>
   <body>
@@ -25,56 +26,56 @@
       <section id="screen-home" class="screen active" aria-labelledby="page-title">
         <article class="hero-card">
           <div class="hero-copy">
-            <p class="label">RESUMEN DEL DÍA</p>
+            <p class="label">RESUMEN DEL DÃA</p>
             <h2>Todo listo<br />para impulsar.</h2>
-            <p>Tu equipo va en ritmo. Revisa el progreso y mantén el enfoque.</p>
+            <p>Tu equipo va en ritmo. Revisa el progreso y mantÃ©n el enfoque.</p>
           </div>
           <div class="hero-stat"><strong>12</strong><span>sesiones<br />esta semana</span></div>
         </article>
 
-        <section class="metric-grid" aria-label="Métricas de alumnos">
-          <article class="metric-card"><span class="metric-icon blue">↗</span><p>Alumnos activos</p><strong>24</strong><small>+3 este mes</small></article>
-          <article class="metric-card"><span class="metric-icon red">✓</span><p>Adherencia media</p><strong>86<span>%</span></strong><small>+4% esta semana</small></article>
+        <section class="metric-grid" aria-label="MÃ©tricas de alumnos">
+          <article class="metric-card"><span class="metric-icon blue">â†—</span><p>Alumnos activos</p><strong>24</strong><small>+3 este mes</small></article>
+          <article class="metric-card"><span class="metric-icon red">âœ“</span><p>Adherencia media</p><strong>86<span>%</span></strong><small>+4% esta semana</small></article>
         </section>
 
-        <button class="students-cta" id="open-students" type="button"><span class="metric-icon green">♙</span><span><small>GESTIÓN DE EQUIPO</small><strong>Ver alumnos</strong></span><span class="cta-arrow">›</span></button>
+        <button class="students-cta" id="open-students" type="button"><span class="metric-icon green">â™™</span><span><small>GESTIÃ“N DE EQUIPO</small><strong>Ver alumnos</strong></span><span class="cta-arrow">â€º</span></button>
 
         <section class="section-block">
-          <div class="section-heading"><div><p class="label">HOY</p><h2>Próximas sesiones</h2></div><span class="count">3</span></div>
+          <div class="section-heading"><div><p class="label">HOY</p><h2>PrÃ³ximas sesiones</h2></div><span class="count">3</span></div>
           <div id="sessions-list" class="session-list"></div>
         </section>
       </section>
 
       <section id="screen-workout" class="screen" aria-labelledby="workout-heading">
-        <div class="screen-intro"><p class="label">PROGRAMACIÓN</p><h2 id="workout-heading">Entrenamientos</h2><p>Rutinas activas de tu equipo para esta semana.</p></div>
-        <button class="library-cta" id="open-exercise-library" type="button"><span class="metric-icon blue">⌘</span><span><small>BIBLIOTECA DE EJERCICIOS</small><strong>Explorar ejercicios</strong></span><span class="cta-arrow">›</span></button>
+        <div class="screen-intro"><p class="label">PROGRAMACIÃ“N</p><h2 id="workout-heading">Entrenamientos</h2><p>Rutinas activas de tu equipo para esta semana.</p></div>
+        <button class="library-cta" id="open-exercise-library" type="button"><span class="metric-icon blue">âŒ˜</span><span><small>BIBLIOTECA DE EJERCICIOS</small><strong>Explorar ejercicios</strong></span><span class="cta-arrow">â€º</span></button>
         <div id="workout-list" class="program-list"></div>
       </section>
 
       <section id="screen-progress" class="screen" aria-labelledby="progress-heading">
-        <div class="screen-intro"><p class="label">SEGUIMIENTO</p><h2 id="progress-heading">Progreso del equipo</h2><p>Una vista rápida de los hitos más recientes.</p></div>
+        <div class="screen-intro"><p class="label">SEGUIMIENTO</p><h2 id="progress-heading">Progreso del equipo</h2><p>Una vista rÃ¡pida de los hitos mÃ¡s recientes.</p></div>
         <article class="progress-overview"><div><p>Constancia semanal</p><strong>86%</strong></div><div class="ring"><span>+4%</span></div></article>
         <div id="progress-list" class="progress-list"></div>
       </section>
 
       <section id="screen-profile" class="screen" aria-labelledby="profile-heading">
-        <div class="profile-card"><div class="avatar large">AR</div><div><p class="label">ENTRENADOR</p><h2 id="profile-heading">Andrés Rodríguez</h2><p>Dulus Performance Coach</p></div></div>
-        <section class="profile-stats" aria-label="Estadísticas del entrenador"><div><strong>24</strong><span>Alumnos</span></div><div><strong>3</strong><span>Planes activos</span></div><div><strong>4.9</strong><span>Valoración</span></div></section>
-        <article class="profile-note"><span class="metric-icon green">✦</span><div><h3>Tu equipo está creciendo</h3><p>Has sumado 3 nuevos alumnos este mes.</p></div></article>
+        <div class="profile-card"><div class="avatar large">AR</div><div><p class="label">ENTRENADOR</p><h2 id="profile-heading">AndrÃ©s RodrÃ­guez</h2><p>Dulus Performance Coach</p></div></div>
+        <section class="profile-stats" aria-label="EstadÃ­sticas del entrenador"><div><strong>24</strong><span>Alumnos</span></div><div><strong>3</strong><span>Planes activos</span></div><div><strong>4.9</strong><span>ValoraciÃ³n</span></div></section>
+        <article class="profile-note"><span class="metric-icon green">âœ¦</span><div><h3>Tu equipo estÃ¡ creciendo</h3><p>Has sumado 3 nuevos alumnos este mes.</p></div></article>
       </section>
 
       <section id="screen-students" class="screen" aria-labelledby="students-heading">
-        <div class="view-toolbar"><button class="back-button" type="button" data-back="home" aria-label="Volver al inicio">‹</button><div><p class="label">GESTIÓN DE EQUIPO</p><h2 id="students-heading">Alumnos</h2></div><button class="add-student" id="open-student-form" type="button">+ Nuevo</button></div>
-        <p class="students-subtitle">Controla los objetivos y la información esencial de tu equipo.</p><div id="students-list" class="students-list"></div>
+        <div class="view-toolbar"><button class="back-button" type="button" data-back="home" aria-label="Volver al inicio">â€¹</button><div><p class="label">GESTIÃ“N DE EQUIPO</p><h2 id="students-heading">Alumnos</h2></div><button class="add-student" id="open-student-form" type="button">+ Nuevo</button></div>
+        <p class="students-subtitle">Controla los objetivos y la informaciÃ³n esencial de tu equipo.</p><div id="students-list" class="students-list"></div>
       </section>
 
       <section id="screen-student-detail" class="screen" aria-labelledby="student-detail-name">
-        <div class="view-toolbar"><button class="back-button" type="button" data-back="students" aria-label="Volver a alumnos">‹</button><p class="label">FICHA DE ALUMNO</p></div><div id="student-detail"></div>
+        <div class="view-toolbar"><button class="back-button" type="button" data-back="students" aria-label="Volver a alumnos">â€¹</button><p class="label">FICHA DE ALUMNO</p></div><div id="student-detail"></div>
       </section>
 
       <section id="screen-library" class="screen" aria-labelledby="library-heading">
-        <div class="view-toolbar"><button class="back-button" type="button" data-back="workout" aria-label="Volver a entrenamientos">‹</button><div><p class="label">RECURSOS DE ENTRENAMIENTO</p><h2 id="library-heading">Biblioteca</h2></div></div>
-        <p class="students-subtitle">Explora técnicas y movimientos listos para incorporarse a futuras rutinas.</p>
+        <div class="view-toolbar"><button class="back-button" type="button" data-back="workout" aria-label="Volver a entrenamientos">â€¹</button><div><p class="label">RECURSOS DE ENTRENAMIENTO</p><h2 id="library-heading">Biblioteca</h2></div></div>
+        <p class="students-subtitle">Explora tÃ©cnicas y movimientos listos para incorporarse a futuras rutinas.</p>
         <div class="library-filters" aria-label="Filtros de ejercicios">
           <label class="library-search"><span class="sr-only">Buscar ejercicio</span><input id="exercise-search" type="search" placeholder="Buscar por nombre" autocomplete="off" /></label>
           <div class="library-selects"><label>Grupo muscular<select id="exercise-muscle-filter"><option value="">Todos los grupos</option></select></label><label>Con pesas<select id="exercise-load-filter"><option value="">Todos</option><option value="true">Con pesas</option><option value="false">Sin pesas</option></select></label></div>
@@ -85,44 +86,45 @@
       </section>
 
       <section id="screen-library-detail" class="screen" aria-labelledby="exercise-detail-title">
-        <div class="view-toolbar"><button class="back-button" type="button" data-back="library" aria-label="Volver a la biblioteca">‹</button><p class="label">BIBLIOTECA DE EJERCICIOS</p></div><div id="exercise-detail"></div>
+        <div class="view-toolbar"><button class="back-button" type="button" data-back="library" aria-label="Volver a la biblioteca">â€¹</button><p class="label">BIBLIOTECA DE EJERCICIOS</p></div><div id="exercise-detail"></div>
       </section>
     </main>
 
     <div class="modal" id="student-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="student-form-title">
-      <div class="modal-panel"><div class="modal-heading"><div><p class="label">NUEVO REGISTRO</p><h2 id="student-form-title">Agregar alumno</h2></div><button class="close-button" id="close-student-form" type="button" aria-label="Cerrar formulario">×</button></div>
-        <form id="student-form"><label>Nombre completo<input id="student-name" name="name" type="text" placeholder="Ej. Andrea Castillo" required /></label><label class="photo-picker" for="student-photo"><span class="photo-preview" id="photo-preview"><span>+</span></span><span class="photo-label">Foto de perfil<small>Opcional · JPG, PNG o WebP</small></span><input id="student-photo" name="photo-file" type="file" accept="image/jpeg,image/png,image/webp" /></label><div class="form-grid"><label>Edad<input name="age" type="number" min="12" max="100" placeholder="26" required /></label><label>Peso<div class="unit-field"><input id="weight-input" name="weight" type="number" min="25" max="700" step="0.1" placeholder="68" required /><select id="weight-unit" name="weightUnit" aria-label="Unidad de peso"><option value="kg">kg</option><option value="lb">lb</option></select></div><small class="conversion-readout" id="weight-conversion" aria-live="polite">Equivalente: —</small></label></div><label>Unidad de estatura<select id="height-unit" name="heightUnit"><option value="cm">Centímetros (cm)</option><option value="ft-in">Pies / pulgadas (ft/in)</option></select></label><div id="height-cm-group"><label>Estatura (cm)<input id="height-cm" name="heightCm" type="number" min="100" max="250" placeholder="168" required /><small class="conversion-readout" id="height-conversion" aria-live="polite">Equivalente: —</small></label></div><div id="height-imperial-group" class="form-grid" hidden><label>Pies (ft)<input id="height-ft" name="heightFt" type="number" min="3" max="8" placeholder="5" disabled /></label><label>Pulgadas (in)<input id="height-in" name="heightIn" type="number" min="0" max="11" step="0.1" placeholder="6" disabled /></label><small class="conversion-readout imperial-conversion" id="height-conversion-imperial" aria-live="polite">Equivalente: —</small></div><label>Objetivo<select name="goal" required><option value="">Selecciona un objetivo</option><option>Ganar masa muscular</option><option>Perder grasa</option><option>Mejorar fuerza</option><option>Mejorar movilidad</option></select></label><button class="submit-student" type="submit">Guardar alumno</button></form>
+      <div class="modal-panel"><div class="modal-heading"><div><p class="label">NUEVO REGISTRO</p><h2 id="student-form-title">Agregar alumno</h2></div><button class="close-button" id="close-student-form" type="button" aria-label="Cerrar formulario">Ã—</button></div>
+        <form id="student-form"><label>Nombre completo<input id="student-name" name="name" type="text" placeholder="Ej. Andrea Castillo" required /></label><label class="photo-picker" for="student-photo"><span class="photo-preview" id="photo-preview"><span>+</span></span><span class="photo-label">Foto de perfil<small>Opcional Â· JPG, PNG o WebP</small></span><input id="student-photo" name="photo-file" type="file" accept="image/jpeg,image/png,image/webp" /></label><div class="form-grid"><label>Edad<input name="age" type="number" min="12" max="100" placeholder="26" required /></label><label>Peso<div class="unit-field"><input id="weight-input" name="weight" type="number" min="25" max="700" step="0.1" placeholder="68" required /><select id="weight-unit" name="weightUnit" aria-label="Unidad de peso"><option value="kg">kg</option><option value="lb">lb</option></select></div><small class="conversion-readout" id="weight-conversion" aria-live="polite">Equivalente: â€”</small></label></div><label>Unidad de estatura<select id="height-unit" name="heightUnit"><option value="cm">CentÃ­metros (cm)</option><option value="ft-in">Pies / pulgadas (ft/in)</option></select></label><div id="height-cm-group"><label>Estatura (cm)<input id="height-cm" name="heightCm" type="number" min="100" max="250" placeholder="168" required /><small class="conversion-readout" id="height-conversion" aria-live="polite">Equivalente: â€”</small></label></div><div id="height-imperial-group" class="form-grid" hidden><label>Pies (ft)<input id="height-ft" name="heightFt" type="number" min="3" max="8" placeholder="5" disabled /></label><label>Pulgadas (in)<input id="height-in" name="heightIn" type="number" min="0" max="11" step="0.1" placeholder="6" disabled /></label><small class="conversion-readout imperial-conversion" id="height-conversion-imperial" aria-live="polite">Equivalente: â€”</small></div><label>Objetivo<select name="goal" required><option value="">Selecciona un objetivo</option><option>Ganar masa muscular</option><option>Perder grasa</option><option>Mejorar fuerza</option><option>Mejorar movilidad</option></select></label><button class="submit-student" type="submit">Guardar alumno</button></form>
       </div>
     </div>
 
     <div class="modal" id="measurement-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="measurement-form-title">
-      <div class="modal-panel measurement-panel"><div class="modal-heading"><div><p class="label">SEGUIMIENTO FÍSICO</p><h2 id="measurement-form-title">Añadir medición</h2></div><button class="close-button" id="close-measurement-form" type="button" aria-label="Cerrar formulario">×</button></div>
-        <form id="measurement-form"><section class="measurement-group"><p class="label">INFORMACIÓN GENERAL</p><label>Fecha de medición<input id="measurement-date" name="date" type="date" required /></label><label>Peso corporal<div class="unit-field"><input id="measurement-weight" name="weight" type="number" min="20" max="700" step="0.1" placeholder="80" required /><select id="measurement-weight-unit" name="weightUnit" aria-label="Unidad de peso"><option value="kg">kg</option><option value="lb">lb</option></select></div><small class="conversion-readout" id="measurement-weight-conversion" aria-live="polite">Equivalente: —</small></label></section>
-          <section class="measurement-group"><p class="label">TREN SUPERIOR</p><div class="measurement-fields"><label>Cuello<input name="neck" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Hombros<input name="shoulders" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Pecho / Tórax<input name="chest" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Brazo izquierdo<input name="leftArm" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Brazo derecho<input name="rightArm" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Antebrazo izquierdo<input name="leftForearm" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Antebrazo derecho<input name="rightForearm" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label></div></section>
-          <section class="measurement-group"><p class="label">ZONA MEDIA</p><div class="measurement-fields"><label>Cintura<input name="waist" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Abdomen<input name="abdomen" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Cadera<input name="hips" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Glúteos<input name="glutes" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label></div></section>
+      <div class="modal-panel measurement-panel"><div class="modal-heading"><div><p class="label">SEGUIMIENTO FÃSICO</p><h2 id="measurement-form-title">AÃ±adir mediciÃ³n</h2></div><button class="close-button" id="close-measurement-form" type="button" aria-label="Cerrar formulario">Ã—</button></div>
+        <form id="measurement-form"><section class="measurement-group"><p class="label">INFORMACIÃ“N GENERAL</p><label>Fecha de mediciÃ³n<input id="measurement-date" name="date" type="date" required /></label><label>Peso corporal<div class="unit-field"><input id="measurement-weight" name="weight" type="number" min="20" max="700" step="0.1" placeholder="80" required /><select id="measurement-weight-unit" name="weightUnit" aria-label="Unidad de peso"><option value="kg">kg</option><option value="lb">lb</option></select></div><small class="conversion-readout" id="measurement-weight-conversion" aria-live="polite">Equivalente: â€”</small></label></section>
+          <section class="measurement-group"><p class="label">TREN SUPERIOR</p><div class="measurement-fields"><label>Cuello<input name="neck" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Hombros<input name="shoulders" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Pecho / TÃ³rax<input name="chest" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Brazo izquierdo<input name="leftArm" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Brazo derecho<input name="rightArm" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Antebrazo izquierdo<input name="leftForearm" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Antebrazo derecho<input name="rightForearm" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label></div></section>
+          <section class="measurement-group"><p class="label">ZONA MEDIA</p><div class="measurement-fields"><label>Cintura<input name="waist" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Abdomen<input name="abdomen" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Cadera<input name="hips" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>GlÃºteos<input name="glutes" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label></div></section>
           <section class="measurement-group"><p class="label">TREN INFERIOR</p><div class="measurement-fields"><label>Muslo izquierdo<input name="leftThigh" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Muslo derecho<input name="rightThigh" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Pantorrilla izquierda<input name="leftCalf" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label><label>Pantorrilla derecha<input name="rightCalf" data-measure-input type="number" min="1" step="0.1" required /><small data-measure-readout></small></label></div></section>
-          <label>Unidad de perímetros<select id="measurement-perimeter-unit" name="perimeterUnit"><option value="cm">Centímetros (cm)</option><option value="in">Pulgadas (in)</option></select></label><div class="measurement-actions"><button class="secondary-action" id="cancel-measurement" type="button">Cancelar</button><button class="submit-student" type="submit">Guardar medición</button></div></form>
+          <label>Unidad de perÃ­metros<select id="measurement-perimeter-unit" name="perimeterUnit"><option value="cm">CentÃ­metros (cm)</option><option value="in">Pulgadas (in)</option></select></label><div class="measurement-actions"><button class="secondary-action" id="cancel-measurement" type="button">Cancelar</button><button class="submit-student" type="submit">Guardar mediciÃ³n</button></div></form>
       </div>
     </div>
 
     <div class="modal" id="progress-photo-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="progress-photo-form-title">
-      <div class="modal-panel photo-session-panel"><div class="modal-heading"><div><p class="label">REGISTRO VISUAL</p><h2 id="progress-photo-form-title">Añadir fotos</h2></div><button class="close-button" id="close-progress-photo-form" type="button" aria-label="Cerrar formulario">×</button></div>
-        <form id="progress-photo-form"><label>Fecha de la sesión<input id="progress-photo-date" name="date" type="date" required /></label><p class="photo-form-help">Añade una, dos o las tres posiciones. Las fotos se guardan en esta sesión.</p><div class="progress-upload-grid"><label class="progress-upload" for="progress-front"><span class="progress-preview" id="preview-front">+</span><span>Frontal<small>Seleccionar foto</small></span><input id="progress-front" name="front" type="file" accept="image/jpeg,image/png,image/webp" /></label><label class="progress-upload" for="progress-side"><span class="progress-preview" id="preview-side">+</span><span>Lateral<small>Seleccionar foto</small></span><input id="progress-side" name="side" type="file" accept="image/jpeg,image/png,image/webp" /></label><label class="progress-upload" for="progress-back"><span class="progress-preview" id="preview-back">+</span><span>Espalda<small>Seleccionar foto</small></span><input id="progress-back" name="back" type="file" accept="image/jpeg,image/png,image/webp" /></label></div><div class="measurement-actions"><button class="secondary-action" id="cancel-progress-photo" type="button">Cancelar</button><button class="submit-student" type="submit">Guardar fotos</button></div></form>
+      <div class="modal-panel photo-session-panel"><div class="modal-heading"><div><p class="label">REGISTRO VISUAL</p><h2 id="progress-photo-form-title">AÃ±adir fotos</h2></div><button class="close-button" id="close-progress-photo-form" type="button" aria-label="Cerrar formulario">Ã—</button></div>
+        <form id="progress-photo-form"><label>Fecha de la sesiÃ³n<input id="progress-photo-date" name="date" type="date" required /></label><p class="photo-form-help">AÃ±ade una, dos o las tres posiciones. Las fotos se guardan en esta sesiÃ³n.</p><div class="progress-upload-grid"><label class="progress-upload" for="progress-front"><span class="progress-preview" id="preview-front">+</span><span>Frontal<small>Seleccionar foto</small></span><input id="progress-front" name="front" type="file" accept="image/jpeg,image/png,image/webp" /></label><label class="progress-upload" for="progress-side"><span class="progress-preview" id="preview-side">+</span><span>Lateral<small>Seleccionar foto</small></span><input id="progress-side" name="side" type="file" accept="image/jpeg,image/png,image/webp" /></label><label class="progress-upload" for="progress-back"><span class="progress-preview" id="preview-back">+</span><span>Espalda<small>Seleccionar foto</small></span><input id="progress-back" name="back" type="file" accept="image/jpeg,image/png,image/webp" /></label></div><div class="measurement-actions"><button class="secondary-action" id="cancel-progress-photo" type="button">Cancelar</button><button class="submit-student" type="submit">Guardar fotos</button></div></form>
       </div>
     </div>
 
-    <div class="photo-lightbox" id="photo-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Foto de progreso ampliada"><button class="close-button" id="close-photo-lightbox" type="button" aria-label="Cerrar foto">×</button><img id="lightbox-image" alt="Foto de progreso ampliada" /></div>
+    <div class="photo-lightbox" id="photo-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Foto de progreso ampliada"><button class="close-button" id="close-photo-lightbox" type="button" aria-label="Cerrar foto">Ã—</button><img id="lightbox-image" alt="Foto de progreso ampliada" /></div>
 
-    <nav class="bottom-nav" aria-label="Navegación principal">
-      <button class="nav-item active" type="button" data-screen="home" aria-current="page"><span class="nav-icon">⌂</span><span>Inicio</span></button>
-      <button class="nav-item" type="button" data-screen="workout"><span class="nav-icon">⌁</span><span>Entreno</span></button>
-      <button class="nav-item" type="button" data-screen="progress"><span class="nav-icon">◔</span><span>Progreso</span></button>
-      <button class="nav-item" type="button" data-screen="profile"><span class="nav-icon">♙</span><span>Perfil</span></button>
+    <nav class="bottom-nav" aria-label="NavegaciÃ³n principal">
+      <button class="nav-item active" type="button" data-screen="home" aria-current="page"><span class="nav-icon">âŒ‚</span><span>Inicio</span></button>
+      <button class="nav-item" type="button" data-screen="workout"><span class="nav-icon">âŒ</span><span>Entreno</span></button>
+      <button class="nav-item" type="button" data-screen="progress"><span class="nav-icon">â—”</span><span>Progreso</span></button>
+      <button class="nav-item" type="button" data-screen="profile"><span class="nav-icon">â™™</span><span>Perfil</span></button>
     </nav>
     <script src="storage.js"></script>
     <script src="exercises.js"></script>
     <script src="app.js"></script>
     <script src="library.js"></script>
     <script src="workouts.js"></script>
+    <script src="experience.js"></script>
   </body>
 </html>
