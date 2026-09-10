@@ -5,11 +5,11 @@ const path = require('node:path');
 
 const root = __dirname;
 const mimeTypes = {
-  '.css': 'text/css',
-  '.html': 'text/html',
-  '.js': 'application/javascript',
+  '.css': 'text/css; charset=utf-8',
+  '.html': 'text/html; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
   '.svg': 'image/svg+xml',
-  '.webmanifest': 'application/manifest+json'
+  '.webmanifest': 'application/manifest+json; charset=utf-8'
 };
 
 http.createServer((request, response) => {
