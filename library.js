@@ -41,7 +41,7 @@ const openExerciseDetail = id => {
   if (!exercise) return;
   const media = exercise.media.image || exercise.media.video
     ? '<div class="exercise-media-ready">Contenido demostrativo disponible próximamente.</div>'
-    : '<div class="exercise-media-placeholder"><span>▶</span><p>Espacio reservado para imagen o video demostrativo</p></div>';
+    : `<div class="exercise-tech-visual" aria-label="Guía visual de ejecución"><div class="tech-figure"><span class="tech-head"></span><span class="tech-body"></span><span class="tech-arm left"></span><span class="tech-arm right"></span><span class="tech-leg left"></span><span class="tech-leg right"></span></div><div><strong>Guía de ejecución</strong><p>${escapeExerciseText(exercise.instructions[0] || 'Revisa la técnica antes de comenzar.')}</p><small>Próximamente: imagen o video real del movimiento.</small></div></div>`;
   document.querySelector('#exercise-detail').innerHTML = `<article class="exercise-detail-hero">
     <div><p class="label">${escapeExerciseText(exercise.primaryMuscle)} · ${escapeExerciseText(exercise.type)}</p><h2 id="exercise-detail-title">${escapeExerciseText(exercise.name)}</h2>${exercise.alternativeName ? `<p class="exercise-alternative">${escapeExerciseText(exercise.alternativeName)}</p>` : ''}</div>
     <span class="exercise-card-level ${exercise.level.toLowerCase()}">${escapeExerciseText(exercise.level)}</span>
@@ -66,3 +66,114 @@ const setupExerciseLibrary = () => {
 };
 
 setupExerciseLibrary();
+
+/* Mejoras de experiencia y personalización de Dulus Gym Track. */
+const DULUS_GOALS = [
+  'Perder grasa',
+  'Ganar masa muscular',
+  'Mejorar fuerza',
+  'Mejorar resistencia',
+  'Mejorar movilidad',
+  'Aumentar glúteos',
+  'Definir abdomen',
+  'Tonificar cuerpo',
+  'Mejorar rendimiento deportivo',
+  'Aumentar explosividad',
+  'Mejorar velocidad',
+  'Recomposición corporal',
+  'Mejorar salud general'
+];
+
+const DULUS_MESSAGES = [
+  { motivation: 'La disciplina de hoy construye la versión fuerte de mañana.', verse: 'Todo lo puedo en Cristo que me fortalece.', ref: 'Filipenses 4:13' },
+  { motivation: 'No necesitas ser perfecto; necesitas volver a cumplir hoy.', verse: 'Los que esperan en el Señor renovarán sus fuerzas.', ref: 'Isaías 40:31' },
+  { motivation: 'Cada repetición con intención cuenta. Sigue avanzando.', verse: 'Esfuérzate y sé valiente; no temas ni desmayes.', ref: 'Josué 1:9' },
+  { motivation: 'La constancia transforma lo difícil en parte de tu rutina.', verse: 'Corramos con perseverancia la carrera que tenemos por delante.', ref: 'Hebreos 12:1' }
+];
+
+const motivationEnabled = () => localStorage.getItem('dulus:motivation-enabled') !== 'false';
+const dailyMessage = () => {
+  const now = new Date();
+  const dayKey = Number(`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`);
+  return DULUS_MESSAGES[dayKey % DULUS_MESSAGES.length];
+};
+
+const motivationMarkup = extraClass => {
+  if (!motivationEnabled()) return '';
+  const item = dailyMessage();
+  return `<article class="dulus-inspiration ${extraClass || ''}"><span class="inspiration-icon">✦</span><div><p class="inspiration-kicker">FUERZA PARA HOY</p><strong>${escapeExerciseText(item.motivation)}</strong><blockquote>“${escapeExerciseText(item.verse)}” <span>— ${escapeExerciseText(item.ref)}</span></blockquote></div></article>`;
+};
+
+const refreshMotivation = () => {
+  document.querySelectorAll('.dulus-inspiration').forEach(node => node.remove());
+  if (!motivationEnabled()) return;
+  const home = document.querySelector('#screen-home .hero-card');
+  if (home) home.insertAdjacentHTML('afterend', motivationMarkup('home-inspiration'));
+  const detail = document.querySelector('#student-detail .detail-hero');
+  if (detail) detail.insertAdjacentHTML('afterend', motivationMarkup('student-inspiration'));
+};
+
+const setupMotivationSettings = () => {
+  const profile = document.querySelector('#screen-profile');
+  if (!profile || profile.querySelector('#motivation-toggle')) return;
+  profile.insertAdjacentHTML('beforeend', `<section class="dulus-settings-card"><div><p class="label">PERSONALIZACIÓN</p><h3>Motivación y verso bíblico</h3><p>Muestra un mensaje al iniciar y también en la ficha del alumno.</p></div><label class="dulus-switch"><input id="motivation-toggle" type="checkbox" ${motivationEnabled() ? 'checked' : ''}><span></span></label></section>`);
+  document.querySelector('#motivation-toggle').addEventListener('change', event => {
+    localStorage.setItem('dulus:motivation-enabled', String(event.target.checked));
+    refreshMotivation();
+  });
+};
+
+const setupGoalSelector = () => {
+  const form = document.querySelector('#student-form');
+  const goalSelect = form?.querySelector('select[name="goal"]');
+  if (!form || !goalSelect || form.querySelector('.goal-multi-field')) return;
+  const label = goalSelect.closest('label');
+  goalSelect.required = false;
+  goalSelect.classList.add('sr-only');
+  label?.classList.add('legacy-goal-field');
+  label?.insertAdjacentHTML('afterend', `<fieldset class="goal-multi-field"><legend>Objetivos <small>Puedes seleccionar varios</small></legend><div class="goal-chip-grid">${DULUS_GOALS.map(goal => `<label class="goal-chip"><input type="checkbox" value="${escapeExerciseText(goal)}"><span>${escapeExerciseText(goal)}</span></label>`).join('')}</div><p class="goal-helper" id="goal-helper">Selecciona uno o varios objetivos para este alumno.</p></fieldset>`);
+
+  const checkboxes = [...form.querySelectorAll('.goal-chip input')];
+  const syncGoals = () => {
+    const selected = checkboxes.filter(input => input.checked).map(input => input.value);
+    const value = selected.join(' · ');
+    [...goalSelect.querySelectorAll('[data-multi-goal]')].forEach(option => option.remove());
+    if (value) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = value;
+      option.dataset.multiGoal = 'true';
+      goalSelect.append(option);
+      goalSelect.value = value;
+    } else goalSelect.value = '';
+    const helper = document.querySelector('#goal-helper');
+    if (helper) helper.textContent = selected.length ? `${selected.length} objetivo${selected.length === 1 ? '' : 's'} seleccionado${selected.length === 1 ? '' : 's'}.` : 'Selecciona uno o varios objetivos para este alumno.';
+  };
+  checkboxes.forEach(input => input.addEventListener('change', syncGoals));
+  form.addEventListener('reset', () => setTimeout(() => { checkboxes.forEach(input => input.checked = false); syncGoals(); }, 0));
+  form.addEventListener('submit', event => {
+    syncGoals();
+    if (!checkboxes.some(input => input.checked)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const helper = document.querySelector('#goal-helper');
+      if (helper) { helper.textContent = 'Selecciona por lo menos un objetivo.'; helper.classList.add('error'); }
+      form.querySelector('.goal-multi-field')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, true);
+};
+
+const updateLiveDate = () => {
+  const kicker = document.querySelector('#page-kicker');
+  if (!kicker) return;
+  kicker.textContent = new Intl.DateTimeFormat('es-DO', { weekday:'long', day:'numeric', month:'long' }).format(new Date()).toUpperCase();
+};
+
+const detailObserver = new MutationObserver(() => refreshMotivation());
+const detailTarget = document.querySelector('#student-detail');
+if (detailTarget) detailObserver.observe(detailTarget, { childList:true });
+
+setupGoalSelector();
+setupMotivationSettings();
+refreshMotivation();
+updateLiveDate();
