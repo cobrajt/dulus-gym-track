@@ -13,6 +13,15 @@ Servidor local: `node server.js` → `http://localhost:4173`
 4. Confirmar que `DESKTOP-BKJFJHN` aparece online.
 5. Trabajar sobre `feature/workout-tracking`, no sobre la primera versión React/Codespaces.
 
+## Fuente de ejercicios a recordar
+- Nombre: **Free Exercise DB**.
+- Repositorio: `yuhonas/free-exercise-db`.
+- Página navegable: `https://yuhonas.github.io/free-exercise-db/`.
+- GitHub: `https://github.com/yuhonas/free-exercise-db`.
+- Tiene más de 800 ejercicios y un catálogo de imágenes de ejecución.
+- El proyecto se publica como dataset de dominio público bajo Unlicense.
+- Para Dulus Gym Track ya se descargaron imágenes locales desde esta fuente; no depender de enlaces externos en producción.
+
 ## Estado actual
 - Motivación diaria + verso bíblico implementados y configurables desde Perfil.
 - Fecha dinámica y fondos premium iniciales implementados.
