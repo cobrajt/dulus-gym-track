@@ -250,3 +250,14 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Se priorizaron movimientos básicos del catálogo sobre variantes exóticas.
 - Pruebas sin guardar datos: 3 días principiante generó 6 ejercicios básicos por día; 4 días intermedio generó 6 ejercicios por día con estructura torso/pierna.
 - Cache PWA actualizado a `dulus-gym-track-v27`; sintaxis validada con `node --check`.
+
+## 2026-09-14 — Centro de Progreso muscular + e1RM
+- Reemplazada la vista simple de cargas por un Centro de Progreso para coach y alumno.
+- e1RM estimado con peso, repeticiones y RIR; no obliga a probar un máximo real.
+- Índice muscular normalizado: 100 = referencia inicial de cada ejercicio; permite combinar ejercicios sin sumar kilos incompatibles.
+- Curva de progreso por grupo muscular con selector de alumno para coach.
+- Resumen de índice general, músculos subiendo, músculos con datos y PR silenciosos.
+- PR silencioso: detecta mejora de e1RM con el mismo peso gracias a más repeticiones/RIR.
+- Lectura rápida: mejor avance, mesetas y alerta cuando baja rendimiento junto a fatiga alta registrada.
+- Detalle por ejercicio queda colapsado como segundo nivel, no es necesario para leer la tendencia general.
+- Probado con datos reales sin cargas (no inventa e1RM) y datos sintéticos con mejora y caída/fatiga.
