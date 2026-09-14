@@ -323,3 +323,12 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Rendimiento se integra en Resumen según objetivo y Centro de Acción del Coach.
 - Meta de rendimiento vencida solo genera señal de revisión de objetivo/plazo; nunca cambia rutina automáticamente.
 - Supabase: migración `2026091410_performance_goals.sql`; caché PWA `dulus-gym-track-v39`.
+
+## 2026-09-14 — Evaluación inicial simple
+- Nuevo `initial-assessment.js`: foto base del alumno con objetivo general, estatura, peso, cintura, referencia corporal y edad si existe.
+- Solo considera necesarios objetivo general, estatura y una medición inicial; Hombre/Mujer y fecha de nacimiento siguen siendo opcionales.
+- La evaluación se abre sola mientras falten datos básicos y se pliega cuando la línea base está lista.
+- Puede mostrar un primer hito sugerido cuando Dulus tiene base suficiente; nunca inventa tamaño ideal de bíceps/glúteos.
+- Los primeros hitos corporales sugeridos ya NO incluyen fecha automática. El plazo queda a elección del coach/alumno.
+- `prueba 2` validado: faltan únicamente Estatura + Medición inicial; sexo/fecha no bloquean.
+- Caché PWA actualizado a `dulus-gym-track-v40`.

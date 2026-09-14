@@ -222,3 +222,10 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Rendimiento soporta e1RM por ejercicio, salto vertical/horizontal, sprint 10/20/40 m, dominadas y plancha.
 - Resumen global cruza Constancia, Fuerza, Rendimiento, Medidas, Recuperación y Calidad de datos.
 - Centro de Acción puede avisar de meta de rendimiento vencida sin modificar el plan automáticamente.
+
+## 2026-09-14 — Evaluación inicial
+- La ficha del alumno incluye Evaluación inicial automática y no intrusiva.
+- Datos mínimos: objetivo general + estatura + una medición base.
+- Referencia Hombre/Mujer/Prefiero no indicar y fecha de nacimiento son opcionales.
+- Si existe fecha, Dulus calcula edad y la usa solo donde modifica una referencia; si falta, no bloquea nada.
+- Primer hito sugerido puede convertirse en meta, pero la fecha objetivo queda vacía salvo que coach/alumno decidan añadirla.
