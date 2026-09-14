@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#071326" />
     <meta name="description" content="Seguimiento de entrenamiento para alumnos de Dulus Gym Track." />
+    <link rel="icon" href="icons/dulus-192.png" type="image/png" />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="apple-touch-icon" href="icons/icon-192.svg" />
+    <link rel="apple-touch-icon" href="icons/dulus-192.png" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="library.css" />
     <link rel="stylesheet" href="workouts.css" />
@@ -20,7 +21,7 @@
           <p class="eyebrow" id="page-kicker">DOMINGO, 7 DE SEPTIEMBRE</p>
           <h1 id="page-title">Hola, Coach</h1>
         </div>
-        <div class="brand-mark" aria-label="Dulus Gym Track">DG</div>
+        <div class="brand-mark" aria-label="Dulus Gym Track"><img src="icons/dulus-192.png" alt="Dulus dominicus, símbolo de Dulus Gym Track"></div>
       </header>
 
       <section id="screen-home" class="screen active" aria-labelledby="page-title">
@@ -59,6 +60,7 @@
       </section>
 
       <section id="screen-profile" class="screen" aria-labelledby="profile-heading">
+        <a class="library-cta" href="account.html"><span class="metric-icon green">+</span><span><small>CUENTA Y EQUIPO</small><strong>Crear cuenta o iniciar sesión</strong></span><span class="cta-arrow">›</span></a>
         <div class="profile-card"><div class="avatar large">AR</div><div><p class="label">ENTRENADOR</p><h2 id="profile-heading">Andrés Rodríguez</h2><p>Dulus Performance Coach</p></div></div>
         <section class="profile-stats" aria-label="Estadísticas del entrenador"><div><strong>24</strong><span>Alumnos</span></div><div><strong>3</strong><span>Planes activos</span></div><div><strong>4.9</strong><span>Valoración</span></div></section>
         <article class="profile-note"><span class="metric-icon green">✦</span><div><h3>Tu equipo está creciendo</h3><p>Has sumado 3 nuevos alumnos este mes.</p></div></article>
@@ -75,10 +77,10 @@
 
       <section id="screen-library" class="screen" aria-labelledby="library-heading">
         <div class="view-toolbar"><button class="back-button" type="button" data-back="workout" aria-label="Volver a entrenamientos">‹</button><div><p class="label">RECURSOS DE ENTRENAMIENTO</p><h2 id="library-heading">Biblioteca</h2></div></div>
-        <p class="students-subtitle">Explora técnicas y movimientos listos para incorporarse a futuras rutinas.</p>
+        <p class="students-subtitle">Explora el catálogo completo y elige ejercicios para tus alumnos. Filtra por músculo, equipamiento o carga.</p>
         <div class="library-filters" aria-label="Filtros de ejercicios">
           <label class="library-search"><span class="sr-only">Buscar ejercicio</span><input id="exercise-search" type="search" placeholder="Buscar por nombre" autocomplete="off" /></label>
-          <div class="library-selects"><label>Grupo muscular<select id="exercise-muscle-filter"><option value="">Todos los grupos</option></select></label><label>Con pesas<select id="exercise-load-filter"><option value="">Todos</option><option value="true">Con pesas</option><option value="false">Sin pesas</option></select></label></div>
+          <div class="library-selects"><label>Grupo muscular<select id="exercise-muscle-filter"><option value="">Todos los grupos</option></select></label><label>Con pesas<select id="exercise-load-filter"><option value="">Todos</option><option value="true">Con pesas</option><option value="false">Sin pesas</option><option value="null">Carga sin especificar</option></select></label></div>
           <div class="equipment-chips" id="equipment-filters" aria-label="Filtrar por equipamiento"></div>
         </div>
         <p class="library-count" id="exercise-count" aria-live="polite"></p>
@@ -122,9 +124,25 @@
     </nav>
     <script src="storage.js"></script>
     <script src="exercises.js"></script>
+    <script src="exercise-media.js"></script>
+    <script src="exercise-catalog-data.js"></script>
+    <script src="catalog.js"></script>
     <script src="app.js"></script>
     <script src="library.js"></script>
     <script src="workouts.js"></script>
+    <script src="community.js"></script>
     <script src="experience.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./service-worker.js').catch(error => console.warn('No se pudo activar el modo sin conexión.', error));
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if(document.querySelector('#app-update'))return;
+            const notice=document.createElement('button');notice.id='app-update';notice.className='action-button';notice.textContent='Nueva versión lista · Actualizar';notice.style.cssText='position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:100';
+            notice.onclick=()=>location.reload();document.body.append(notice);
+          });
+        });
+      }
+    </script>
   </body>
 </html>

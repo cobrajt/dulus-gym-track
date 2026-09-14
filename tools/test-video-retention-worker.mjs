@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const source=fs.readFileSync(new URL('../supabase/functions/dulus-video-cleanup/index.ts',import.meta.url),'utf8');
+const isolated=source.slice(source.indexOf('export async function'),source.indexOf('Deno.serve'));
+const {handleCleanup}=await import('data:text/javascript;base64,'+Buffer.from(isolated).toString('base64'));
+let calls=[],enabled=true,fail=false,badToken=false,paths=['plan/student/old.mp4'];
+const db={rpc:async()=>({data:{enabled,paths},error:badToken?{}:null}),storage:{from:bucket=>({remove:async names=>{calls.push({bucket,names});return {error:fail?{}:null};}})}};
+const run=body=>handleCleanup(new Request('https://example.invalid',{method:'POST',headers:{'x-cleanup-token':'a'.repeat(64)},body:JSON.stringify(body)}),db);
+assert.equal((await handleCleanup(new Request('https://example.invalid',{method:'POST'}),db)).status,401);assert.equal(calls.length,0);
+badToken=true;assert.equal((await run({})).status,403);assert.equal(calls.length,0);badToken=false;
+assert.equal((await (await run({dry_run:true})).json()).candidates,1);assert.equal(calls.length,0);
+enabled=false;assert.equal((await (await run({})).json()).deleted,0);assert.equal(calls.length,0);enabled=true;
+assert.equal((await (await run({bucket:'other',paths:['new.mp4']})).json()).deleted,1);assert.deepEqual(calls,[{bucket:'dulus-technique',names:['plan/student/old.mp4']}]);
+fail=true;assert.equal((await run({})).status,502);fail=false;assert.equal((await run({})).status,200);
+paths=[];const before=calls.length;assert.equal((await (await run({})).json()).deleted,0);assert.equal(calls.length,before);
+console.log('PASS: job auth, disabled mode, dry-run, fixed bucket/server candidates, retry on Storage error, no comments modified. No real deletion.');

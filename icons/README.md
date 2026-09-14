@@ -1,0 +1,6 @@
+# Icono Dulus Gym Track
+
+Creado mediante la herramienta integrada ImageGen el 11 de septiembre de 2026. Exportaciones locales: dulus-192.png y dulus-512.png, usadas por el manifest y la cabecera.
+
+Prompt de generación:
+> Use case: logo-brand. Asset type: square raster progressive web app icon for Dulus Gym Track. Create a premium, beautifully crafted illustrated portrait of a Dulus dominicus (palmchat) bird head in profile, with one very visible ruby-red iris and dark pupil, a short sturdy pale ivory bill, olive-brown crown and cheek feathers, pale cream throat and upper breast with delicate brown streaks. Respect the real small palmchat bird anatomy, friendly alert expression. The bird head and upper breast form a strong clear silhouette, centered and fully contained within the central 72% of the square so it remains intact in circular and rounded-square app masks. Refined semi-realistic editorial illustration with clean simplified feather shapes, subtly luminous warm edge lighting, excellent legibility at small sizes. Deep midnight navy blue full-bleed background with barely perceptible depth. Warm olive and ivory bird, striking red eye as the sole vivid focal point. No text, no letters, no watermark, no frame, no visible rounded outer corners, no generic eagle, no crest, no aggressive mascot expression. Output one square image.

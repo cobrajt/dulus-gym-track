@@ -1,0 +1,34 @@
+const {chromium}=await import(process.env.DULUS_PLAYWRIGHT_MODULE||'playwright');
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({channel:'msedge',headless:true}),errors=[];
+try{
+ const context=await browser.newContext(),page=await context.newPage();
+ await context.route('**/assets/vendor/supabase-2.116.0.js',r=>r.fulfill({contentType:'application/javascript',body:"(()=>{window.__qa={role:window.__role||'coach',created:[],sessions:[],messages:[],fail:false};const user='11111111-1111-4111-8111-111111111111',student='22222222-2222-4222-8222-222222222222';let seeded=false,plans=[];const result=data=>({data,error:null});window.supabase={createClient:()=>({storage:{from:()=>({upload:async()=>{await new Promise(r=>setTimeout(r,900));return window.__qa.uploadFail?{data:null,error:{message:'Offline'}}:result({});},remove:async()=>result({}),createSignedUrl:async()=>result({signedUrl:'https://example.invalid/test.mp4'})})},auth:{getUser:async()=>result({user:{id:window.__qa.role==='coach'?user:student}}),onAuthStateChange:()=>({})},rpc:async(name,args)=>{if(name==='dulus_video_retention_status')return result({enabled:window.__qa.retention===true});if(window.__qa.fail)return {data:null,error:{message:'Sin conexión de prueba'}};if((name==='dulus_record_session'||name==='dulus_finish_session')){const row={id:'session',details:args.p_details||{},plan_id:args.p_plan,date:args.p_date,completed_ids:args.p_completed,total_exercises:plans.find(p=>p.id===args.p_plan).exercises.length};window.__qa.sessions=window.__qa.sessions.filter(s=>s.plan_id!==row.plan_id||s.date!==row.date);window.__qa.sessions.push(row);}return result(student);},from:table=>{const filters=[];let rows=null;const q={select:()=>q,eq:(key,value)=>{filters.push(r=>r[key]===value);return q;},in:(key,value)=>{filters.push(r=>value.includes(r[key]));return q;},order:()=>q,limit:()=>q,maybeSingle:()=>{q.single=true;return q;},insert:data=>{rows=Array.isArray(data)?data:[data];return q;},then:resolve=>{if(!seeded){plans=[{id:'legacy',student_id:student,name:'Rutina anterior',start_date:'2026-01-01',days:[1,3],exercises:[{exerciseId:EXERCISES[0].id,sets:3,reps:10},{exerciseId:EXERCISES[1].id,sets:2,reps:12,weightKg:0}]}];seeded=true;}if(rows){if(table==='dulus_messages'){window.__qa.messages.push(...rows.map(r=>({...r,id:'msg',created_at:new Date().toISOString()})));return resolve(result(null));}if(window.__qa.fail)return resolve({data:null,error:{message:'No se pudo guardar la prueba'}});window.__qa.created.push(...structuredClone(rows));plans.push(...rows.map((r,i)=>({...r,id:'new-'+plans.length+'-'+i})));return resolve(result(null));}let data=table==='dulus_teams'?[{id:'c3e089ff-1baf-41e8-af7d-f680ba237079',name:'Equipo de prueba',owner_id:user}]:table==='dulus_students'?[{id:student,user_id:student,team_id:'c3e089ff-1baf-41e8-af7d-f680ba237079',name:'Alumno de prueba',goals:[]}]:table==='dulus_plans'?plans:table==='dulus_messages'?window.__qa.messages:window.__qa.sessions;data=data.filter(r=>filters.every(f=>f(r)));resolve(result(q.single?data[0]||null:data));}};return q;}})};})();"}));
+ await context.route('https://rnrciqyngdequkbmttxu.supabase.co/**',r=>r.abort());
+ await page.addInitScript(()=>{window.__signals={buzz:0,beep:0};Object.defineProperty(navigator,'vibrate',{configurable:true,value:()=>{window.__signals.buzz++;return true;}});window.AudioContext=class{constructor(){this.state='running';this.currentTime=0;this.destination={};}createOscillator(){return {frequency:{},connect(){},start(){window.__signals.beep++;},stop(){}};}createGain(){return {connect(){},gain:{setValueAtTime(){},exponentialRampToValueAtTime(){}}};}close(){return Promise.resolve();}};});
+page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('http://localhost:4173/team.html?team=c3e089ff-1baf-41e8-af7d-f680ba237079');
+
+ await page.getByRole('button',{name:'Alumno de prueba',exact:true}).click();await page.getByRole('button',{name:'Ver entrenamiento y registrar',exact:true}).click();
+ const picker=page.locator('input[type=file]'),panel=page.locator('#video-upload-panel');
+ await picker.setInputFiles({name:'clip.mp4',mimeType:'video/mp4',buffer:Buffer.from('mock-video')});
+ await page.getByText('Subiendo video…',{exact:true}).waitFor();assert(await panel.locator('progress').isVisible());
+ await page.getByRole('button',{name:'Siguiente ejercicio',exact:true}).click();
+ await page.getByText('Video enviado a tu coach.',{exact:true}).waitFor();assert(await panel.isVisible());assert.equal((await page.evaluate(()=>window.__qa.messages)).length,1);
+ assert(!(await panel.locator('progress').isVisible()));
+ for(const theme of ['light','dark']){await page.evaluate(t=>document.body.dataset.teamTheme=t,theme);await page.setViewportSize({width:390,height:844});await page.screenshot({path:'C:/Users/user/AppData/Local/Temp/dulus-video-status-'+theme+'.png',fullPage:false});}
+ await page.getByRole('button',{name:'Cerrar aviso',exact:true}).click();assert(!(await panel.isVisible()));
+ await page.evaluate(()=>window.__qa.uploadFail=true);
+ await page.locator('input[type=file]').setInputFiles({name:'offline.mp4',mimeType:'video/mp4',buffer:Buffer.from('mock-video')});await page.getByText('No se pudo confirmar el envío',{exact:true}).waitFor();assert.equal((await page.evaluate(()=>window.__qa.messages)).length,1);
+ await page.locator('input[type=file]').setInputFiles({name:'large.mp4',mimeType:'video/mp4',buffer:Buffer.alloc(21*1024*1024)});await page.getByText('Video no enviado',{exact:true}).waitFor();assert((await panel.innerText()).includes('supera los 20 MB'));
+
+ await page.evaluate(()=>{window.__qa.retention=true;window.__qa.messages.push({...window.__qa.messages[0],id:'expired',body:'Comentario conservado después de caducar',created_at:new Date(Date.now()-8*86400000).toISOString()});});
+ await page.getByRole('button',{name:'Ejercicio anterior',exact:true}).click();
+ await page.getByText('Hablar con mi coach · este ejercicio',{exact:true}).click();
+ await page.getByText('Video caducado · Los comentarios se conservan.',{exact:true}).waitFor();
+ assert(await page.getByText('Comentario conservado después de caducar',{exact:true}).isVisible());
+ assert.equal(await page.getByRole('button',{name:'Ver video privado',exact:true}).count(),1);
+ assert((await page.locator('.exercise-chat').innerText()).includes('Disponible hasta'));
+ console.log('PASS: active retention date, expired video without playback, comments preserved.');
+ assert.deepEqual(errors,[]);console.log('PASS: uploading, success only after sharing, status survives navigation, dismiss, failure and oversized file; no real uploads.');
+}finally{await browser.close();}

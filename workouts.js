@@ -25,7 +25,7 @@ const workoutPlanMetrics = plan => {
   const today = new Date(); today.setHours(0,0,0,0);
   const since = new Date(today); since.setDate(since.getDate()-29);
   const sessions = (plan.sessions||[]).filter(session => { const date = new Date(`${session.date}T00:00:00`); return date >= since && date <= today; });
-  const expected = workoutExpectedCount(plan), completed = sessions.length;
+  const expected = workoutExpectedCount(plan), completed = sessions.filter(session => session.completedExerciseIds?.length > 0).length;
   const attendance = expected ? Math.min(100,Math.round(completed/expected*100)) : (completed ? 100 : null);
   const totalExercises = sessions.reduce((sum,session)=>sum+(session.totalExercises||0),0);
   const doneExercises = sessions.reduce((sum,session)=>sum+(session.completedExerciseIds?.length||0),0);
@@ -109,6 +109,8 @@ async function saveWorkoutSessionFromForm(event){
   event.preventDefault();
   const plan=workoutPlans.find(item=>Number(item.id)===Number(workoutSessionPlanId)); if(!plan)return;
   const date=document.querySelector('#workout-session-date').value, completedExerciseIds=[...document.querySelectorAll('#workout-session-exercises input:checked')].map(input=>input.value);
+  if(!date || date>workoutIsoDate(new Date()) || date<plan.startDate){document.querySelector('#workout-session-message').textContent='Elige una fecha entre el inicio de la rutina y hoy.';return;}
+  if(!completedExerciseIds.length){document.querySelector('#workout-session-message').textContent='Marca al menos un ejercicio completado.';return;}
   const session={id:Date.now(),date,completedExerciseIds,totalExercises:plan.exercises.length};
   const existing=(plan.sessions||[]).findIndex(item=>item.date===date); if(existing>=0)plan.sessions[existing]=session;else plan.sessions=[...(plan.sessions||[]),session];
   await DulusStorage.saveWorkout(plan); workoutToggleModal('workout-session-modal',false);
@@ -117,17 +119,7 @@ async function saveWorkoutSessionFromForm(event){
 
 const workoutRankCard=(student,metric,attention=false)=>`<article class="ranking-card ${attention?'attention':''}"><div class="ranking-avatar">${workoutEscape(student.initials||student.name.slice(0,2).toUpperCase())}</div><div><strong>${workoutEscape(student.name)}</strong><small>${metric.completed}/${metric.expected} sesiones · ${metric.exerciseRate??0}% ejercicios</small></div><b>${metric.score}%</b></article>`;
 
-function renderTeamRanking(){
-  const screen=document.querySelector('#screen-progress'); if(!screen)return;
-  let root=document.querySelector('#team-ranking');
-  if(!root){root=document.createElement('section');root.id='team-ranking';root.className='team-ranking';document.querySelector('.progress-overview')?.insertAdjacentElement('afterend',root);}
-  const entries=students.map(student=>({student,metric:workoutStudentMetrics(student.id)})).filter(entry=>entry.metric.hasPlan&&entry.metric.score!==null);
-  const top=[...entries].sort((a,b)=>b.metric.score-a.metric.score).slice(0,3), attention=[...entries].sort((a,b)=>a.metric.score-b.metric.score).slice(0,3);
-  const empty='<div class="ranking-empty">Aún no hay suficientes sesiones registradas para calcular este ranking.</div>';
-  root.innerHTML=`<div class="ranking-heading"><div><p class="label">ÚLTIMOS 30 DÍAS</p><h2>Ranking de constancia</h2></div><span>70% asistencia · 30% ejercicios</span></div><div class="ranking-columns"><section><h3>🔥 Top constancia</h3>${top.length?top.map(item=>workoutRankCard(item.student,item.metric)).join(''):empty}</section><section><h3>⚠️ Necesitan atención</h3>${attention.length?attention.map(item=>workoutRankCard(item.student,item.metric,true)).join(''):empty}</section></div>`;
-  const average=entries.length?Math.round(entries.reduce((sum,item)=>sum+item.metric.attendance,0)/entries.length):null;
-  const overview=document.querySelector('.progress-overview'); if(overview){overview.querySelector('strong').textContent=average===null?'—':`${average}%`;overview.querySelector('.ring span').textContent=average===null?'Sin datos':'30 días';}
-}
+function renderTeamRanking(){ if(typeof renderCommunity==='function')renderCommunity(); }
 
 const loadWorkoutPlans=async()=>{
   try{workoutPlans=await DulusStorage.getWorkouts();}catch(error){console.warn('No se pudieron cargar las rutinas.',error);workoutPlans=[];}

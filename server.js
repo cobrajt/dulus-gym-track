@@ -9,14 +9,21 @@ const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.svg': 'image/svg+xml',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png',
+  '.webp': 'image/webp',
+  '.ttf': 'font/ttf',
+  '.json': 'application/json; charset=utf-8',
   '.webmanifest': 'application/manifest+json; charset=utf-8'
 };
 
 http.createServer((request, response) => {
-  const requestPath = request.url === '/' ? 'index.html' : decodeURIComponent(request.url).replace(/^\/+/, '');
+  const pathname = new URL(request.url, 'http://localhost').pathname;
+  const requestPath = pathname === '/' ? 'index.html' : decodeURIComponent(pathname).replace(/^\/+/, '');
   const filePath = path.resolve(root, requestPath);
 
-  if (!filePath.startsWith(root)) {
+  if (filePath !== root && !filePath.startsWith(root + path.sep)) {
     response.writeHead(403);
     return response.end();
   }
