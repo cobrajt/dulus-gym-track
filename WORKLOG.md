@@ -241,3 +241,12 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - La interfaz aclara expresamente que estas exposiciones registradas no estiman crecimiento muscular.
 - Prueba real con `prueba 2`: 4 ejercicios completados; Pecho 2 exposiciones, Hombros 1 y Tríceps 1.
 - Cache PWA actualizado a `dulus-gym-track-v26` y JavaScript validado con `node --check`.
+
+## 2026-09-14 — Sugerencias de rutina editables
+- El creador de rutinas del coach incorpora ahora una sección `Sugerencia automática` sin eliminar la creación manual ni la reutilización de rutinas existentes.
+- La sugerencia usa nivel (Principiante/Intermedio/Avanzado), objetivo y equipo disponible.
+- La estructura depende de los días elegidos: 1–3 días full body, 4 días torso/pierna y 5–6 días combinaciones torso/pierna / push-pull-legs cuando procede.
+- Los ejercicios sugeridos salen del catálogo real y siguen siendo totalmente editables antes de guardar; la carga inicial queda en 0 kg para que el coach la ajuste.
+- Se priorizaron movimientos básicos del catálogo sobre variantes exóticas.
+- Pruebas sin guardar datos: 3 días principiante generó 6 ejercicios básicos por día; 4 días intermedio generó 6 ejercicios por día con estructura torso/pierna.
+- Cache PWA actualizado a `dulus-gym-track-v27`; sintaxis validada con `node --check`.
