@@ -200,3 +200,11 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 ## 2026-09-14 — Guía mínima del alumno
 - `student-guidance.js` muestra un único “Próximo paso útil” según los datos que faltan; evita ruido y reduce intervención manual del coach.
 - La guía es contextual por objetivo y deja de pedir datos cuando el seguimiento ya es suficiente.
+
+## Metas corporales (2026-09-14)
+- `body-goals.js` activo; metas numéricas opcionales con progreso y fecha.
+- Supabase: `dulus_body_goals`, perfil corporal opcional y RPCs guardar/cerrar/eliminar.
+- Referencia corporal Hombre/Mujer/Prefiero no indicar se usa solo donde corresponda; no altera cortes de IMC adulto.
+- La escala adulta se bloquea para menores conocidos; fecha de nacimiento es opcional.
+- Primer hito automático de pérdida de peso usa 5% a ~6 meses y no se aplica si IMC alto contradice cintura/estatura baja.
+- Coach y alumno comparten la misma meta; Centro de Acción puede avisar de una meta vencida sin modificar rutinas automáticamente.

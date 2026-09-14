@@ -295,3 +295,13 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Prioridades probadas: primera rutina, primera sesión, estatura, cintura según objetivo, peso/reps/RIR, peso corporal y estado “Seguimiento al día”.
 - Si hubo dolor reciente relevante, la guía prioriza no aumentar carga automáticamente y comunicar la molestia.
 - La intención es reducir formularios y trabajo del coach: el alumno sabe qué registrar sin recibir una lista de avisos.
+
+## 2026-09-14 — Objetivos corporales avanzados
+- Nuevo apartado opcional y colapsado para metas de peso, IMC y perímetros (cintura, glúteos, brazos, muslos, pecho, etc.).
+- Cada meta muestra inicio → actual → objetivo, porcentaje del trayecto, fecha opcional y quién la definió (coach/alumno).
+- Perfil corporal opcional: Hombre/Mujer/Prefiero no indicar + fecha de nacimiento. El IMC adulto no cambia por sexo; menores no usan la escala adulta.
+- Dulus puede sugerir un primer hito de peso para pérdida de grasa: 5% del peso actual a ~6 meses, solo cuando el contexto corporal no contradice esa sugerencia.
+- Si IMC alto y cintura/estatura <0.50, no propone pérdida de peso automática por posible masa muscular elevada.
+- Metas de bíceps/glúteos no reciben un “máximo ideal” inventado; se fijan manualmente o con datos suficientes de tendencia.
+- Coach ve meta activa en Centro de Acción; alumno ve resumen en Inicio. Meta vencida sin alcanzar genera señal de revisión, no cambio automático.
+- Migraciones 2026091408 y 2026091409 aplicadas en Supabase. Cache PWA v37.
