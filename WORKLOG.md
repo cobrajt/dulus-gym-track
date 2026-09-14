@@ -270,3 +270,11 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - `progress-analytics.js` expone el mismo motor e1RM/músculos al Centro de Acción para evitar métricas contradictorias.
 - Modo personal preparado en UI: crear rutina propia, registrar sesión, feedback y progreso; sin chat/cámara de coach. Las rutinas conservan `created_by` para distinguir origen.
 - Migración `2026091401_solo_student.sql` preparada pero NO aplicada todavía. El acceso “Entrenar por mi cuenta” permanece oculto hasta que `dulus_solo_available()` exista en Supabase.
+
+## 2026-09-14 — Supervisión inteligente y consejos coach → alumno
+- Supabase CLI autorizado y proyecto DATOSGYM enlazado; historial de migraciones antiguas sincronizado sin reejecutarlas.
+- Migración 2026091401 aplicada: perfil autónomo conservable al vincular coach.
+- Centro de Acción distingue Recuperación, Constancia, Ejecución por músculo, Registro de datos y Progresión/Técnica.
+- Añadido cumplimiento de series planificadas por músculo en 14 días y confianza de lectura Inicial/Media/Alta.
+- Migraciones 2026091402 y 2026091403: consejos privados coach→alumno, leído por alumno y retiro por coach.
+- Prueba real reversible: consejo QA enviado desde UI y retirado; no quedó en historial.

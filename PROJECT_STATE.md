@@ -181,3 +181,10 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Modo alumno autónomo funciona en QA aislada: crear rutina, registrar sesión, feedback y Progreso/e1RM. Textos de coach ocultos/adaptados y no se muestra chat/cámara en personal.
 - Backend autónomo aún NO aplicado. Migración local `supabase/migrations/2026091401_solo_student.sql`. `account.html` oculta Entrenar por mi cuenta hasta que RPC `dulus_solo_available()` confirme que el backend está listo.
 - Próximo paso seguro: respaldar cambios en GitHub; luego autorizar Supabase CLI temporal (`npx supabase`) y aplicar/verificar la migración. Después prueba real de vincular perfil personal a coach sin perder historial.
+
+## 2026-09-14 — Último estado
+- Centro de Acción del Coach operativo con señales explicables, confianza y cuello de botella probable.
+- Cumplimiento por músculo calcula series planificadas vs completadas sin confundirlo con crecimiento muscular.
+- Coach puede preparar/editar/enviar consejo; alumno puede marcar leído; coach puede retirarlo con confirmación.
+- Modo autónomo backend activado en Supabase; tarjeta se habilita solo si RPC dulus_solo_available responde.
+- Siguiente bloque recomendado: sincronizar medidas corporales online y añadir tendencias orientadas a objetivos sin inferir composición corporal no medida.
