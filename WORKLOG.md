@@ -232,3 +232,12 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Prueba real: pantalla inicial muestra 4 avisos pendientes después de revisar el primer video.
 - Cache PWA actualizado a `dulus-gym-track-v25`; sintaxis de `account.js`, `team-bridge.js` y service worker validada.
 - Estos cambios fueron realizados directamente con Remote Desktop Commander; OmniRoute no se utilizó para editar esta parte.
+
+## 2026-09-14 — Progreso real por ejercicio y grupo muscular
+- Se reemplazó la vista de progreso que dependía exclusivamente de haber registrado peso.
+- Ahora cualquier ejercicio completado genera un registro visible de progreso aunque el peso esté vacío.
+- Por ejercicio se muestran cantidad de registros completados y, cuando existen, último peso, mejor peso registrado y barras de los últimos 8 registros.
+- Se añadió Actividad por grupo muscular usando targetMuscles/bodyParts y fallback a primaryMuscle del catálogo normalizado.
+- La interfaz aclara expresamente que estas exposiciones registradas no estiman crecimiento muscular.
+- Prueba real con `prueba 2`: 4 ejercicios completados; Pecho 2 exposiciones, Hombros 1 y Tríceps 1.
+- Cache PWA actualizado a `dulus-gym-track-v26` y JavaScript validado con `node --check`.
