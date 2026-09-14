@@ -208,3 +208,9 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - La escala adulta se bloquea para menores conocidos; fecha de nacimiento es opcional.
 - Primer hito automático de pérdida de peso usa 5% a ~6 meses y no se aplica si IMC alto contradice cintura/estatura baja.
 - Coach y alumno comparten la misma meta; Centro de Acción puede avisar de una meta vencida sin modificar rutinas automáticamente.
+
+## Resumen según objetivo (2026-09-14)
+- `objective-summary.js` activo en dashboard coach/alumno.
+- Resume Constancia, Fuerza, Medidas, Recuperación y Calidad de datos sin nota global opaca.
+- El coach selecciona alumno; el alumno ve su propio estado y un único foco prioritario.
+- Reutiliza las mismas sesiones, e1RM, medidas y metas corporales ya guardadas.

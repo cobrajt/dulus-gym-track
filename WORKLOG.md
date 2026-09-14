@@ -305,3 +305,11 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Metas de bíceps/glúteos no reciben un “máximo ideal” inventado; se fijan manualmente o con datos suficientes de tendencia.
 - Coach ve meta activa en Centro de Acción; alumno ve resumen en Inicio. Meta vencida sin alcanzar genera señal de revisión, no cambio automático.
 - Migraciones 2026091408 y 2026091409 aplicadas en Supabase. Cache PWA v37.
+
+## 2026-09-14 — Resumen de avance según objetivo
+- Nuevo `objective-summary.js` para coach y alumno.
+- Lectura simple en cinco áreas: Constancia, Fuerza, Medidas, Recuperación y Calidad de datos.
+- No usa una puntuación opaca; cada estado muestra la evidencia que lo genera.
+- Si existe meta corporal activa, el resumen usa su progreso real. Si no, usa el objetivo general y tendencias disponibles.
+- Prioridad automática explicable: recuperación, constancia, meta vencida, caída de fuerza o falta de datos.
+- Coach puede seleccionar alumno; alumno ve su propio resumen. Cache PWA v38.
