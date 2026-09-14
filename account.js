@@ -18,12 +18,12 @@ async function refresh(){
  if(current!==refreshId)return;
  user=data?.user||null;
  $('auth-panel').hidden=!!user;$('member-panel').hidden=!user||recovery;$('recovery-panel').hidden=!recovery||!user;
- if(!user){$('account-teams').replaceChildren();$('profile-name').value='';$('account-email').textContent='';$('invitation-result').textContent='';say(error&&error.name!=='AuthSessionMissingError'?explain(error):'Entra o crea tu cuenta para preparar tu equipo.',!!error&&error.name!=='AuthSessionMissingError');return;}
+ if(!user){$('account-teams').replaceChildren();$('profile-name').value='';$('account-email').textContent='';$('invitation-result').textContent='';$('solo-training-card').hidden=true;say(error&&error.name!=='AuthSessionMissingError'?explain(error):'Entra o crea tu cuenta para preparar tu equipo.',!!error&&error.name!=='AuthSessionMissingError');return;}
  $('account-email').textContent=user.email||'';
  const result=await client.from('dulus_accounts').select('display_name').eq('id',user.id).maybeSingle();if(result.error)throw result.error;
  if(current!==refreshId)return;
  const name=result.data?.display_name||user.user_metadata?.display_name||'';
- $('profile-name').value=name;$('account-name').textContent=name||'Completa tu perfil';
+ $('profile-name').value=name;$('account-name').textContent=name||'Completa tu perfil';let soloReady=false;try{const soloResult=await client.rpc('dulus_solo_available');soloReady=!soloResult.error&&soloResult.data===true;}catch{}if(current!==refreshId)return;$('solo-training-card').hidden=!soloReady;
  const teams=await client.from('dulus_teams').select('id,name,owner_id').order('created_at');if(teams.error)throw teams.error;
  if(current!==refreshId)return;
  $('account-teams').replaceChildren();

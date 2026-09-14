@@ -79,5 +79,5 @@ function render({api,sessions,plans,roster,node}){
  }
  studentSelect.onchange=()=>{studentId=studentSelect.value;selectedMuscle='';redraw();};muscleSelect.onchange=()=>{selectedMuscle=muscleSelect.value;redraw();};redraw();return section;
 }
-window.DulusProgress={estimate1RM,build,render};
+window.DulusProgress={estimate1RM,build,studentMuscles,exerciseSummary,insightFor,render};
 })();

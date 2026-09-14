@@ -174,3 +174,10 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - QA UI y worker de retencion PASS en la sesion previa: fecha/caducado/comentarios, auth, disabled, dry-run, bucket fijo, reintento; SQL reversible de 7 dias PASS.
 - UI v21 ya puede consultar configuracion activa. Usuario debe recargar para cargar interfaz y reintentar su video de 2.2MB. Envio/recepcion de ese archivo personal aun no confirmados.
 - Guardado local en C:/Users/user/Desktop/DulusGymWork, feature/workout-tracking; sin commit/push/merge ni servicios de pago. Apuntes y prioridades siguen en PRODUCT_REQUIREMENTS.md.
+
+## 2026-09-14 — Centro de Acción del Coach + modo personal preparado
+- Centro de Acción del Coach conectado al dashboard. Ordena alumnos por prioridad con reglas transparentes, muestra evidencia y “cuello de botella probable”. No usa puntuación opaca ni cambia rutinas sin aprobación.
+- Validación real: `prueba 2` aparece solo como Observar por videos pendientes; sin e1RM no inventa fuerza ni problemas. Validación sintética: dolor 8/10 + caída de fuerza + fatiga 8.3/10 => Prioridad alta y cuello de botella Recuperación; Constancia/Registro de datos/Progresión-Técnica también probados.
+- Modo alumno autónomo funciona en QA aislada: crear rutina, registrar sesión, feedback y Progreso/e1RM. Textos de coach ocultos/adaptados y no se muestra chat/cámara en personal.
+- Backend autónomo aún NO aplicado. Migración local `supabase/migrations/2026091401_solo_student.sql`. `account.html` oculta Entrenar por mi cuenta hasta que RPC `dulus_solo_available()` confirme que el backend está listo.
+- Próximo paso seguro: respaldar cambios en GitHub; luego autorizar Supabase CLI temporal (`npx supabase`) y aplicar/verificar la migración. Después prueba real de vincular perfil personal a coach sin perder historial.

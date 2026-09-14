@@ -30,13 +30,13 @@ window.DulusBridge={create(api){
  let savedTheme;try{savedTheme=localStorage.getItem('dulus-team-theme');}catch{}document.body.dataset.teamTheme=savedTheme==='light'?'light':'dark';theme.textContent=savedTheme==='light'?'Modo oscuro':'Modo claro';document.querySelector('.topbar').append(theme);
  function persist(){try{localStorage.setItem(key,JSON.stringify({logs,feedback}));}catch{}}
  function open(plan,date){generation++;current=plan;key='dulus-feedback:'+api.user()+':'+plan.id+':'+date;const saved=read(key)||{};logs=saved.logs||{};feedback=saved.feedback||{};openMessages=null;}
- function feedbackView(){const section=node('section',undefined,'session-feedback');section.append(node('h3','¿Cómo te fue hoy?'),node('p','Opcional · Cuéntaselo a tu coach al guardar.'));
+ function feedbackView(){const section=node('section',undefined,'session-feedback');section.append(node('h3','¿Cómo te fue hoy?'),node('p',api.solo?.()?'Opcional · Guarda cómo te sentiste para entender tu progreso.':'Opcional · Cuéntaselo a tu coach al guardar.'));
  for(const [id,label,min] of [['effort','Esfuerzo percibido · 1 a 10',1],['fatigue','Fatiga · 0 a 10',0],['pain','Dolor · 0 a 10',0]]){const f=number(label,feedback[id],min,10);f.input.oninput=()=>{feedback[id]=f.input.value===''?null:Number(f.input.value);persist();};section.append(f.box);}
  return section;}
  function exerciseView(plan,item){const section=node('section',undefined,'exercise-connection'),entry=logs[item.exerciseId]||(logs[item.exerciseId]={exerciseId:item.exerciseId,weightKg:item.weightKg??null,reps:item.reps,rir:null});
  const loads=node('details');loads.append(node('summary','Ajustar mi carga · RIR'),node('p','Registra lo que hiciste. RIR es cuántas repeticiones más crees que podrías haber hecho. El coach verá los cambios al guardar.'));
  for(const [id,label,min,max] of [['weightKg','Peso realizado (kg)',0,1000],['reps','Repeticiones realizadas por serie',1,100],['rir','Repeticiones en reserva · RIR',0,10]]){const f=number(label,entry[id],min,max);if(id==='weightKg')f.input.step='0.5';f.input.oninput=()=>{entry[id]=f.input.value===''?null:Number(f.input.value);persist();};loads.append(f.box);}
- section.append(loads);
+ section.append(loads);if(api.solo?.())return section;
  const chat=node('details',undefined,'exercise-chat');chat.append(node('summary','Hablar con mi coach · este ejercicio'));
  const messages=node('div'),message=node('textarea');message.maxLength=2000;message.value=entry.commentDraft||'';message.oninput=()=>{entry.commentDraft=message.value;persist();};message.placeholder='Una duda, una molestia o un comentario…';message.setAttribute('aria-label','Mensaje sobre este ejercicio');
  const info=node('p');info.setAttribute('role','status');const token=generation;
@@ -78,7 +78,7 @@ window.DulusBridge={create(api){
 }
  async function renderDashboard(){if(feedBusy||!api.user())return;feedBusy=true;const uid=api.user();try{
  const plans=api.plans(),roster=api.roster(),ids=plans.map(p=>p.id);const sessions=ids.length?await check(db.from('dulus_sessions').select('*').in('plan_id',ids).order('date',{ascending:false})):[],messages=ids.length?await check(db.from('dulus_messages').select('*').in('plan_id',ids).order('created_at',{ascending:false}).limit(30)):[];
- if(uid!==api.user())return;dashboard.replaceChildren();dashboard.append(node('p',api.coach()?'TU EQUIPO, DE UN VISTAZO':'TU SEMANA','eyebrow'),node('h2',api.coach()?'Acompaña cada avance':'Cada entrenamiento cuenta'));if(api.coach())dashboard.append(coachInbox(uid,plans,roster,sessions,messages));
+ if(uid!==api.user())return;dashboard.replaceChildren();dashboard.append(node('p',api.coach()?'TU EQUIPO, DE UN VISTAZO':'TU SEMANA','eyebrow'),node('h2',api.coach()?'Acompaña cada avance':'Cada entrenamiento cuenta'));if(api.coach()){const actionCenter=window.DulusCoachAction?.render({api,uid,teamId:api.team(),plans,roster,sessions,messages,node,button});if(actionCenter)dashboard.append(actionCenter);dashboard.append(coachInbox(uid,plans,roster,sessions,messages));}
  const bars=node('div',undefined,'week-bars'),week=[];let scheduled=0,complete=0;
  for(let ago=6;ago>=0;ago--){const d=new Date();d.setDate(d.getDate()-ago);const date=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');const due=plans.filter(p=>p.start_date<=date&&p.days.includes(d.getDay()));const done=due.filter(p=>sessions.some(s=>s.plan_id===p.id&&s.date===date&&s.completed_ids.length===s.total_exercises)).length;scheduled+=due.length;complete+=done;const col=node('div');col.append(node('strong',done+'/'+due.length),node('span',d.toLocaleDateString('es',{weekday:'short'})));col.style.setProperty('--bar',due.length?Math.round(done/due.length*100)+'%':'0%');col.title=date+': '+done+' de '+due.length+' entrenamientos completos';bars.append(col);week.push(done);}
  const metrics=node('div',undefined,'bridge-metrics');for(const [value,label] of [[roster.length,api.coach()?'Alumnos':'Perfil'],[sessions.length,'Sesiones registradas'],[scheduled?Math.round(complete/scheduled*100)+'%':'—','Cumplimiento · 7 días']]){const card=node('div');card.append(node('strong',String(value)),node('span',label));metrics.append(card);}dashboard.append(metrics,bars);
@@ -90,7 +90,7 @@ window.DulusBridge={create(api){
  for(const m of messages||[]){const p=plans.find(p=>p.id===m.plan_id);events.push({time:m.created_at,body:(roster.find(s=>s.id===p?.student_id)?.name||'Alumno')+' · '+(api.catalog.find(e=>e.id===m.exercise_id)?.name||'Ejercicio')+': '+(m.video_path?'Video para revisar':m.body),plan:p,exercise:m.exercise_id});}
  for(const e of events.sort((a,b)=>String(b.time).localeCompare(String(a.time))).slice(0,20)){const card=node('article');card.append(node('small',new Date(e.time.length===10?e.time+'T12:00:00':e.time).toLocaleString('es')),node('p',e.body));if(e.details)card.append(node('p',e.details));if(e.plan)card.append(button('Abrir ejercicio',()=>api.open(e.plan.id,e.exercise)));feed.append(card);}
  if(!events.length)feed.append(node('p','Aquí aparecerán los entrenamientos y comentarios reales del equipo.'));
- 
+
  const progress=window.DulusProgress?.render({api,sessions,plans,roster,node});if(progress)dashboard.append(progress);
 
  dashboard.append(feed,status);status.textContent='Actividad actualizada. Los avisos se muestran con esta pantalla abierta.';

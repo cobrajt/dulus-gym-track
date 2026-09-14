@@ -261,3 +261,12 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Lectura rápida: mejor avance, mesetas y alerta cuando baja rendimiento junto a fatiga alta registrada.
 - Detalle por ejercicio queda colapsado como segundo nivel, no es necesario para leer la tendencia general.
 - Probado con datos reales sin cargas (no inventa e1RM) y datos sintéticos con mejora y caída/fatiga.
+
+## 2026-09-14 — Supervisión inteligente y modo autónomo (en preparación)
+- Nuevo `coach-action-center.js`: prioriza alumnos por señales explicables; no modifica rutinas automáticamente.
+- Señales: dolor, fatiga + caída de fuerza, adherencia 14 días, inactividad, meseta, videos/comentarios pendientes y falta de datos de fuerza.
+- Nuevo “cuello de botella probable”: Recuperación, Constancia, Registro de datos, Progresión/Técnica, Sin datos o Sin bloqueo claro. La prioridad de recuperación domina cuando hay dolor/fatiga alta.
+- Cada alumno muestra evidencia, siguiente paso, acceso directo al alumno/progreso y consejo sugerido copiable. Pruebas reales y sintéticas PASS.
+- `progress-analytics.js` expone el mismo motor e1RM/músculos al Centro de Acción para evitar métricas contradictorias.
+- Modo personal preparado en UI: crear rutina propia, registrar sesión, feedback y progreso; sin chat/cámara de coach. Las rutinas conservan `created_by` para distinguir origen.
+- Migración `2026091401_solo_student.sql` preparada pero NO aplicada todavía. El acceso “Entrenar por mi cuenta” permanece oculto hasta que `dulus_solo_available()` exista en Supabase.

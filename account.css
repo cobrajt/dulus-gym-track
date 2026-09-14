@@ -2,3 +2,5 @@
 .account-shell>.back-button{display:inline-flex;width:auto;height:auto;padding:8px 12px;font-size:16px;white-space:nowrap;text-decoration:none;margin-bottom:18px}.account-shell h1{font-family:Courgette,cursive;}
 
 .account-alert-badge{display:inline-flex;align-items:center;gap:8px;margin:8px 0 12px;padding:8px 12px;border-radius:999px;background:#3b274f;color:#fff;font-weight:800;border:1px solid #a68aff}.account-team .secondary-action{display:inline-flex;margin-top:8px}
+
+.solo-training-link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;width:100%;box-sizing:border-box}.solo-training-card p{line-height:1.5}

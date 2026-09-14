@@ -1,10 +1,11 @@
 (() => {
 'use strict';
-const $=id=>document.getElementById(id),teamId=new URLSearchParams(location.search).get('team'),uuid=/^[0-9a-f-]{36}$/i,days=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),teamId=params.get('team'),solo=params.get('solo')==='1',uuid=/^[0-9a-f-]{36}$/i,days=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 const say=(s,bad=false)=>{$('team-status').textContent=s;$('team-status').classList.toggle('error',bad);};
-if(!teamId||!uuid.test(teamId)){say('Abre un equipo desde Cuenta y equipos.',true);return;}
+if(!solo&&(!teamId||!uuid.test(teamId))){say('Abre un equipo o tu entrenamiento personal desde Cuenta y equipos.',true);return;}
 if(!window.supabase){say('No se pudo cargar la conexión. Revisa internet y recarga.',true);return;}
 const db=supabase.createClient('https://rnrciqyngdequkbmttxu.supabase.co','sb_publishable_LqmoY41LO5axFmitkS2_FQ_o7QlCROr',{auth:{storageKey:'dulus-account-v1'}});
+if(solo){document.querySelector('.topbar .eyebrow').textContent='ENTRENAMIENTO PERSONAL';document.querySelector('.local-note').textContent='Tus rutinas, sesiones y progreso son tuyos. Si después te vinculas con un coach, conservarás este historial.';$('new-plan').textContent='Crear mi rutina';}
 let currentUserId=null,coach=false,team=null,roster=[],plans=[],sessions=[],student=null,sessionPlan=null,chosen=new Map(),busy=false,reviewRenderId=0;
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const button=(text,action,cls)=>{const n=el('button',text,cls);n.type='button';n.onclick=action;return n;};
@@ -14,24 +15,22 @@ async function run(action){if(busy)return;busy=true;const buttons=[...document.q
 async function refresh(){
  const result=await db.auth.getUser();if(result.error||!result.data.user){$('team-content').hidden=true;throw Error('Inicia sesión desde Cuenta y equipos.');}
  const user=result.data.user;currentUserId=user.id;
- team=await check(db.from('dulus_teams').select('id,name,owner_id').eq('id',teamId).maybeSingle());if(!team){$('team-content').hidden=true;throw Error('No tienes acceso a este equipo.');}
- coach=team.owner_id===user.id;
- if(!coach)await check(db.rpc('dulus_open_student',{p_team:teamId}));
- roster=await check(db.from('dulus_students').select('*').eq('team_id',teamId).order('created_at'));
+ if(solo){const sid=await check(db.rpc('dulus_ensure_solo_student'));team={id:null,name:'Mi entrenamiento',owner_id:null};coach=false;roster=await check(db.from('dulus_students').select('*').eq('id',sid));}
+ else{team=await check(db.from('dulus_teams').select('id,name,owner_id').eq('id',teamId).maybeSingle());if(!team){$('team-content').hidden=true;throw Error('No tienes acceso a este equipo.');}coach=team.owner_id===user.id;if(!coach)await check(db.rpc('dulus_open_student',{p_team:teamId}));roster=await check(db.from('dulus_students').select('*').eq('team_id',teamId).order('created_at'));}
  const ids=roster.map(s=>s.id);
  plans=ids.length?await check(db.from('dulus_plans').select('*').in('student_id',ids).order('created_at')):[];
  sessions=plans.length?await check(db.from('dulus_sessions').select('*').in('plan_id',plans.map(p=>p.id)).order('date',{ascending:false})):[];
- $('team-title').textContent=team.name;$('students-title').textContent=coach?'Alumnos':'Mi seguimiento';$('invite-student').hidden=!coach;$('team-content').hidden=false;
+ $('team-title').textContent=solo?'Mi entrenamiento':team.name;$('students-title').textContent=solo?'Mi perfil':coach?'Alumnos':'Mi seguimiento';$('invite-student').hidden=!coach||solo;$('team-content').hidden=false;
  $('team-students').replaceChildren();
- if(!roster.length)$('team-students').append(el('p','Tu equipo está vacío. Los alumnos aparecerán cuando acepten una invitación y abran el equipo.'));
+ if(!roster.length)$('team-students').append(el('p',solo?'No se pudo preparar tu perfil personal.':'Tu equipo está vacío. Los alumnos aparecerán cuando acepten una invitación y abran el equipo.'));
  for(const s of roster)$('team-students').append(button(s.name,()=>openStudent(s.id),'team-student'));
  if(student&&roster.some(s=>s.id===student.id))openStudent(student.id);else if(!coach&&roster[0])openStudent(roster[0].id);else $('student-panel').hidden=true;
- say('Datos actualizados.');bridge?.sync();
+ say(solo?'Modo personal listo. Tus rutinas y sesiones se conservarán si más adelante te vinculas con un coach.':'Datos actualizados.');bridge?.sync();
 }
-function openStudent(id){if(student?.id!==id){trainingUI.close();$('plan-panel').hidden=true;$('session-panel').hidden=true;}student=roster.find(s=>s.id===id);if(!student)return;$('student-panel').hidden=false;$('student-title').textContent=student.name;$('student-goals').textContent=student.goals.length?student.goals.join(' · '):'Sin objetivos definidos';$('goals-input').value=student.goals.join('\n');$('goals-form').hidden=!coach;$('new-plan').hidden=!coach;
+function openStudent(id){if(student?.id!==id){trainingUI.close();$('plan-panel').hidden=true;$('session-panel').hidden=true;}student=roster.find(s=>s.id===id);if(!student)return;$('student-panel').hidden=false;$('student-title').textContent=student.name;$('student-goals').textContent=student.goals.length?student.goals.join(' · '):'Sin objetivos definidos';$('goals-input').value=student.goals.join('\n');$('goals-form').hidden=!(coach||solo);$('new-plan').hidden=!(coach||solo);
  $('student-plans').replaceChildren();const own=plans.filter(p=>p.student_id===id);
- if(!own.length)$('student-plans').append(el('p','Todavía no hay rutinas asignadas.'));
- for(const p of own){const card=el('article',undefined,'cloud-plan');card.append(el('h3',p.name),el('p',p.days.map(d=>days[d]).join(' · ')+' · Desde '+p.start_date));const list=el('ul');
+ if(!own.length)$('student-plans').append(el('p',solo?'Todavía no has creado rutinas.':'Todavía no hay rutinas asignadas.'));
+ for(const p of own){const card=el('article',undefined,'cloud-plan'),source=p.created_by?(p.created_by===student.user_id?(solo?'Creada por ti':coach?'Creada por el alumno':'Creada por ti'):(coach?'Creada por ti':'Creada por tu coach')):'';card.append(el('h3',p.name),el('p',p.days.map(d=>days[d]).join(' · ')+' · Desde '+p.start_date+(source?' · '+source:'')));const list=el('ul');
  for(const item of p.exercises){const e=EXERCISES.find(x=>x.id===item.exerciseId);const li=el('li',(e?.name||item.exerciseId)+' · '+item.sets+' × '+item.reps+(item.weightKg===undefined?'':item.weightKg===0?' · Sin carga añadida':' · '+item.weightKg+' kg'));if(e)li.append(technique(e));list.append(li);}card.append(list);
  const history=sessions.filter(s=>s.plan_id===p.id);card.append(el('p',history.length+' sesiones registradas'));const historyList=el('ul');history.slice(0,10).forEach(s=>historyList.append(el('li',s.date+' · '+s.completed_ids.length+' de '+s.total_exercises+' ejercicios')));card.append(historyList,button('Ver entrenamiento y registrar',()=>openSession(p.id)));$('student-plans').append(card);}
  renderStudentReviews(id);
@@ -47,7 +46,7 @@ $('goals-form').onsubmit=e=>{e.preventDefault();run(async()=>{const goals=[...ne
 for(const day of [1,2,3,4,5,6,0]){const l=el('label',days[day]),input=el('input');input.type='checkbox';input.value=day;l.prepend(input);$('plan-days').append(l);}
 function openSession(id,exercise){const p=plans.find(p=>p.id===id);if(p)trainingUI.openSession(p,exercise);}
 db.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){trainingUI.close();currentUserId=null;roster=[];plans=[];sessions=[];student=null;$('team-content').hidden=true;$('team-students').replaceChildren();$('student-plans').replaceChildren();say('Sesión cerrada. Vuelve a Cuenta y equipos para entrar.');}});
-const bridge=window.DulusBridge?.create({db,user:()=>currentUserId,team:()=>teamId,coach:()=>coach,student:()=>student,roster:()=>roster,plans:()=>plans,catalog:EXERCISES,open:openSession,select:openStudent});
-const trainingUI=window.DulusTraining.create({bridge,getPlans:()=>plans,catalog:EXERCISES,technique,today,getUser:()=>currentUserId,getStudent:()=>student,isCoach:()=>coach,getSessions:()=>sessions,createPlans:rows=>check(db.from('dulus_plans').insert(rows)),recordSession:(args,details)=>check(db.rpc(details?'dulus_finish_session':'dulus_record_session',details?{...args,p_details:details}:args)),refresh,say});
+const bridge=window.DulusBridge?.create({db,user:()=>currentUserId,team:()=>solo?'solo-'+currentUserId:teamId,coach:()=>coach,solo:()=>solo,student:()=>student,roster:()=>roster,plans:()=>plans,catalog:EXERCISES,open:openSession,select:openStudent});
+const trainingUI=window.DulusTraining.create({bridge,getPlans:()=>plans,catalog:EXERCISES,technique,today,getUser:()=>currentUserId,getStudent:()=>student,isCoach:()=>coach||solo,isSolo:()=>solo,getSessions:()=>sessions,createPlans:rows=>check(db.from('dulus_plans').insert(rows)),recordSession:(args,details)=>check(db.rpc(details?'dulus_finish_session':'dulus_record_session',details?{...args,p_details:details}:args)),refresh,say});
 run(refresh);
 })();

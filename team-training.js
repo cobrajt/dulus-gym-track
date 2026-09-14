@@ -15,7 +15,7 @@ window.DulusTraining={create(api){
  
  function plannerExtras(row,model,pick){
   const extra=node('details',undefined,'planner-notes');extra.append(node('summary','Notas, descansos y videoguía'));
-  const note=node('textarea');note.maxLength=1000;note.value=model.coachNote||'';note.placeholder='Notas de tu Coach';note.setAttribute('aria-label','Notas del coach');note.oninput=()=>model.coachNote=note.value;extra.append(note);
+  const note=node('textarea');note.maxLength=1000;note.value=model.coachNote||'';const noteLabel=api.isSolo?.()?'Notas para este ejercicio':'Notas de tu Coach';note.placeholder=noteLabel;note.setAttribute('aria-label',noteLabel);note.oninput=()=>model.coachNote=note.value;extra.append(note);
   for(const [key,label] of [['restSets','Descanso entre series (segundos)'],['restExercises','Descanso entre ejercicios (segundos)']]){const f=field(label,'number',model[key]||120);f.input.min='1';f.input.max='86400';f.input.step='1';f.input.oninput=()=>model[key]=Number(f.input.value);extra.append(f.label);}
   const guide=field('Videoguía propia · enlace HTTPS a MP4 o WebM','url',model.videoUrl||'');guide.input.placeholder='https://…';guide.input.oninput=()=>model.videoUrl=guide.input.value.trim();extra.append(guide.label,node('small','Usa únicamente videos propios o con permiso. Las fotos del catálogo siguen disponibles.'));row.append(extra);
  }
@@ -71,7 +71,7 @@ window.DulusTraining={create(api){
    rows.push({student_id:student.id,name:title+' · '+names[day],start_date:date,days:[day],exercises});
   }
   saving=true;const controls=[...form.querySelectorAll('input,button')],disabled=controls.map(e=>e.disabled);controls.forEach(e=>e.disabled=true);planStatus.textContent='Guardando los días…';
-  try{await api.createPlans(rows);panel.hidden=true;drafts.clear();await api.refresh();api.say('Rutina por días guardada y asignada al alumno.');}
+  try{await api.createPlans(rows);panel.hidden=true;drafts.clear();await api.refresh();api.say(api.isSolo?.()?'Rutina personal guardada.':'Rutina por días guardada y asignada al alumno.');}
   catch(e){planStatus.textContent=e.message||'No se pudo guardar. Tu selección sigue aquí.';}
   finally{saving=false;controls.forEach((e,i)=>e.disabled=disabled[i]);}
  };
@@ -104,11 +104,11 @@ window.DulusTraining={create(api){
  const presets=node('div',undefined,'timer-actions');
  presets.append(btn('Descanso entre series',()=>{restKind='setRest';const n=preferences.setRest||restDefault('setRest');duration.input.value=n;startTimer(n);}),btn('Descanso entre ejercicios',()=>{restKind='exerciseRest';const n=preferences.exerciseRest||exerciseSeconds;duration.input.value=n;startTimer(n);}));
  const timerActions=node('div',undefined,'timer-actions');timerActions.append(start,pause,reset);
- timer.append(node('h3','Descanso'),node('p','Sugerencia inicial: 2 minutos entre series y al cambiar de ejercicio. Puedes adaptarlo con tu coach.'),clock,presets,duration.label,timerActions,timerStatus,settings);
+ timer.append(node('h3','Descanso'),node('p','Sugerencia inicial: 2 minutos entre series y al cambiar de ejercicio. Puedes adaptarlo según tu objetivo y recuperación.'),clock,presets,duration.label,timerActions,timerStatus,settings);
  sessionForm.before(timer);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')tick();});
- const helper=node('p','Marca el círculo al completar cada serie. Las series en curso se conservan en este dispositivo; al guardar, tu coach verá los ejercicios completados.');exerciseList.after(helper);
- const adjust=node('details',undefined,'guided-adjust');adjust.append(node('summary','Personalizar descanso y avisos'),node('p','Sugerencia inicial: 2 minutos. Ajusta el tiempo según las indicaciones de tu coach.'),presets,duration.label,timerActions,settings);
- timer.replaceChildren(clock,timerStatus);timer.classList.add('guided-timer');clock.setAttribute('aria-live','off');timer.append(node('p','Tiempo recomendado: 2 minutos. Ajustable según tu coach.','rest-recommended'),duration.label,start,pause);sessionPanel.classList.add('guided-session');
+ const helper=node('p','Marca el círculo al completar cada serie. Las series en curso se conservan en este dispositivo; al guardar, los ejercicios completados quedarán en tu historial.');exerciseList.after(helper);
+ const adjust=node('details',undefined,'guided-adjust');adjust.append(node('summary','Personalizar descanso y avisos'),node('p','Sugerencia inicial: 2 minutos. Ajusta el tiempo según tus necesidades o las indicaciones de tu coach.'),presets,duration.label,timerActions,settings);
+ timer.replaceChildren(clock,timerStatus);timer.classList.add('guided-timer');clock.setAttribute('aria-live','off');timer.append(node('p','Tiempo recomendado: 2 minutos. Ajustable según tu plan.','rest-recommended'),duration.label,start,pause);sessionPanel.classList.add('guided-session');
  $('cancel-session').textContent='Volver a mis rutinas';
  
  function draftKey(){return 'dulus-workout-draft:'+api.getUser()+':'+activePlan.id+':'+sessionDate.value;}
@@ -129,9 +129,9 @@ window.DulusTraining={create(api){
   row.append(node('p','Ejercicio '+(exerciseIndex+1)+' de '+activePlan.exercises.length,'guided-counter'),node('h3',name),node('p',setCount(item)+' series · '+item.reps+' repeticiones · '+weight,'guided-prescription'));
   const media=node('div',undefined,'guided-demo'),technique=exercise?api.technique(exercise):null,photos=technique?.querySelector('.exercise-photos');
   if(photos?.children.length){media.append(photos);for(const img of photos.querySelectorAll('img')){img.loading='eager';}}
-  else media.append(node('p','Sin imagen disponible para este ejercicio. Consulta las indicaciones de tu coach.'));
+  else media.append(node('p','Sin imagen disponible para este ejercicio. Consulta las indicaciones técnicas del ejercicio.'));
   media.setAttribute('aria-label','Demostración de '+name);if(item.videoUrl&&/^https:\/\//i.test(item.videoUrl)){const video=node('video');Object.assign(video,{src:item.videoUrl,controls:true,loop:true,muted:true,autoplay:true,playsInline:true});video.onerror=()=>{video.remove();media.append(node('p','No se pudo cargar la videoguía. Consulta las fotos y las notas.'));};media.prepend(video);}
-  row.append(media);const coachNote=node('aside',undefined,'coach-note');coachNote.append(node('strong','Notas de tu Coach'),node('p',item.coachNote||'Tu coach todavía no ha añadido notas para este ejercicio.'));row.append(coachNote);if(technique)row.append(technique);
+  row.append(media);const coachNote=node('aside',undefined,'coach-note');coachNote.append(node('strong',api.isSolo?.()?'Mis notas':'Notas de tu Coach'),node('p',item.coachNote||(api.isSolo?.()?'Sin notas personales para este ejercicio.':'Tu coach todavía no ha añadido notas para este ejercicio.')));row.append(coachNote);if(technique)row.append(technique);
   const navigation=node('div',undefined,'guided-navigation'),previous=btn('←',()=>navigateExercise(-1)),next=btn('→',()=>navigateExercise(1));
   previous.setAttribute('aria-label',exerciseIndex===0?'Volver a mis rutinas':'Ejercicio anterior');next.setAttribute('aria-label','Siguiente ejercicio');previous.disabled=saveSession;next.disabled=exerciseIndex===activePlan.exercises.length-1;navigation.append(previous,timer,next);row.append(navigation);
   const stars=node('div',undefined,'guided-series');stars.setAttribute('aria-label','Series de '+name);
@@ -148,7 +148,7 @@ window.DulusTraining={create(api){
    star.className='series-check';star.setAttribute('aria-pressed',String(selected.has(i)));star.setAttribute('aria-label','Serie '+(i+1)+' de '+name);star.disabled=saveSession;
    line.append(star,node('span','Serie '+(i+1)),node('strong',item.reps+' reps'),node('span',weight,'series-weight'));stars.append(line);
   }
-  const complete=btn(selected.size===setCount(item)?'Ejercicio completado':'✓ Serie completada',()=>{exerciseList.querySelector('.series-check[aria-pressed=false]')?.click();});complete.className='complete-next-set';complete.disabled=saveSession||selected.size===setCount(item);const rec=timer.querySelector('.rest-recommended');if(rec)rec.textContent=item.restSets||item.restExercises?'Tu coach recomienda: '+(item.restSets||120)+' s entre series · '+(item.restExercises||120)+' s entre ejercicios.':'Tiempo recomendado: 2 minutos. Ajustable según tu coach.';row.append(complete,stars,adjust);if(api.bridge)row.append(api.bridge.exerciseView(activePlan,item));exerciseList.append(row);updateProgress();paint();
+  const complete=btn(selected.size===setCount(item)?'Ejercicio completado':'✓ Serie completada',()=>{exerciseList.querySelector('.series-check[aria-pressed=false]')?.click();});complete.className='complete-next-set';complete.disabled=saveSession||selected.size===setCount(item);const rec=timer.querySelector('.rest-recommended');if(rec)rec.textContent=item.restSets||item.restExercises?(api.isSolo?.()?'Tu plan recomienda: ':'Tu coach recomienda: ')+(item.restSets||120)+' s entre series · '+(item.restExercises||120)+' s entre ejercicios.':api.isSolo?.()?'Tiempo recomendado: 2 minutos. Ajustable según tu plan.':'Tiempo recomendado: 2 minutos. Ajustable según tu coach.';row.append(complete,stars,adjust);if(api.bridge)row.append(api.bridge.exerciseView(activePlan,item));exerciseList.append(row);updateProgress();paint();
  }
  const feedbackHolder=node('div');exerciseList.parentElement.insertBefore(feedbackHolder,sessionForm.querySelector('.submit-student'));
  function renderSession(){
@@ -167,7 +167,7 @@ window.DulusTraining={create(api){
  sessionForm.onsubmit=async event=>{
   event.preventDefault();if(saveSession||!activePlan)return;if(!sessionDate.reportValidity())return;const completed=completion();if(!completed.length){sessionStatus.textContent='Completa las series de al menos un ejercicio antes de guardar.';return;}
   const plan=activePlan,date=sessionDate.value,key=draftKey();saveSession=true;const controls=[...sessionForm.querySelectorAll('input,button')];controls.forEach(e=>e.disabled=true);sessionStatus.textContent='Guardando sesión…';
-  try{await api.recordSession({p_plan:plan.id,p_date:date,p_completed:completed},api.bridge?.snapshot(completed));api.bridge?.saved();try{if(activePlan.exercises.some(item=>{const n=(seriesDone[item.exerciseId]||[]).length;return n>0&&n<setCount(item);}))persistSeries();else localStorage.removeItem(key);}catch{}stop();await api.refresh();sessionStatus.textContent='Sesión guardada en línea: '+completed.length+' ejercicios. Tu coach puede verla al actualizar.';api.say('Sesión guardada en línea.');}
+  try{await api.recordSession({p_plan:plan.id,p_date:date,p_completed:completed},api.bridge?.snapshot(completed));api.bridge?.saved();try{if(activePlan.exercises.some(item=>{const n=(seriesDone[item.exerciseId]||[]).length;return n>0&&n<setCount(item);}))persistSeries();else localStorage.removeItem(key);}catch{}stop();await api.refresh();sessionStatus.textContent='Sesión guardada en línea: '+completed.length+' ejercicios. '+(api.isSolo?.()?'Tu progreso ya está actualizado.':'Tu coach puede verla al actualizar.');api.say('Sesión guardada en línea.');}
   catch(e){sessionStatus.textContent=e.message||'No se pudo guardar. Conservamos tus marcas para reintentar.';}
   finally{saveSession=false;controls.forEach(e=>e.disabled=false);const arrows=exerciseList.querySelectorAll('.guided-navigation>button');if(arrows.length===2){arrows[0].disabled=false;arrows[1].disabled=exerciseIndex===activePlan.exercises.length-1;}paint();}
  };
