@@ -196,3 +196,7 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Centro de Acción muestra contexto corporal y solo genera señal por objetivo cuando existe tendencia suficiente; ejemplo: cintura sin cambio con objetivo de perder grasa + buena adherencia.
 - La UI evita etiquetar “anorexia” por peso bajo y advierte que el IMC puede sobreestimar adiposidad en personas musculosas.
 - Próximo paso: relacionar de forma prudente objetivo + fuerza + adherencia + medidas para un resumen de avance global sin puntuación opaca.
+
+## 2026-09-14 — Guía mínima del alumno
+- `student-guidance.js` muestra un único “Próximo paso útil” según los datos que faltan; evita ruido y reduce intervención manual del coach.
+- La guía es contextual por objetivo y deja de pedir datos cuando el seguimiento ya es suficiente.

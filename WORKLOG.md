@@ -289,3 +289,9 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Centro de Acción recibe “Contexto corporal” sin convertir IMC alto en alerta automática.
 - Para objetivos de pérdida de grasa, 3+ mediciones durante 21+ días y buena adherencia pueden detectar “Cintura sin cambio medible”; si la cintura baja, la alerta desaparece.
 - Toda medición QA previa fue eliminada; no quedó dato corporal sintético en `prueba 2`.
+
+## 2026-09-14 — Próximo dato útil para el alumno
+- Nueva tarjeta de una sola prioridad: pide únicamente el dato/acción que más mejora el seguimiento en ese momento.
+- Prioridades probadas: primera rutina, primera sesión, estatura, cintura según objetivo, peso/reps/RIR, peso corporal y estado “Seguimiento al día”.
+- Si hubo dolor reciente relevante, la guía prioriza no aumentar carga automáticamente y comunicar la molestia.
+- La intención es reducir formularios y trabajo del coach: el alumno sabe qué registrar sin recibir una lista de avisos.
