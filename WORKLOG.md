@@ -313,3 +313,13 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Si existe meta corporal activa, el resumen usa su progreso real. Si no, usa el objetivo general y tendencias disponibles.
 - Prioridad automática explicable: recuperación, constancia, meta vencida, caída de fuerza o falta de datos.
 - Coach puede seleccionar alumno; alumno ve su propio resumen. Cache PWA v38.
+
+## 2026-09-14 — Fechas opcionales + metas de rendimiento
+- Fecha de nacimiento sigue siendo opcional: si existe se calcula edad y se usa solo donde cambia la interpretación; sin fecha el seguimiento continúa.
+- Un perfil menor de 18 años no recibe sugerencias automáticas adultas de peso/IMC.
+- Fecha objetivo de metas corporales y de rendimiento es opcional; sin fecha no existe concepto de “meta vencida”.
+- Nuevo módulo `performance-goals.js`: metas e1RM automáticas por ejercicio y pruebas manuales de salto vertical/horizontal, sprint 10/20/40 m, dominadas y plancha.
+- e1RM reutiliza sesiones reales de Dulus; no se duplica entrada manual.
+- Rendimiento se integra en Resumen según objetivo y Centro de Acción del Coach.
+- Meta de rendimiento vencida solo genera señal de revisión de objetivo/plazo; nunca cambia rutina automáticamente.
+- Supabase: migración `2026091410_performance_goals.sql`; caché PWA `dulus-gym-track-v39`.

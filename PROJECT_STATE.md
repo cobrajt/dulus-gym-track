@@ -214,3 +214,11 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Resume Constancia, Fuerza, Medidas, Recuperación y Calidad de datos sin nota global opaca.
 - El coach selecciona alumno; el alumno ve su propio estado y un único foco prioritario.
 - Reutiliza las mismas sesiones, e1RM, medidas y metas corporales ya guardadas.
+
+## 2026-09-14 — Estado metas avanzadas
+- Perfil corporal opcional: Hombre/Mujer/Prefiero no indicar + fecha de nacimiento opcional.
+- Edad solo refina/valida referencias; nunca es obligatoria para entrenar o registrar medidas.
+- Metas corporales y rendimiento aceptan fecha objetivo opcional.
+- Rendimiento soporta e1RM por ejercicio, salto vertical/horizontal, sprint 10/20/40 m, dominadas y plancha.
+- Resumen global cruza Constancia, Fuerza, Rendimiento, Medidas, Recuperación y Calidad de datos.
+- Centro de Acción puede avisar de meta de rendimiento vencida sin modificar el plan automáticamente.
