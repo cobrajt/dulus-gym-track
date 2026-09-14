@@ -188,3 +188,11 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Coach puede preparar/editar/enviar consejo; alumno puede marcar leído; coach puede retirarlo con confirmación.
 - Modo autónomo backend activado en Supabase; tarjeta se habilita solo si RPC dulus_solo_available responde.
 - Siguiente bloque recomendado: sincronizar medidas corporales online y añadir tendencias orientadas a objetivos sin inferir composición corporal no medida.
+
+## 2026-09-14 — Medidas corporales y contexto corporal ACTIVOS
+- Migraciones 2026091404–2026091407 aplicadas en DATOSGYM: medidas online, borrado, realtime y estatura del alumno.
+- Coach y alumno comparten peso/perímetros; Progreso dibuja curvas por medida.
+- Nueva lectura estatura/peso con IMC adulto, rango de referencia por estatura y cintura/estatura. Se usa como contexto, no diagnóstico ni estimación de grasa corporal.
+- Centro de Acción muestra contexto corporal y solo genera señal por objetivo cuando existe tendencia suficiente; ejemplo: cintura sin cambio con objetivo de perder grasa + buena adherencia.
+- La UI evita etiquetar “anorexia” por peso bajo y advierte que el IMC puede sobreestimar adiposidad en personas musculosas.
+- Próximo paso: relacionar de forma prudente objetivo + fuerza + adherencia + medidas para un resumen de avance global sin puntuación opaca.

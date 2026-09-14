@@ -278,3 +278,14 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Añadido cumplimiento de series planificadas por músculo en 14 días y confianza de lectura Inicial/Media/Alta.
 - Migraciones 2026091402 y 2026091403: consejos privados coach→alumno, leído por alumno y retiro por coach.
 - Prueba real reversible: consejo QA enviado desde UI y retirado; no quedó en historial.
+
+## 2026-09-14 — Medidas online + relación estatura/peso
+- Medidas corporales online activadas en Supabase: peso y 15 perímetros opcionales, historial, borrado con confirmación y realtime.
+- Centro de Progreso muestra curvas reales de Peso, Cintura, Glúteos, Cadera y Pecho; no interpreta automáticamente subir/bajar como bueno o malo.
+- Añadida estatura online al perfil y `body-assessment.js` con indicador semicircular tipo velocímetro: Muy bajo peso, Bajo peso, Rango saludable, Sobrepeso y Obesidad.
+- No se usa “anorexia” como categoría: es un diagnóstico clínico, no un rango de peso.
+- El indicador calcula IMC de referencia para adultos, rango de peso asociado a IMC 18.5–24.9 y relación cintura/estatura cuando hay cintura medida.
+- Caso sintético 1.80 m / 95 kg / cintura 82 cm => IMC 29.3 (Sobrepeso) + cintura/estatura 0.46; Dulus advierte que el IMC puede sobreestimar grasa en personas musculosas.
+- Centro de Acción recibe “Contexto corporal” sin convertir IMC alto en alerta automática.
+- Para objetivos de pérdida de grasa, 3+ mediciones durante 21+ días y buena adherencia pueden detectar “Cintura sin cambio medible”; si la cintura baja, la alerta desaparece.
+- Toda medición QA previa fue eliminada; no quedó dato corporal sintético en `prueba 2`.
