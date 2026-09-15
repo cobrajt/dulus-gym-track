@@ -489,3 +489,15 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - QA real con `prueba 2`: Press banca→Flexiones mostró regresión a Flexiones inclinadas y progresión a pies elevados; Press militar→Flexiones pike solo mostró regresión y bloqueó Handstand Push-Ups por superar el nivel prescrito.
 - La rutina persistida quedó intacta, 0 errores y 0 residuos QA locales.
 - Caché PWA: `v62`.
+
+## 2026-09-15 — Control de vínculo coach–alumno
+- Añadidas RPC seguras `dulus_leave_team` y `dulus_remove_student`.
+- Finalizar el vínculo no borra el perfil ni su historial: `dulus_students.team_id` pasa a `null` y el alumno conserva el mismo `student_id` en modo personal.
+- Se elimina únicamente la membresía activa del equipo y los pospuestos operativos de agenda del coach.
+- Planes, sesiones, medidas, objetivos, decisiones históricas y progreso permanecen ligados al alumno.
+- Al quedar `team_id=null`, las reglas existentes dejan de reconocer al coach como propietario del historial del alumno.
+- Cuenta del alumno muestra `Salir de este equipo` con confirmación en dos pasos y aviso de conservación del historial.
+- Ficha del coach muestra `Finalizar vínculo con este alumno`, también con doble confirmación.
+- Migración aplicada: `2026091519_coach_student_unlink.sql`.
+- QA real sin mutación sobre `prueba 2`: control visible, segunda confirmación requerida, alumno/rutina intactos y 0 errores.
+- Caché PWA: `v63`.

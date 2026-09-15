@@ -361,3 +361,15 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - El Modo casa tiene variantes base por patrón (por ejemplo press de pecho→Flexiones, press vertical→Flexiones pike) para evitar empezar automáticamente por una variante demasiado exigente.
 - QA real con `prueba 2`: flexiones con regresión/progresión y pike con progresión avanzada bloqueada; rutina persistida sin cambios, 0 errores y 0 estado QA.
 - Caché PWA actual: `dulus-gym-track-v62`.
+
+## Vínculo coach–alumno — estado actual
+- El perfil de alumno es único por usuario y puede existir sin equipo (`team_id=null`).
+- Alumno y coach pueden finalizar el vínculo mediante RPC protegidas; nunca se borran rutinas, sesiones, medidas, objetivos o progreso.
+- Al desvincular, el alumno vuelve a modo personal conservando el mismo `student_id`; el antiguo coach deja de acceder porque el perfil ya no pertenece a su equipo.
+- Se elimina la fila `dulus_members` del alumno y los `dulus_agenda_snoozes` operativos del coach para ese alumno.
+- Decisiones históricas del coach permanecen como parte del historial del alumno, pero ya no son accesibles operativamente por el coach tras la desvinculación.
+- UI alumno: `Salir de este equipo`; UI coach: `Finalizar vínculo con este alumno`.
+- Ambas acciones exigen confirmación en dos pasos y explican antes que el historial se conserva.
+- Supabase sincronizado hasta `2026091519`.
+- QA real de interfaz aprobado sin ejecutar la desvinculación de `prueba 2`; 0 errores.
+- Caché PWA actual: `dulus-gym-track-v63`.
