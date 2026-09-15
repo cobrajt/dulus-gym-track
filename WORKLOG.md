@@ -381,3 +381,14 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Prueba real reversible: cintura 90 → 97 cm mostró `Confirmar y guardar`; ambos datos QA se eliminaron después.
 - Validación adicional: brazo +4 cm y salto vertical +27.5% disparan advertencia de calidad.
 - Caché PWA actualizado a `dulus-gym-track-v46`.
+
+## 2026-09-15 — Seguimiento de molestias por zona
+- El feedback de sesión ahora permite guardar zona y nota opcionales cuando dolor > 0.
+- La zona desaparece del formulario cuando dolor vuelve a 0 y se limpia el borrador asociado.
+- Centro de Avisos muestra dolor, zona y nota para el coach.
+- Centro de Acción detecta una misma zona reportada en 2+ sesiones durante 14 días como molestia recurrente.
+- Una molestia recurrente leve se muestra como señal de observación y cuello de botella, sin diagnóstico ni alarma exagerada.
+- Dolor moderado/alto conserva prioridad sobre otras señales.
+- Pruebas: UI condicional, limpieza del borrador y señal sintética `Rodilla · 2 sesiones` correctas.
+- No fue necesaria migración: los nuevos campos viven dentro de `dulus_sessions.details`.
+- Caché PWA actualizado a `dulus-gym-track-v47`.

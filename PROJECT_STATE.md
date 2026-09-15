@@ -265,3 +265,10 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - El aviso no impide guardar un dato que coach/alumno sabe que es correcto.
 - Las pruebas QA temporales fueron eliminadas completamente.
 - Caché actual: `dulus-gym-track-v46`.
+
+## Seguimiento de molestias
+- El alumno puede añadir zona y nota opcional cuando reporta dolor en una sesión.
+- El coach ve esa información en avisos y Dulus detecta recurrencia de la misma zona en 14 días.
+- La recurrencia leve se interpreta como observación, no como diagnóstico médico.
+- Datos guardados dentro del JSON de sesión existente; no requiere migración nueva.
+- Caché actual: `dulus-gym-track-v47`.
