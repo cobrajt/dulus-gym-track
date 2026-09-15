@@ -350,3 +350,13 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - El Centro de Acción muestra `Seguimiento por aprobar` mientras un alumno con objetivo no tenga el plan revisado.
 - Prueba real reversible con `prueba 2`: guardar plan → aparece `plan aprobado` → reiniciar → vuelve a `propuesta lista`.
 - No quedó ningún plan QA activo.
+
+## 2026-09-15 — Calendario inteligente de seguimiento
+- El plan aprobado de medidas/pruebas ahora genera ventanas reales de repetición, no fechas rígidas.
+- Peso: ventana aproximada 3–7 días; perímetros habituales: 2–4 semanas; cuello: ~4 semanas; salto/sprint/pruebas: 4–6 semanas.
+- Estados: Falta base, Al día, Ventana abierta / Toca esta semana y Atrasado.
+- El alumno ve el próximo seguimiento y puede ir directo a Registrar medida o Registrar prueba cuando corresponde.
+- El coach solo recibe señal por línea base faltante o seguimiento realmente atrasado; una ventana abierta no crea ruido.
+- El Centro de Acción muestra también el estado global del seguimiento manual (Sin aprobar / pendientes / en ventana / al día / automático).
+- Pruebas sintéticas: salto vertical 8 días atrasado, brazo en ventana y cintura con 4 días restantes; comportamiento correcto.
+- No se añadieron datos QA ni cambios de esquema; scripts auxiliares guardados en DULUS_HERRAMIENTAS_DESARROLLO.

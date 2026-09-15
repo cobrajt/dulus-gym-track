@@ -243,3 +243,10 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - El plan aprobado persiste en `dulus_students.tracking_plan` y reemplaza la propuesta automática hasta que el coach lo reinicie.
 - El Centro de Acción avisa si un alumno con objetivo todavía necesita aprobación de seguimiento.
 - Migración aplicada: `2026091411_tracking_plan.sql`.
+
+## Seguimiento programado por objetivo
+- `tracking-schedule.js` convierte el plan aprobado en un calendario de seguimiento por ventanas.
+- El calendario usa las mediciones/pruebas reales como última fecha conocida; no inventa eventos ni exige repetir antes de tiempo.
+- Alumno: ve el próximo dato útil y acceso directo a medidas/pruebas cuando toca.
+- Coach: Centro de Acción alerta solo por línea base faltante o seguimiento vencido; las ventanas abiertas quedan como contexto.
+- No requiere tabla nueva: se deriva de `tracking_plan`, `dulus_measurements` y `dulus_performance_entries`.

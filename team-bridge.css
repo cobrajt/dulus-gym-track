@@ -94,3 +94,10 @@ body[data-team-theme] .account-shell label,body[data-team-theme] .account-shell 
 .guided-option{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid rgba(255,255,255,.1);border-radius:12px}.guided-option input{margin-top:3px}.guided-option span{display:grid;gap:2px}.guided-option small{opacity:.72}
 .guided-extra>summary{cursor:pointer;margin:4px 0 10px}.guided-actions{display:flex;gap:8px;flex-wrap:wrap}.coach-guided-form textarea{width:100%;resize:vertical}
 @media(max-width:640px){.guided-recommended,.guided-extra-grid{grid-template-columns:1fr}.guided-actions button{flex:1 1 140px}}
+
+.tracking-schedule-card{margin-top:14px;padding:16px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.025)}
+.tracking-schedule-card>strong{display:block;margin:.35rem 0}.tracking-schedule-card details{margin-top:10px}
+.tracking-schedule-list{display:grid;gap:8px;margin-top:10px}.tracking-schedule-list article{display:grid;grid-template-columns:minmax(120px,1fr) auto;gap:4px 12px;padding:10px 12px;border:1px solid var(--line);border-radius:14px}
+.tracking-schedule-list article small{grid-column:1/-1;opacity:.76}.tracking-schedule-list article[data-state="base"],.tracking-schedule-list article[data-state="overdue"]{border-color:rgba(255,100,100,.35)}
+.tracking-schedule-list article[data-state="due"]{border-color:rgba(255,205,80,.35)}.tracking-schedule-list article[data-state="wait"]{opacity:.78}
+@media(max-width:640px){.tracking-schedule-list article{grid-template-columns:1fr}.tracking-schedule-list article small{grid-column:auto}}
