@@ -351,3 +351,13 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - La sesión real sigue guardando `plannedExerciseId` y `exerciseId` para separar adherencia de estadísticas de fuerza.
 - `prueba 2` mantiene conversión 5/5 en Modo casa; rutina persistida intacta y sin residuos QA.
 - Caché PWA actual: `dulus-gym-track-v61`.
+
+## Progresión/regresión de variantes en casa — estado actual
+- Las alternativas de casa pueden formar escaleras de dificultad explícitas y curadas, no inferidas solo por nombre.
+- El alumno puede usar `Más fácil` / `Más difícil` solo para la sesión actual; `dulus_plans` permanece intacto.
+- Con coach, Dulus bloquea cualquier variante más difícil que supere el nivel prescrito en el ejercicio original.
+- En modo solo, el usuario puede recorrer toda la escalera disponible.
+- El cambio conserva el vínculo planificado/realizado y reinicia las series del bloque antes de continuar.
+- El Modo casa tiene variantes base por patrón (por ejemplo press de pecho→Flexiones, press vertical→Flexiones pike) para evitar empezar automáticamente por una variante demasiado exigente.
+- QA real con `prueba 2`: flexiones con regresión/progresión y pike con progresión avanzada bloqueada; rutina persistida sin cambios, 0 errores y 0 estado QA.
+- Caché PWA actual: `dulus-gym-track-v62`.

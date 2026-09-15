@@ -479,3 +479,13 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Casos QA: remo→remo con toalla, curl→auto-resistencia, RDL→bisagra sin peso, leg curl→deslizante, shrug→auto-resistencia, aperturas→aducción isométrica, press militar→flexiones pike.
 - Regresión real con `prueba 2`: 5/5 ejercicios convertibles a Modo casa, rutina original intacta y 0 errores.
 - Caché PWA: `v61`.
+
+## 2026-09-15 — Progresiones y regresiones para ejercicios en casa
+- Se añadieron variantes curadas en español para crear escaleras de dificultad: flexiones inclinadas/pies elevados, sentadilla a silla/búlgara, bisagra a una pierna, femoral deslizante unilateral, puente unilateral, gemelo unilateral y hollow hold.
+- En el entrenamiento guiado, una alternativa de casa puede mostrar `Más fácil` y/o `Más difícil` sin modificar la rutina original.
+- Para alumnos con coach, una progresión nunca supera el nivel de dificultad prescrito; en modo solo se permite recorrer la escalera completa.
+- Cambiar dificultad reinicia las series del ejercicio para evitar registros ambiguos y conserva `plannedExerciseId` frente al ejercicio realmente realizado.
+- El Modo casa usa una variante base recomendada por patrón para no elegir automáticamente versiones más exigentes solo por coincidir con el nivel.
+- QA real con `prueba 2`: Press banca→Flexiones mostró regresión a Flexiones inclinadas y progresión a pies elevados; Press militar→Flexiones pike solo mostró regresión y bloqueó Handstand Push-Ups por superar el nivel prescrito.
+- La rutina persistida quedó intacta, 0 errores y 0 residuos QA locales.
+- Caché PWA: `v62`.
