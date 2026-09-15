@@ -250,3 +250,11 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Alumno: ve el próximo dato útil y acceso directo a medidas/pruebas cuando toca.
 - Coach: Centro de Acción alerta solo por línea base faltante o seguimiento vencido; las ventanas abiertas quedan como contexto.
 - No requiere tabla nueva: se deriva de `tracking_plan`, `dulus_measurements` y `dulus_performance_entries`.
+
+## Revisión automática de ciclo
+- `cycle-review.js` compara las últimas 4 semanas con las 4 anteriores.
+- Coach y alumno ven cambios de constancia, fuerza/e1RM, medidas, pruebas físicas y recuperación.
+- La lectura incluye confianza y evita conclusiones fuertes con historial insuficiente.
+- El Centro de Acción puede señalar una revisión de ciclo solo con confianza suficiente y sin duplicar alertas más directas.
+- La interpretación de medidas depende del objetivo o meta activa; cambios ambiguos se muestran como contexto.
+- Caché PWA actualizado a `dulus-gym-track-v45`.

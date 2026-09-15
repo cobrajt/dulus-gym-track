@@ -360,3 +360,14 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - El Centro de Acción muestra también el estado global del seguimiento manual (Sin aprobar / pendientes / en ventana / al día / automático).
 - Pruebas sintéticas: salto vertical 8 días atrasado, brazo en ventana y cintura con 4 días restantes; comportamiento correcto.
 - No se añadieron datos QA ni cambios de esquema; scripts auxiliares guardados en DULUS_HERRAMIENTAS_DESARROLLO.
+
+## 2026-09-15 — Revisión automática de ciclo
+- Añadido informe automático de 4 semanas comparado con las 4 semanas anteriores.
+- Resume Mejoró / Revisar / Contexto, confianza de lectura y próximo foco.
+- Combina constancia, e1RM/fuerza, medidas relevantes, pruebas físicas y recuperación.
+- Las medidas se interpretan según meta numérica cuando existe; sin base suficiente se mantienen neutrales o provisionales.
+- Pérdida de grasa puede interpretar cintura; glúteos/brazos se contextualizan con fuerza y consistencia de medición.
+- Si no hay 4 semanas completas, muestra señales provisionales y evita recomendar cambios importantes.
+- Dolor relevante conserva prioridad aunque el ciclo esté incompleto.
+- El Centro de Acción solo recibe señal de ciclo cuando la confianza es suficiente y no hay una alerta más directa.
+- Pruebas: ciclo positivo, ciclo deteriorado, contexto de cintura y UI real sin errores.
