@@ -330,3 +330,13 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - La selección temporal se conserva en el borrador local de entrenamiento (`version: 3`) para poder retomar la sesión si se recarga la página.
 - QA real aprobado con `prueba 2`: Press banca → Flexiones → volver al original; la rutina guardada quedó sin cambios y no se creó ningún dato QA en Supabase.
 - Caché PWA actual: `dulus-gym-track-v59`.
+
+## Modo casa / alternativas sin pesas — estado actual
+- El alumno puede cambiar un ejercicio individual o activar `Hoy entreno sin gym` para toda la sesión.
+- Solo se consideran alternativas de `Peso corporal` o `Sin equipamiento`, con mismo músculo principal y dificultad no superior al ejercicio original.
+- El modo casa muestra una previsualización y no modifica la rutina persistida; actúa únicamente sobre la sesión actual.
+- Las sesiones distinguen ejercicio planificado (`plannedExerciseId`) y ejercicio realmente realizado (`exerciseId`), evitando mezclar e1RM/cargas entre movimientos distintos.
+- El coach ve en actividad cuándo se usaron alternativas sin gym.
+- Catálogo curado ampliado con `Flexiones pike` para empuje vertical sin pesas.
+- QA real de `prueba 2`: 5/5 ejercicios con equipo obtienen alternativa sin pesas; rutina original sin cambios y sin residuos QA locales.
+- Caché PWA actual: `dulus-gym-track-v60`.

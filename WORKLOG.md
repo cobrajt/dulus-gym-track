@@ -458,3 +458,13 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - El alumno puede volver al ejercicio original; al cambiar entre original/alternativa se reinician las series de ese bloque para evitar registros ambiguos.
 - QA real sin guardar sesión: Press banca → Flexiones, 3×8, sin carga añadida → volver al original → rutina persistida idéntica.
 - Regresión de sustituciones del coach aprobada; 0 errores y sin datos QA en Supabase. Caché PWA: `v59`.
+
+## 2026-09-15 — Modo casa para sesión completa
+- Se añadió `Hoy entreno sin gym` dentro del entrenamiento guiado.
+- Antes de activarlo, Dulus muestra una vista previa `ejercicio planificado → alternativa sin pesas` y avisa si alguno no tiene equivalente razonable.
+- Al activar, sustituye de una vez todos los ejercicios posibles solo para esa sesión; la rutina original no cambia.
+- `Volver a la rutina original` elimina las sustituciones temporales y reinicia las series afectadas para evitar registros ambiguos.
+- Se añadió `Flexiones pike` al catálogo curado para cubrir empujes verticales sin equipo.
+- `prueba 2` pasó de 3/5 a 5/5 ejercicios convertibles: press banca→flexiones, press militar→flexiones pike, press francés→fondos, floor press→flexiones, clean and press→flexiones pike.
+- El detalle de sesión conserva `plannedExerciseId` y `exerciseId` real; cumplimiento y analítica de fuerza quedan separados correctamente.
+- QA de navegador: modo casa activado/revertido, rutina guardada intacta, 0 errores y estado QA local limpiado. Caché PWA: `v60`.

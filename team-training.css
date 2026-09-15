@@ -18,3 +18,7 @@
 
 .session-no-gym{margin:16px 0;padding:14px;border:1px solid #4e756e;border-radius:16px;background:#102f35}.session-no-gym>summary{font-weight:750;color:#b8f3dc;cursor:pointer}.session-no-gym-options{display:grid;gap:10px;margin-top:12px}.session-no-gym-card{padding:12px;border:1px solid #3f6670;border-radius:12px;background:#10283a}.session-no-gym-card small{display:block;color:#b8ccd6;margin:4px 0}.session-no-gym-card p{margin:7px 0}.session-substitution-active,.session-substitution-label{padding:10px 12px;border-radius:12px;background:#173d3a;color:#c9f3e4}.session-substitution-label{margin:8px 0 14px}
 @media(min-width:700px){.session-no-gym-options{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.session-home-mode{margin:16px 0;padding:16px;border:1px solid #4f7b73;border-radius:16px;background:linear-gradient(145deg,#102f37,#14263a)}
+.session-home-mode h3{margin:.25rem 0}.session-home-mode .eyebrow{margin:0}.home-mode-preview{margin:10px 0}.home-mode-preview ul{margin:.6rem 0 0;padding-left:1.2rem}.home-mode-preview li{margin:.35rem 0;line-height:1.4}
+.home-mode-toggle{width:100%;margin-top:10px}.session-substitution-active{color:#b9eadc;font-weight:650}

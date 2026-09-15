@@ -112,8 +112,8 @@ window.DulusTraining={create(api){
   finally{saving=false;controls.forEach((e,i)=>e.disabled=disabled[i]);}
  };
  let exerciseIndex=0,seriesDone={};
- const sessionPanel=$('session-panel'),sessionForm=$('session-form'),sessionDate=$('session-date'),exerciseList=$('session-exercises'),sessionStatus=node('p');
- sessionStatus.id='workout-status';sessionStatus.setAttribute('role','status');sessionForm.prepend(sessionStatus);
+ const sessionPanel=$('session-panel'),sessionForm=$('session-form'),sessionDate=$('session-date'),exerciseList=$('session-exercises'),sessionStatus=node('p'),homeMode=node('section',undefined,'session-home-mode');
+ sessionStatus.id='workout-status';sessionStatus.setAttribute('role','status');sessionForm.prepend(sessionStatus);exerciseList.before(homeMode);
  const timer=node('section',undefined,'rest-timer'),clock=node('output','02:00','rest-clock'),timerStatus=node('p','Elige un descanso para comenzar.'),duration=field('Duración del descanso (segundos)','number',120);
  duration.input.min='1';duration.input.max='86400';duration.input.step='1';duration.input.id='rest-seconds';clock.setAttribute('aria-label','Tiempo de descanso restante');timerStatus.setAttribute('role','status');
  let remaining=120,deadline=0,interval=null,audio=null,preferences={sound:true,vibration:true},prefsKey='',exerciseSeconds=120,restKind='setRest';
@@ -159,6 +159,17 @@ window.DulusTraining={create(api){
   const done=(seriesDone[activePlan.exercises[exerciseIndex].exerciseId]||[]).length===setCount(activePlan.exercises[exerciseIndex]);const keepRest=step>0&&done; if(!keepRest)stop();exerciseIndex=target;renderExercise();
   if(!keepRest){remaining=validSeconds();paint();timerStatus.textContent='Elige un descanso o completa una serie.';}
  }
+ function renderHomeMode(){
+  homeMode.replaceChildren();if(!activePlan){homeMode.hidden=true;return;}
+  const rows=(activePlan.exercises||[]).map(planned=>{const exercise=byId.get(planned.exerciseId);if(!exercise||noGymEquipment.has(exercise.equipment))return null;return {planned,exercise,candidate:noGymCandidates(exercise)[0]||null};}).filter(Boolean);
+  if(!rows.length){homeMode.hidden=true;return;}homeMode.hidden=false;
+  const mapped=rows.filter(x=>x.candidate),missing=rows.filter(x=>!x.candidate),activeCount=rows.filter(x=>sessionSubstitutions[x.planned.exerciseId]).length;
+  homeMode.append(node('p','MODO CASA','eyebrow'),node('h3','🏠 Hoy entreno sin gym'),node('p',mapped.length+' de '+rows.length+' ejercicios con equipo tienen una alternativa sin pesas'+(missing.length?'. '+missing.length+' queda'+(missing.length===1?'':'n')+' sin equivalente suficientemente parecido.':'.')));
+  const preview=node('details',undefined,'home-mode-preview');preview.append(node('summary','Ver equivalencias de hoy'));
+  const list=node('ul');for(const row of mapped)list.append(node('li',row.exercise.name+' → '+row.candidate.name));for(const row of missing)list.append(node('li',row.exercise.name+' → Sin equivalente recomendado'));preview.append(list);homeMode.append(preview);
+  if(activeCount){const restore=btn('Volver a la rutina original',()=>{sessionSubstitutions={};for(const planned of activePlan.exercises)seriesDone[planned.exerciseId]=[];persistSeries();sessionStatus.textContent='Modo casa desactivado. Volviste a la rutina original y se reiniciaron las series.';renderExercise();});restore.className='home-mode-toggle';homeMode.append(node('p',activeCount+' alternativa'+(activeCount===1?'':'s')+' activa'+(activeCount===1?'':'s')+' solo para hoy.','session-substitution-active'),restore);return;}
+  if(mapped.length){const activate=btn('Usar '+mapped.length+' alternativa'+(mapped.length===1?'':'s')+' hoy',()=>{for(const row of mapped){sessionSubstitutions[row.planned.exerciseId]=row.candidate.id;seriesDone[row.planned.exerciseId]=[];}persistSeries();sessionStatus.textContent='Modo casa activado para '+mapped.length+' ejercicio'+(mapped.length===1?'':'s')+'. La rutina original no cambió.';renderExercise();});activate.className='home-mode-toggle';homeMode.append(activate);}
+ }
  function sessionNoGymPanel(planned){
   const plannedExercise=byId.get(planned.exerciseId);if(!plannedExercise||noGymEquipment.has(plannedExercise.equipment))return document.createDocumentFragment();
   const details=node('details',undefined,'session-no-gym');details.append(node('summary','🏠 Sin gym / sin pesas'),node('p','Si hoy no puedes ir al gym, usa una alternativa equivalente solo para esta sesión. Tu rutina original no cambia.'));
@@ -193,7 +204,7 @@ window.DulusTraining={create(api){
    star.className='series-check';star.setAttribute('aria-pressed',String(selected.has(i)));star.setAttribute('aria-label','Serie '+(i+1)+' de '+name);star.disabled=saveSession;
    line.append(star,node('span','Serie '+(i+1)),node('strong',item.reps+' reps'),node('span',weight,'series-weight'));stars.append(line);
   }
-  const complete=btn(selected.size===setCount(item)?'Ejercicio completado':'✓ Serie completada',()=>{exerciseList.querySelector('.series-check[aria-pressed=false]')?.click();});complete.className='complete-next-set';complete.disabled=saveSession||selected.size===setCount(item);const rec=timer.querySelector('.rest-recommended');if(rec)rec.textContent=item.restSets||item.restExercises?(api.isSolo?.()?'Tu plan recomienda: ':'Tu coach recomienda: ')+(item.restSets||120)+' s entre series · '+(item.restExercises||120)+' s entre ejercicios.':api.isSolo?.()?'Tiempo recomendado: 2 minutos. Ajustable según tu plan.':'Tiempo recomendado: 2 minutos. Ajustable según tu coach.';row.append(complete,stars,sessionNoGymPanel(planned),adjust);if(api.bridge)row.append(api.bridge.exerciseView(activePlan,item,planned.exerciseId));exerciseList.append(row);updateProgress();paint();
+  const complete=btn(selected.size===setCount(item)?'Ejercicio completado':'✓ Serie completada',()=>{exerciseList.querySelector('.series-check[aria-pressed=false]')?.click();});complete.className='complete-next-set';complete.disabled=saveSession||selected.size===setCount(item);const rec=timer.querySelector('.rest-recommended');if(rec)rec.textContent=item.restSets||item.restExercises?(api.isSolo?.()?'Tu plan recomienda: ':'Tu coach recomienda: ')+(item.restSets||120)+' s entre series · '+(item.restExercises||120)+' s entre ejercicios.':api.isSolo?.()?'Tiempo recomendado: 2 minutos. Ajustable según tu plan.':'Tiempo recomendado: 2 minutos. Ajustable según tu coach.';row.append(complete,stars,sessionNoGymPanel(planned),adjust);if(api.bridge)row.append(api.bridge.exerciseView(activePlan,item,planned.exerciseId));exerciseList.append(row);renderHomeMode();updateProgress();paint();
  }
  const feedbackHolder=node('div');exerciseList.parentElement.insertBefore(feedbackHolder,sessionForm.querySelector('.submit-student'));
  function renderSession(){
