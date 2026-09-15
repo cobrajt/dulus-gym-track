@@ -229,3 +229,10 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Referencia Hombre/Mujer/Prefiero no indicar y fecha de nacimiento son opcionales.
 - Si existe fecha, Dulus calcula edad y la usa solo donde modifica una referencia; si falta, no bloquea nada.
 - Primer hito sugerido puede convertirse en meta, pero la fecha objetivo queda vacía salvo que coach/alumno decidan añadirla.
+
+## Seguimiento por objetivo
+- Dulus adapta la recopilación a la meta: no pide las mismas medidas a todos.
+- `goal-tracking-profile.js` centraliza recomendaciones de medidas, pruebas físicas y datos automáticos.
+- Evaluación inicial y formulario de medidas reutilizan el mismo perfil para evitar mensajes contradictorios.
+- Rendimiento deportivo puede usar salto/sprint sin obligar a registrar perímetros corporales.
+- Datos opcionales como sexo de referencia y fecha de nacimiento siguen sin bloquear el flujo.

@@ -332,3 +332,12 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Los primeros hitos corporales sugeridos ya NO incluyen fecha automática. El plazo queda a elección del coach/alumno.
 - `prueba 2` validado: faltan únicamente Estatura + Medición inicial; sexo/fecha no bloquean.
 - Caché PWA actualizado a `dulus-gym-track-v40`.
+
+## 2026-09-14 — Seguimiento adaptado al objetivo
+- Nuevo `goal-tracking-profile.js`: decide qué medidas/pruebas aportan según los objetivos del alumno.
+- Pérdida de grasa prioriza peso+cintura; glúteos prioriza glúteos+cadera; brazos prioriza perímetros de brazos; baloncesto/explosividad prioriza salto vertical+sprint 20 m.
+- Hipertrofia general prioriza peso, pecho, brazos, muslos y e1RM; otras medidas siguen disponibles como opcionales.
+- La Evaluación inicial ahora muestra “Qué conviene seguir” y no exige medidas corporales irrelevantes para objetivos puramente de rendimiento.
+- El formulario de Medidas coloca en primer plano solo lo recomendado; el resto queda en “Más medidas”.
+- Resumen e historial de medidas también siguen las métricas relevantes para el objetivo.
+- Pruebas real + sintéticas PASS; no se escribieron datos QA.

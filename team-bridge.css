@@ -85,3 +85,6 @@ body[data-team-theme] .account-shell label,body[data-team-theme] .account-shell 
 
 .initial-assessment{margin:1rem 0;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:.9rem;background:rgba(255,255,255,.025)}.initial-assessment>summary{cursor:pointer;font-weight:800}.initial-assessment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:.65rem;margin:1rem 0}.initial-assessment-grid>div{padding:.7rem;border-radius:14px;background:rgba(255,255,255,.04);display:grid;gap:.2rem}.initial-assessment-grid small{opacity:.72}.initial-milestone{padding:.85rem;border-radius:16px;background:rgba(255,255,255,.035);display:grid;gap:.45rem}.initial-missing{font-weight:700}
 @media(max-width:650px){.initial-assessment-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.initial-tracking-plan{margin:14px 0;padding:14px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.035)}
+.initial-tracking-plan h4{margin:0 0 8px}.initial-tracking-plan p{margin:7px 0;line-height:1.45}.initial-tracking-plan small{opacity:.75}
