@@ -446,3 +446,15 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Guardas backend impiden registrar sesiones fuera de `start_date`/`end_date` incluso desde una pestaña antigua.
 - Migraciones aplicadas: `2026091415`, `2026091416`, `2026091417`, `2026091418`. Caché PWA: `v57`.
 - QA reversible real con `prueba 2`: 1 plan activo → 2 versiones (anterior + QA activa) → deshacer → 1 plan activo, 0 QA y 0 errores.
+## 2026-09-15 — Sustituciones inteligentes y modo sin gym
+- `Editar rutina` incluye alternativas por músculo/patrón, equipo, dificultad y motivo; el coach decide y nada se guarda hasta crear la nueva versión.
+- Motivos disponibles: variar, sin gym/sin pesas, equipo no disponible, técnica difícil, estancamiento y molestia/dolor.
+- Para molestia se mantiene aviso prudente; Dulus no diagnostica ni presenta el cambio de ejercicio como solución médica.
+- Se endureció el ranking para priorizar ejercicios curados y evitar propuestas antiguas/poco convenientes del catálogo importado.
+- El alumno ve `🏠 Sin gym / sin pesas` dentro de ejercicios que usan carga/equipo y puede activar una alternativa solo para la sesión actual.
+- Las alternativas sin gym se limitan a `Peso corporal` / `Sin equipamiento` y nunca superan la dificultad del ejercicio original.
+- La sustitución diaria conserva series/repeticiones, reinicia carga a 0 kg y muestra técnica/fotos del ejercicio realmente realizado.
+- La rutina original no cambia. `completed_ids` conserva el ejercicio planificado para adherencia; `details.exercises` guarda el ejercicio realizado y `plannedExerciseId` para no mezclar estadísticas de fuerza.
+- El alumno puede volver al ejercicio original; al cambiar entre original/alternativa se reinician las series de ese bloque para evitar registros ambiguos.
+- QA real sin guardar sesión: Press banca → Flexiones, 3×8, sin carga añadida → volver al original → rutina persistida idéntica.
+- Regresión de sustituciones del coach aprobada; 0 errores y sin datos QA en Supabase. Caché PWA: `v59`.

@@ -320,3 +320,13 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Analíticas de constancia, ciclo, decisiones, Centro de Acción y resumen respetan las ventanas de vigencia del plan.
 - Supabase sincronizado hasta `2026091418`. Caché PWA actual: `dulus-gym-track-v57`.
 - QA real reversible aprobado con `prueba 2`; no quedó ningún dato QA activo.
+## Sustituciones de ejercicios y alternativa sin gym — estado actual
+- El editor propone sustituciones explicables según músculo principal, patrón, equipo y dificultad; siempre quedan como borrador hasta que coach/usuario guarda una nueva versión.
+- El motivo `Sin gym / sin pesas` filtra a peso corporal o sin equipamiento y no propone una dificultad superior a la original.
+- En el entrenamiento guiado, ejercicios con carga muestran `🏠 Sin gym / sin pesas` con hasta 3 alternativas cuando existen.
+- `Usar solo hoy` no modifica `dulus_plans`: cambia únicamente la sesión local y puede revertirse antes de guardar.
+- Para mantener integridad histórica, `dulus_sessions.completed_ids` continúa usando el ID planificado, mientras `details.exercises` registra el ID realmente ejecutado y `plannedExerciseId`.
+- El feed del coach identifica las sustituciones y las analíticas de carga no confunden una alternativa de peso corporal con el ejercicio cargado original.
+- La selección temporal se conserva en el borrador local de entrenamiento (`version: 3`) para poder retomar la sesión si se recarga la página.
+- QA real aprobado con `prueba 2`: Press banca → Flexiones → volver al original; la rutina guardada quedó sin cambios y no se creó ningún dato QA en Supabase.
+- Caché PWA actual: `dulus-gym-track-v59`.
