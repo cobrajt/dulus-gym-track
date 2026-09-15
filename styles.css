@@ -24,3 +24,6 @@ h1,h2,h3,p { margin-top:0; } h1 { font-size:1.65rem; margin-bottom:0; letter-spa
 .relationship-control p{line-height:1.5}.relationship-control .eyebrow{margin-top:0}
 .relationship-danger{border-color:#9c6f72!important;background:#352329!important;color:#ffd9dc!important}
 .relationship-danger:hover,.relationship-danger:focus-visible{border-color:#d99da1!important}
+
+.invite-preview{margin:14px 0;padding:14px;border:1px solid #55847a;border-radius:14px;background:#102f35;color:#d3e8e1}.invite-preview h3{margin:.1rem 0 .6rem}.invite-preview p{line-height:1.5}.invite-preview small{display:block;color:#afd0c6;margin-top:.5rem}
+.pending-invitations{margin-top:12px;border-top:1px solid #405d69;padding-top:10px}.pending-invitations>summary{cursor:pointer;font-weight:700;color:#b7d9d1}.pending-invitation{display:grid;gap:7px;margin-top:10px;padding:10px;border:1px solid #3d5865;border-radius:12px;background:#0d2231}.pending-invitation code{overflow-wrap:anywhere;color:#d9ece6}.pending-invitation small{color:#afc6cf}.pending-invitation button{justify-self:start}

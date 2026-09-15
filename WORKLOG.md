@@ -501,3 +501,13 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Migración aplicada: `2026091519_coach_student_unlink.sql`.
 - QA real sin mutación sobre `prueba 2`: control visible, segunda confirmación requerida, alumno/rutina intactos y 0 errores.
 - Caché PWA: `v63`.
+
+## 2026-09-15 — Consentimiento y control de invitaciones
+- Un código de invitación ya no une al alumno de inmediato: primero se previsualiza equipo, coach, vencimiento y datos que se compartirán.
+- El alumno debe pulsar `Confirmar y unirme` después de revisar la información.
+- El coach puede listar invitaciones pendientes y revocarlas antes de que sean usadas.
+- Se limita a 5 invitaciones activas por equipo; cada código sigue siendo de un solo uso y caduca a los 7 días.
+- Si una invitación en previsualización se revoca, la confirmación desaparece inmediatamente.
+- Migración aplicada: `2026091520_invitation_consent.sql`.
+- QA reversible: crear → previsualizar → revocar; equipos antes/después idénticos, 0 errores y 0 invitaciones QA pendientes.
+- Caché PWA: `v64`.

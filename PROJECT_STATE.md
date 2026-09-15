@@ -373,3 +373,12 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Supabase sincronizado hasta `2026091519`.
 - QA real de interfaz aprobado sin ejecutar la desvinculación de `prueba 2`; 0 errores.
 - Caché PWA actual: `dulus-gym-track-v63`.
+
+## Consentimiento de invitaciones — estado actual
+- Antes de vincularse, el alumno ve equipo, nombre del coach, vencimiento y qué datos quedarán compartidos mientras el vínculo esté activo.
+- `Revisar invitación` y `Confirmar y unirme` son pasos separados; revisar el código no crea membresía.
+- El coach ve sus invitaciones pendientes y puede revocarlas desde Cuenta y equipos.
+- Hay un máximo de 5 invitaciones activas por equipo; siguen siendo de un solo uso y expiran en 7 días.
+- Revocar un código que está siendo revisado cierra también su previsualización.
+- Supabase sincronizado hasta `2026091520`; caché actual `dulus-gym-track-v64`.
+- QA reversible aprobado sin cambios de membresía ni residuos temporales.
