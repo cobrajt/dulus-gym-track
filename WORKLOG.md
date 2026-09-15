@@ -404,3 +404,13 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Revisión automática de ciclo muestra el último ajuste, confianza y observaciones posteriores.
 - Realtime añadido para decisiones y también metas/pruebas de rendimiento.
 - QA real de crear/eliminar ajuste completado; no quedó ningún registro QA activo.
+
+## 2026-09-15 — Agenda inteligente del coach
+- Añadido `coach-agenda.js` para resumir alumnos que realmente requieren acción.
+- La agenda agrupa señales por alumno para evitar duplicar avisos: una tarjeta muestra la prioridad principal y cuenta asuntos adicionales.
+- Se separa en `Hoy` y `Esta semana`, ordenando por severidad y antigüedad cuando existe una fecha real.
+- Las señales con fecha muestran `Pendiente desde hace N días`; las derivadas de ventanas estadísticas no inventan antigüedad.
+- Cada tarjeta incluye evidencia, siguiente paso y accesos a alumno, detalle o Centro de Avisos.
+- `coach-action-center.js` ahora expone fechas útiles para dolor, inactividad, videos/comentarios, metas vencidas y seguimiento atrasado.
+- Prueba real con `prueba 2`: una sola tarjeta, video pendiente desde hace 2 días, `+2 asuntos más`, sin errores.
+- PWA actualizada a caché `v51`.

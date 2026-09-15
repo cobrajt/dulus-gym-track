@@ -123,3 +123,10 @@ body[data-team-theme] .account-shell label,body[data-team-theme] .account-shell 
 .coach-decision-card h4{margin:.45rem 0}.coach-decision-impact{margin:.45rem 0;padding-left:.7rem;border-left:3px solid color-mix(in srgb,currentColor 30%,transparent)}
 .cycle-decision-context{display:grid;gap:.35rem}.cycle-decision-context strong{font-size:1rem}.cycle-decision-context p{margin:.2rem 0}
 @media(max-width:640px){.coach-decision-head{align-items:flex-start;flex-direction:column}.coach-decision-form button{width:100%}}
+
+.coach-agenda{margin:1rem 0;padding:1rem;border:1px solid color-mix(in srgb,currentColor 14%,transparent);border-radius:20px;background:color-mix(in srgb,var(--card,#171b25) 90%,transparent)}
+.coach-agenda h3,.coach-agenda h4{margin:.2rem 0 .7rem}.coach-agenda-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;margin:.8rem 0 1rem}.coach-agenda-stats>div{display:grid;gap:.2rem;padding:.8rem;border-radius:14px;background:rgba(255,255,255,.035)}
+.coach-agenda-group{display:grid;gap:.65rem;margin-top:.9rem}.coach-agenda-card{padding:.85rem;border:1px solid color-mix(in srgb,currentColor 12%,transparent);border-radius:15px}.coach-agenda-card[data-level="3"],.coach-agenda-card[data-level="2"]{border-left:4px solid #ff7a7a}.coach-agenda-card[data-level="1"]{border-left:4px solid #f0c45c}
+.coach-agenda-card-head{display:flex;justify-content:space-between;gap:.75rem;align-items:center}.coach-agenda-card-head span{font-size:.82rem;font-weight:700;opacity:.8}.coach-agenda-card p{margin:.45rem 0}.coach-agenda-card small{opacity:.72}.coach-agenda-actions{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.7rem}.coach-agenda-clear{padding:.8rem;border-radius:14px;background:rgba(255,255,255,.035)}
+@media(max-width:640px){.coach-agenda-stats{grid-template-columns:1fr}.coach-agenda-card-head{align-items:flex-start;flex-direction:column}.coach-agenda-actions button{flex:1 1 120px}}
+.coach-agenda-next{display:block;margin-top:.35rem;font-weight:650;opacity:.86}

@@ -282,3 +282,10 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Si aparece un ajuste posterior, la evaluación del anterior termina antes de ese segundo cambio.
 - Centro de Acción y Revisión de ciclo consumen este historial.
 - Caché PWA actual: `dulus-gym-track-v49`.
+
+## Agenda inteligente del coach
+- `coach-agenda.js` coloca arriba del panel una lista breve de alumnos que requieren acción.
+- Reutiliza el mismo motor de `DulusCoachAction`; no existe una segunda lógica de diagnóstico que pueda contradecir al Centro de Acción.
+- Agrupa varias señales del mismo alumno en una sola tarjeta y prioriza `Hoy` / `Esta semana`.
+- Muestra antigüedad únicamente cuando la señal tiene una fecha real y enlaza a alumno, detalle o avisos.
+- Estado validado en navegador real del coach con `prueba 2`; sin datos QA creados.
