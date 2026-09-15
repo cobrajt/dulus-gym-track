@@ -296,3 +296,15 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - `2026091413_agenda_snooze.sql` añade pospuestos privados por coach, con RLS y máximo 7 días.
 - La interfaz permite posponer 1 o 3 días solo asuntos de baja prioridad y recuperarlos manualmente.
 - El pospuesto se sincroniza entre dispositivos y no aplica a señales de seguridad/alta prioridad.
+
+## Progresión inteligente de cargas
+- `load-progression.js` analiza por ejercicio carga real, repeticiones, RIR, e1RM, fatiga y dolor.
+- Estados: `Listo para progresar`, `Mantener`, `Revisar` y `Recopilando`.
+- Una progresión requiere al menos 2 registros comparables con RIR válido y realizados al menos con la carga actualmente prescrita.
+- Un RIR vacío nunca se interpreta como 0; sin RIR suficiente Dulus sigue recopilando datos.
+- Si hay dolor/fatiga relevante, Dulus prioriza revisar antes de subir carga.
+- La propuesta inicial usa un incremento conservador cercano al 2.5%, redondeado a 0.5 kg; el coach puede modificarlo y debe confirmar.
+- Dulus nunca aplica una subida automáticamente. Las rutinas creadas por el alumno no se sobrescriben por esta vía.
+- Una aprobación actualiza la prescripción en Supabase y queda registrada en el Historial de decisiones del coach.
+- Las actualizaciones de planes se reflejan en tiempo real para coach/alumno con la app abierta.
+- `2026091414_load_progression.sql` está aplicado en Supabase. Caché PWA actual: `dulus-gym-track-v54`.

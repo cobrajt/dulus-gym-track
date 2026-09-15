@@ -421,3 +421,16 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Solo señales de baja prioridad pueden posponerse; dolor alto/seguridad no se ocultan.
 - Acciones rápidas: Mañana, En 3 días y Volver a agenda.
 - Prueba real reversible completada: tarea salió de Hoy, apareció en Pospuestos y volvió sin dejar QA activo.
+
+## 2026-09-15 — Progresión inteligente de cargas
+- Nuevo módulo `load-progression.js` para coach: Listo para progresar / Mantener / Revisar / Recopilando.
+- Usa carga realizada, repeticiones, RIR, e1RM, fatiga y dolor; nunca cambia el plan automáticamente.
+- Una propuesta exige al menos 2 registros comparables, repeticiones cumplidas, RIR >= 2 y sin señales recientes de recuperación preocupantes.
+- RIR vacío no se interpreta como 0; queda en Recopilando.
+- Después de aprobar una subida, los registros antiguos no pueden disparar otra subida: se exigen nuevos registros con la carga actualmente prescrita.
+- Propuesta inicial de aumento pequeño (~2.5%, redondeado a 0.5 kg), editable por el coach.
+- Solo se puede aplicar automáticamente a rutinas creadas por ese coach; rutinas del alumno son solo lectura/consejo.
+- Al aprobar, Supabase actualiza la carga y registra automáticamente la decisión en el historial del coach.
+- La señal `Carga lista para progresar` entra en Centro de Acción/Agenda como baja prioridad.
+- Cambios de `dulus_plans` se sincronizan en tiempo real para refrescar al alumno con la app abierta.
+- Migración aplicada: `2026091414_load_progression.sql`. Cache PWA: `v54`.

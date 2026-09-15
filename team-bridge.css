@@ -132,3 +132,15 @@ body[data-team-theme] .account-shell label,body[data-team-theme] .account-shell 
 .coach-agenda-next{display:block;margin-top:.35rem;font-weight:650;opacity:.86}
 
 .coach-agenda-deferred{margin-top:12px;border-top:1px solid color-mix(in srgb,currentColor 18%,transparent);padding-top:10px}.coach-agenda-deferred>summary{cursor:pointer;font-weight:800}.coach-agenda-deferred article{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 0}.coach-agenda-deferred small{opacity:.72}.coach-agenda-actions button{min-height:38px}
+
+.load-progression{margin-top:1rem;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1rem;background:rgba(12,18,28,.58)}
+.load-progression>summary{cursor:pointer;font-weight:800;font-size:1.05rem}
+.load-progression-stats,.load-progression-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.65rem;margin:.8rem 0}
+.load-progression-stats>div,.load-progression-metrics>div{display:grid;gap:.15rem;padding:.65rem;border-radius:12px;background:rgba(255,255,255,.05)}
+.load-progression-card{display:grid;gap:.65rem;padding:.85rem;margin:.7rem 0;border:1px solid rgba(255,255,255,.08);border-radius:14px}
+.load-progression-card[data-status="ready"]{border-color:rgba(72,205,140,.45)}
+.load-progression-card[data-status="review"]{border-color:rgba(255,166,76,.5)}
+.load-progression-head{display:flex;justify-content:space-between;gap:.8rem;align-items:center;flex-wrap:wrap}
+.load-progression-head span{font-size:.82rem;font-weight:800;opacity:.85}
+.load-progression-approval{display:grid;gap:.55rem;padding:.7rem;border-radius:12px;background:rgba(255,255,255,.04)}
+.load-progression-approval textarea{min-height:72px;resize:vertical}
