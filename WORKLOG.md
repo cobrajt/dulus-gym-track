@@ -392,3 +392,15 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Pruebas: UI condicional, limpieza del borrador y señal sintética `Rodilla · 2 sesiones` correctas.
 - No fue necesaria migración: los nuevos campos viven dentro de `dulus_sessions.details`.
 - Caché PWA actualizado a `dulus-gym-track-v47`.
+
+## 2026-09-15 — Historial de decisiones del coach
+- Añadida tabla/RLS `dulus_coach_decisions` y migración `2026091412`.
+- Coach registra tipo de ajuste, qué cambió, motivo y fecha; el alumno puede leer el historial que le afecta.
+- Dulus evalúa cada ajuste con ventana corta: constancia, e1RM comparable y fatiga antes/después.
+- Lenguaje deliberadamente no causal: “después del ajuste se observa…”.
+- Menos de 14 días = Muy pronto/Observando; evita encadenar cambios sin tiempo para evaluarlos.
+- Si hubo otro ajuste, la evaluación anterior se corta en la fecha del siguiente cambio.
+- Centro de Acción muestra último ajuste y botón directo “Registrar ajuste”.
+- Revisión automática de ciclo muestra el último ajuste, confianza y observaciones posteriores.
+- Realtime añadido para decisiones y también metas/pruebas de rendimiento.
+- QA real de crear/eliminar ajuste completado; no quedó ningún registro QA activo.

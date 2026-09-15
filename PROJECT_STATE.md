@@ -272,3 +272,13 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - La recurrencia leve se interpreta como observación, no como diagnóstico médico.
 - Datos guardados dentro del JSON de sesión existente; no requiere migración nueva.
 - Caché actual: `dulus-gym-track-v47`.
+
+## Estado añadido: decisiones del coach
+- Existe historial online de ajustes del coach (`dulus_coach_decisions`).
+- Campos: categoría, cambio realizado, motivo, fecha efectiva y autor.
+- Alumno y coach pueden leer el historial; solo el coach del equipo registra/elimina ajustes.
+- Dulus compara una ventana breve antes/después y evita atribuir causalidad.
+- Un ajuste reciente (<14 días) se considera en observación; la revisión aconseja no cambiar de nuevo sin una señal clara.
+- Si aparece un ajuste posterior, la evaluación del anterior termina antes de ese segundo cambio.
+- Centro de Acción y Revisión de ciclo consumen este historial.
+- Caché PWA actual: `dulus-gym-track-v49`.

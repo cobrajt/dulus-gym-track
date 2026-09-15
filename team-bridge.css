@@ -116,3 +116,10 @@ body[data-team-theme] .account-shell label,body[data-team-theme] .account-shell 
 
 .pain-extra{margin-top:10px;padding:12px;border-radius:14px;background:rgba(255,255,255,.035);display:grid;gap:10px}
 .pain-extra[hidden]{display:none}.pain-extra label{display:grid;gap:6px}.pain-extra textarea{min-height:70px;resize:vertical}
+
+.coach-decisions-section,.cycle-decision-context{margin-top:1rem;border:1px solid color-mix(in srgb,currentColor 14%,transparent);border-radius:18px;padding:1rem;background:color-mix(in srgb,var(--card,#171b25) 88%,transparent)}
+.coach-decision-form{display:grid;gap:.8rem;margin-top:.8rem}.coach-decision-form label{display:grid;gap:.35rem}.coach-decision-form textarea{resize:vertical}
+.coach-decision-list{display:grid;gap:.75rem;margin-top:.9rem}.coach-decision-card{border:1px solid color-mix(in srgb,currentColor 12%,transparent);border-radius:14px;padding:.9rem}.coach-decision-head{display:flex;justify-content:space-between;gap:.75rem;align-items:center}.coach-decision-head span{font-size:.8rem;opacity:.7}
+.coach-decision-card h4{margin:.45rem 0}.coach-decision-impact{margin:.45rem 0;padding-left:.7rem;border-left:3px solid color-mix(in srgb,currentColor 30%,transparent)}
+.cycle-decision-context{display:grid;gap:.35rem}.cycle-decision-context strong{font-size:1rem}.cycle-decision-context p{margin:.2rem 0}
+@media(max-width:640px){.coach-decision-head{align-items:flex-start;flex-direction:column}.coach-decision-form button{width:100%}}
