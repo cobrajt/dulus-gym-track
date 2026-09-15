@@ -434,3 +434,15 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - La señal `Carga lista para progresar` entra en Centro de Acción/Agenda como baja prioridad.
 - Cambios de `dulus_plans` se sincronizan en tiempo real para refrescar al alumno con la app abierta.
 - Migración aplicada: `2026091414_load_progression.sql`. Cache PWA: `v54`.
+
+## 2026-09-15 — Edición versionada de rutinas
+- Las rutinas pueden editarse sin reescribir el historial: la versión anterior recibe `end_date` y la nueva conserva `supersedes_plan_id`.
+- `Editar rutina` permite cambiar ejercicios, series, repeticiones, cargas, descansos y notas; el coach debe indicar el motivo del ajuste.
+- Rutinas antiguas de varios días (ej. Lun/Mié/Vie compartiendo ejercicios) son editables y preservan automáticamente todo su calendario.
+- Ejercicios legacy sin `weightKg` se normalizan a 0 kg en la nueva versión, sin alterar la versión histórica.
+- Versiones cerradas quedan visibles como historial, pero no aceptan nuevos entrenamientos.
+- La progresión inteligente de carga también crea una nueva versión en lugar de mutar la prescripción histórica.
+- `Deshacer última versión` restaura la anterior únicamente si la versión nueva todavía no tiene sesiones.
+- Guardas backend impiden registrar sesiones fuera de `start_date`/`end_date` incluso desde una pestaña antigua.
+- Migraciones aplicadas: `2026091415`, `2026091416`, `2026091417`, `2026091418`. Caché PWA: `v57`.
+- QA reversible real con `prueba 2`: 1 plan activo → 2 versiones (anterior + QA activa) → deshacer → 1 plan activo, 0 QA y 0 errores.

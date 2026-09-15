@@ -7,13 +7,13 @@ const keyDate=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+
 const daysBetween=(a,b)=>Math.floor((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/86400000);
 function adherence(studentId,plans,sessions,days=14){
  const own=plans.filter(p=>p.student_id===studentId),today=new Date(),todayKey=keyDate(today);let due=0,done=0,partial=0;
- for(let ago=1;ago<=days;ago++){const d=new Date(today);d.setDate(d.getDate()-ago);const date=keyDate(d);for(const p of own){if(p.start_date>date||!p.days?.includes(d.getDay()))continue;due++;const s=sessions.find(x=>x.plan_id===p.id&&x.date===date);if(!s)continue;if((s.completed_ids?.length||0)>=(s.total_exercises||Infinity))done++;else if((s.completed_ids?.length||0)>0)partial++;}}
+ for(let ago=1;ago<=days;ago++){const d=new Date(today);d.setDate(d.getDate()-ago);const date=keyDate(d);for(const p of own){if(p.start_date>date||(p.end_date&&p.end_date<date)||!p.days?.includes(d.getDay()))continue;due++;const s=sessions.find(x=>x.plan_id===p.id&&x.date===date);if(!s)continue;if((s.completed_ids?.length||0)>=(s.total_exercises||Infinity))done++;else if((s.completed_ids?.length||0)>0)partial++;}}
  const ownSessions=sessions.filter(s=>own.some(p=>p.id===s.plan_id)).sort((a,b)=>String(b.date).localeCompare(String(a.date))),last=ownSessions[0]?.date||null;
  return {due,done,partial,rate:due?done/due:null,lastSession:last,inactiveDays:last?daysBetween(last,todayKey):null,sessions:ownSessions};
 }
 function muscleAdherence(studentId,plans,sessions,catalog,days=14){
  const own=plans.filter(p=>p.student_id===studentId),byId=new Map(catalog.map(e=>[e.id,e])),today=new Date(),map=new Map();
- for(let ago=1;ago<=days;ago++){const d=new Date(today);d.setDate(d.getDate()-ago);const date=keyDate(d);for(const p of own){if(p.start_date>date||!p.days?.includes(d.getDay()))continue;const session=sessions.find(x=>x.plan_id===p.id&&x.date===date),done=new Set(session?.completed_ids||[]);for(const item of p.exercises||[]){const e=byId.get(item.exerciseId),muscle=e?.primaryMuscle||e?.targetMuscles?.[0]||e?.bodyParts?.[0]||'Sin clasificar',sets=Math.max(1,Math.min(20,Number(item.sets)||1)),row=map.get(muscle)||{muscle,dueSets:0,doneSets:0};row.dueSets+=sets;if(done.has(item.exerciseId))row.doneSets+=sets;map.set(muscle,row);}}}
+ for(let ago=1;ago<=days;ago++){const d=new Date(today);d.setDate(d.getDate()-ago);const date=keyDate(d);for(const p of own){if(p.start_date>date||(p.end_date&&p.end_date<date)||!p.days?.includes(d.getDay()))continue;const session=sessions.find(x=>x.plan_id===p.id&&x.date===date),done=new Set(session?.completed_ids||[]);for(const item of p.exercises||[]){const e=byId.get(item.exerciseId),muscle=e?.primaryMuscle||e?.targetMuscles?.[0]||e?.bodyParts?.[0]||'Sin clasificar',sets=Math.max(1,Math.min(20,Number(item.sets)||1)),row=map.get(muscle)||{muscle,dueSets:0,doneSets:0};row.dueSets+=sets;if(done.has(item.exerciseId))row.doneSets+=sets;map.set(muscle,row);}}}
  return [...map.values()].filter(x=>x.dueSets>=3).map(x=>({...x,rate:x.doneSets/x.dueSets})).sort((a,b)=>a.rate-b.rate||b.dueSets-a.dueSets);
 }
 function pendingFor(uid,teamId,studentId,plans,messages){

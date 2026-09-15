@@ -30,9 +30,20 @@ async function refresh(){
 function openStudent(id){if(student?.id!==id){trainingUI.close();$('plan-panel').hidden=true;$('session-panel').hidden=true;}student=roster.find(s=>s.id===id);if(!student)return;$('student-panel').hidden=false;$('student-title').textContent=student.name;$('student-goals').textContent=student.goals.length?student.goals.join(' · '):'Sin objetivos definidos';$('goals-input').value=student.goals.join('\n');$('goals-form').hidden=!(coach||solo);$('new-plan').hidden=!(coach||solo);
  $('student-plans').replaceChildren();const own=plans.filter(p=>p.student_id===id);
  if(!own.length)$('student-plans').append(el('p',solo?'Todavía no has creado rutinas.':'Todavía no hay rutinas asignadas.'));
- for(const p of own){const card=el('article',undefined,'cloud-plan'),source=p.created_by?(p.created_by===student.user_id?(solo?'Creada por ti':coach?'Creada por el alumno':'Creada por ti'):(coach?'Creada por ti':'Creada por tu coach')):'';card.append(el('h3',p.name),el('p',p.days.map(d=>days[d]).join(' · ')+' · Desde '+p.start_date+(source?' · '+source:'')));const list=el('ul');
- for(const item of p.exercises){const e=EXERCISES.find(x=>x.id===item.exerciseId);const li=el('li',(e?.name||item.exerciseId)+' · '+item.sets+' × '+item.reps+(item.weightKg===undefined?'':item.weightKg===0?' · Sin carga añadida':' · '+item.weightKg+' kg'));if(e)li.append(technique(e));list.append(li);}card.append(list);
- const history=sessions.filter(s=>s.plan_id===p.id);card.append(el('p',history.length+' sesiones registradas'));const historyList=el('ul');history.slice(0,10).forEach(s=>historyList.append(el('li',s.date+' · '+s.completed_ids.length+' de '+s.total_exercises+' ejercicios')));card.append(historyList,button('Ver entrenamiento y registrar',()=>openSession(p.id)));$('student-plans').append(card);}
+ for(const p of own){
+  const closed=!!p.end_date,future=!closed&&p.start_date>today(),card=el('article',undefined,'cloud-plan'),source=p.created_by?(p.created_by===student.user_id?(solo?'Creada por ti':coach?'Creada por el alumno':'Creada por ti'):(coach?'Creada por ti':'Creada por tu coach')):'';
+  const state=closed?' · Hasta '+p.end_date+' · Versión anterior':future?' · Próxima versión':' · Activa';
+  card.append(el('h3',p.name),el('p',p.days.map(d=>days[d]).join(' · ')+' · Desde '+p.start_date+state+(source?' · '+source:'')));
+  const list=el('ul');
+  for(const item of p.exercises){const e=EXERCISES.find(x=>x.id===item.exerciseId);const li=el('li',(e?.name||item.exerciseId)+' · '+item.sets+' × '+item.reps+(item.weightKg===undefined?'':item.weightKg===0?' · Sin carga añadida':' · '+item.weightKg+' kg'));if(e)li.append(technique(e));list.append(li);}
+  card.append(list);const history=sessions.filter(s=>s.plan_id===p.id);card.append(el('p',history.length+' sesiones registradas'));const historyList=el('ul');history.slice(0,10).forEach(s=>historyList.append(el('li',s.date+' · '+s.completed_ids.length+' de '+s.total_exercises+' ejercicios')));
+  const actions=el('div',undefined,'plan-version-actions');
+  if(!closed&&!future)actions.append(button('Ver entrenamiento y registrar',()=>openSession(p.id)));
+  if(!closed&&(coach||solo)&&p.created_by===currentUserId)actions.append(button('Editar rutina',()=>trainingUI.editPlan(p)));
+  if(!closed&&p.supersedes_plan_id&&!history.length&&(coach||solo)&&p.created_by===currentUserId){const undo=button('Deshacer última versión',()=>{});let armed=false,timer=null;undo.onclick=()=>{if(!armed){armed=true;undo.textContent='Confirmar deshacer';clearTimeout(timer);timer=setTimeout(()=>{armed=false;undo.textContent='Deshacer última versión';},5000);return;}run(async()=>{await check(db.rpc('dulus_revert_plan_version',{p_plan:p.id}));await refresh();say('Última versión deshecha. La versión anterior vuelve a estar activa.');});};actions.append(undo);}
+  if(closed)actions.append(el('small','Versión cerrada: conserva sus sesiones y no admite nuevos registros.'));else if(future)actions.append(el('small','Esta versión todavía no ha comenzado.'));
+  card.append(historyList,actions);$('student-plans').append(card);
+ }
  renderStudentReviews(id);initialAssessment?.render(student);measurements?.render(student);bodyAssessment?.render(student);bodyGoals?.render(student);performanceGoals?.render(student);coachDecisions?.render(student);
 }
 async function renderStudentReviews(id){
@@ -53,6 +64,6 @@ const performanceGoals=window.DulusPerformanceGoals?.create({db,check,say,catalo
 const initialAssessment=window.DulusInitialAssessment?.create({db,check,say,coach:()=>coach});
 const coachDecisions=window.DulusCoachDecisions?.create({db,check,say,coach:()=>coach,getPlans:()=>plans,getSessions:()=>sessions,catalog:EXERCISES,sync:()=>bridge?.sync()});
 const bridge=window.DulusBridge?.create({db,user:()=>currentUserId,team:()=>solo?'solo-'+currentUserId:teamId,coach:()=>coach,solo:()=>solo,student:()=>student,roster:()=>roster,plans:()=>plans,catalog:EXERCISES,open:openSession,select:openStudent,reload:refresh});
-const trainingUI=window.DulusTraining.create({bridge,getPlans:()=>plans,catalog:EXERCISES,technique,today,getUser:()=>currentUserId,getStudent:()=>student,isCoach:()=>coach||solo,isSolo:()=>solo,getSessions:()=>sessions,createPlans:rows=>check(db.from('dulus_plans').insert(rows)),recordSession:(args,details)=>check(db.rpc(details?'dulus_finish_session':'dulus_record_session',details?{...args,p_details:details}:args)),refresh,say});
+const trainingUI=window.DulusTraining.create({bridge,getPlans:()=>plans,catalog:EXERCISES,technique,today,getUser:()=>currentUserId,getStudent:()=>student,isCoach:()=>coach||solo,isSolo:()=>solo,getSessions:()=>sessions,createPlans:rows=>check(db.from('dulus_plans').insert(rows)),replacePlan:args=>check(db.rpc('dulus_replace_plan_version',args)),recordSession:(args,details)=>check(db.rpc(details?'dulus_finish_session':'dulus_record_session',details?{...args,p_details:details}:args)),refresh,say});
 run(refresh);
 })();

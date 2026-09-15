@@ -308,3 +308,15 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Una aprobación actualiza la prescripción en Supabase y queda registrada en el Historial de decisiones del coach.
 - Las actualizaciones de planes se reflejan en tiempo real para coach/alumno con la app abierta.
 - `2026091414_load_progression.sql` está aplicado en Supabase. Caché PWA actual: `dulus-gym-track-v54`.
+
+## Rutinas versionadas — estado actual
+- `dulus_plans` usa `end_date` + `supersedes_plan_id` para conservar qué prescripción estaba vigente en cada fecha.
+- El coach puede editar una rutina activa desde su tarjeta. Guardar crea una nueva versión cuando ya existe historial o la fecha efectiva es posterior.
+- El historial antiguo permanece visible y no admite nuevas sesiones; el alumno entrena únicamente sobre versiones vigentes.
+- La edición soporta planes legacy de varios días sin cambiar su calendario original.
+- `dulus_apply_load_progression` también versiona la rutina antes de aplicar una nueva carga.
+- `dulus_revert_plan_version` permite deshacer solo la última versión sin sesiones; restaura la anterior y elimina la decisión asociada.
+- `dulus_record_session` valida también `end_date`, por lo que una pestaña obsoleta no puede escribir sesiones sobre una versión cerrada.
+- Analíticas de constancia, ciclo, decisiones, Centro de Acción y resumen respetan las ventanas de vigencia del plan.
+- Supabase sincronizado hasta `2026091418`. Caché PWA actual: `dulus-gym-track-v57`.
+- QA real reversible aprobado con `prueba 2`; no quedó ningún dato QA activo.

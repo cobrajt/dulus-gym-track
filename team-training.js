@@ -8,10 +8,11 @@ const field=(text,type,value)=>{const label=node('label',text),input=node('input
 const safeRead=key=>{try{return JSON.parse(localStorage.getItem(key)||'null');}catch{return null;}};
 const safeWrite=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}};
 window.DulusTraining={create(api){
- const byId=new Map(api.catalog.map(e=>[e.id,e])),drafts=new Map();let active=null,saving=false,activePlan=null,saveSession=false;
- const form=$('plan-form'),panel=$('plan-panel'),picker=$('plan-picker'),tabs=node('div',undefined,'training-days'),planStatus=node('p');
+ const byId=new Map(api.catalog.map(e=>[e.id,e])),drafts=new Map();let active=null,saving=false,activePlan=null,saveSession=false,editingPlan=null;
+ const form=$('plan-form'),panel=$('plan-panel'),picker=$('plan-picker'),tabs=node('div',undefined,'training-days'),planStatus=node('p'),planHeading=panel.querySelector('h2'),planSubmit=form.querySelector('.submit-student'),startLabel=$('plan-start').parentElement;
+ const changeReasonLabel=node('label','Por qué cambias la rutina'),changeReason=node('textarea');changeReason.maxLength=1200;changeReason.rows=3;changeReason.placeholder='Ej.: ajustar volumen y selección de ejercicios tras revisar el progreso';changeReasonLabel.append(changeReason);changeReasonLabel.hidden=true;
  tabs.setAttribute('aria-label','Ejercicios por día');planStatus.setAttribute('role','status');planStatus.id='daily-plan-status';
- $('plan-days').after(tabs);form.prepend(planStatus);$('plan-name').maxLength=100;
+ $('plan-days').after(tabs);startLabel.after(changeReasonLabel);form.prepend(planStatus);$('plan-name').maxLength=100;
  
  function plannerExtras(row,model,pick){
   const extra=node('details',undefined,'planner-notes');extra.append(node('summary','Notas, descansos y videoguía'));
@@ -58,13 +59,37 @@ window.DulusTraining={create(api){
  }
  $('plan-days').onchange=()=>{const ds=selectedDays();if(!ds.includes(active))active=ds[0]??null;summary();renderPicker();};
  $('plan-search').oninput=renderPicker;
- $('new-plan').onclick=()=>{if(!api.isCoach()||!api.getStudent())return;form.reset();loadTemplates();drafts.clear();active=null;planStatus.textContent='Elige los días. Cada día conserva su propia selección; 0 kg significa sin carga añadida.';$('plan-start').value=api.today();panel.hidden=false;summary();renderPicker();$('plan-name').focus();};
- $('cancel-plan').onclick=()=>{if(!saving)panel.hidden=true;};
+ function addDay(date,days=1){const d=new Date(date+'T12:00:00');d.setDate(d.getDate()+days);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+ function lockDays(day=null){for(const input of $('plan-days').querySelectorAll('input')){input.checked=day===null?false:Number(input.value)===day;input.disabled=day!==null;}}
+ function resetPlannerMode(){editingPlan=null;planHeading.textContent='Crear rutina';planSubmit.textContent='Guardar rutina';startLabel.firstChild.nodeValue='Comenzar el';changeReason.value='';changeReason.required=false;changeReasonLabel.hidden=true;lockDays(null);$('plan-start').min='';}
+ function editPlan(plan){
+  if(!api.isCoach()||!api.getStudent()||plan.created_by!==api.getUser())return;
+  if(plan.end_date){api.say('Esta versión ya está cerrada. Edita la versión activa.');return;}
+  if(!(plan.days||[]).length){api.say('Esta rutina no tiene días válidos.');return;}
+  editingPlan=plan;form.reset();loadTemplates();drafts.clear();const day=plan.days[0];active=day;drafts.set(day,new Map((plan.exercises||[]).map(x=>[x.exerciseId,{...structuredClone(x),weightKg:x.weightKg??0}])));lockDays(day);
+  const last=(api.getSessions?.()||[]).filter(s=>s.plan_id===plan.id).map(s=>s.date).sort().at(-1),minDate=[api.today(),plan.start_date,last?addDay(last):api.today()].sort().at(-1);
+  planHeading.textContent='Editar rutina · nueva versión';planSubmit.textContent='Guardar nueva versión';startLabel.firstChild.nodeValue='Aplicar cambios desde';$('plan-name').value=plan.name;$('plan-start').min=minDate;$('plan-start').value=minDate;changeReasonLabel.hidden=!!api.isSolo?.();changeReason.required=!api.isSolo?.();const scheduleText=(plan.days||[]).map(d=>names[d]).join(' · ');planStatus.textContent=(plan.days.length>1?'Calendario '+scheduleText+' preservado. Edita aquí los ejercicios compartidos. ':'')+'La versión anterior conservará sus sesiones. Esta nueva versión empezará desde la fecha indicada.';panel.hidden=false;summary();renderPicker();$('plan-name').focus();
+ }
+ $('new-plan').onclick=()=>{if(!api.isCoach()||!api.getStudent())return;resetPlannerMode();form.reset();loadTemplates();drafts.clear();active=null;planStatus.textContent='Elige los días. Cada día conserva su propia selección; 0 kg significa sin carga añadida.';$('plan-start').value=api.today();panel.hidden=false;summary();renderPicker();$('plan-name').focus();};
+ $('cancel-plan').onclick=()=>{if(!saving){panel.hidden=true;resetPlannerMode();drafts.clear();active=null;}};
  form.onsubmit=async event=>{
   event.preventDefault();if(saving)return;planStatus.textContent='';
   const ds=selectedDays(),title=$('plan-name').value.trim(),date=$('plan-start').value,student=api.getStudent();
   if(!api.isCoach()||!student)return;
   if(!ds.length||!title||!date){planStatus.textContent='Escribe el nombre, la fecha y selecciona los días.';return;}
+  if(editingPlan){
+   const day=editingPlan.days[0],exercises=[...(drafts.get(day)?.values()||[])];
+   if(ds.length!==1||ds[0]!==day){planStatus.textContent='La edición conserva el día original de esta versión.';return;}
+   if(!exercises.length){planStatus.textContent='Selecciona al menos un ejercicio para '+names[day]+'.';return;}
+   if(exercises.some(x=>!Number.isInteger(x.sets)||x.sets<1||x.sets>20||!Number.isInteger(x.reps)||x.reps<1||x.reps>100||typeof x.weightKg!=='number'||!Number.isFinite(x.weightKg)||x.weightKg<0||x.weightKg>1000)){planStatus.textContent='Revisa series, repeticiones y peso.';return;}
+   if(exercises.some(x=>[x.restSets??120,x.restExercises??120].some(n=>!Number.isInteger(n)||n<1||n>86400)||(x.videoUrl&&!/^https:\/\//i.test(x.videoUrl)))){planStatus.textContent='Revisa los descansos y el enlace HTTPS del video.';return;}
+   if(!api.isSolo?.()&&changeReason.value.trim().length<3){planStatus.textContent='Explica brevemente por qué cambias la rutina.';changeReason.focus();return;}
+   saving=true;const controls=[...form.querySelectorAll('input,button,textarea,select')],disabled=controls.map(e=>e.disabled);controls.forEach(e=>e.disabled=true);planStatus.textContent='Creando nueva versión…';
+   try{await api.replacePlan({p_plan:editingPlan.id,p_name:title,p_exercises:exercises,p_effective:date,p_reason:changeReason.value.trim()});panel.hidden=true;drafts.clear();resetPlannerMode();await api.refresh();api.say(api.isSolo?.()?'Nueva versión de tu rutina guardada.':'Nueva versión guardada sin alterar el historial anterior.');}
+   catch(e){planStatus.textContent=e.message||'No se pudo guardar la nueva versión. Tus cambios siguen aquí.';}
+   finally{saving=false;controls.forEach((e,i)=>e.disabled=disabled[i]);}
+   return;
+  }
   const rows=[];for(const day of ds){const exercises=[...(drafts.get(day)?.values()||[])];if(!exercises.length){active=day;summary();renderPicker();planStatus.textContent='Selecciona al menos un ejercicio para '+names[day]+'.';return;}
    if(exercises.some(x=>!Number.isInteger(x.sets)||x.sets<1||x.sets>20||!Number.isInteger(x.reps)||x.reps<1||x.reps>100||typeof x.weightKg!=='number'||!Number.isFinite(x.weightKg)||x.weightKg<0||x.weightKg>1000)){active=day;summary();renderPicker();planStatus.textContent='Revisa series, repeticiones y peso de '+names[day]+'.';return;}
    if(exercises.some(x=>[x.restSets??120,x.restExercises??120].some(n=>!Number.isInteger(n)||n<1||n>86400)||(x.videoUrl&&!/^https:\/\//i.test(x.videoUrl)))){planStatus.textContent='Revisa los descansos y el enlace HTTPS del video.';return;}
@@ -171,6 +196,6 @@ window.DulusTraining={create(api){
   catch(e){sessionStatus.textContent=e.message||'No se pudo guardar. Conservamos tus marcas para reintentar.';}
   finally{saveSession=false;controls.forEach(e=>e.disabled=false);const arrows=exerciseList.querySelectorAll('.guided-navigation>button');if(arrows.length===2){arrows[0].disabled=false;arrows[1].disabled=exerciseIndex===activePlan.exercises.length-1;}paint();}
  };
- return {openSession(plan,targetExercise){if(saveSession)return;stop();activePlan=plan;loadPreferences();$('session-title').textContent='Mi entrenamiento · '+plan.name;sessionDate.value=api.today();sessionDate.min=plan.start_date;sessionDate.max=api.today();sessionPanel.hidden=false;$('team-content').classList.add('training-active');renderSession();if(targetExercise){exerciseIndex=Math.max(0,plan.exercises.findIndex(e=>e.exerciseId===targetExercise));renderExercise();}sessionPanel.scrollIntoView({behavior:'smooth',block:'start'});},close(){api.bridge?.close();stop();sessionPanel.hidden=true;$('team-content').classList.remove('training-active');activePlan=null;},dispose(){stop();audio?.close().catch(()=>{});}};
+ return {editPlan,openSession(plan,targetExercise){if(saveSession)return;stop();activePlan=plan;loadPreferences();$('session-title').textContent='Mi entrenamiento · '+plan.name;sessionDate.value=api.today();sessionDate.min=plan.start_date;sessionDate.max=api.today();sessionPanel.hidden=false;$('team-content').classList.add('training-active');renderSession();if(targetExercise){exerciseIndex=Math.max(0,plan.exercises.findIndex(e=>e.exerciseId===targetExercise));renderExercise();}sessionPanel.scrollIntoView({behavior:'smooth',block:'start'});},close(){api.bridge?.close();stop();sessionPanel.hidden=true;$('team-content').classList.remove('training-active');activePlan=null;},dispose(){stop();audio?.close().catch(()=>{});}};
 }};
 })();
