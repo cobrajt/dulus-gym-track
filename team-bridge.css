@@ -108,3 +108,8 @@ body[data-team-theme] .account-shell label,body[data-team-theme] .account-shell 
 .cycle-review-top strong,.cycle-review-top small{display:block}.cycle-review-card[data-level="good"]{border-left:3px solid #32c48d}.cycle-review-card[data-level="attention"]{border-left:3px solid #ff7a7a}.cycle-review-card[data-level="neutral"]{border-left:3px solid #6f8fb8}
 .cycle-review-card h4{margin:0 0 8px}.cycle-review-card p{margin:6px 0}.cycle-review-focus{font-weight:750}.cycle-review-note{font-size:.9rem;opacity:.86}
 @media(max-width:720px){.cycle-review-top,.cycle-review-grid{grid-template-columns:1fr}.cycle-review-head{justify-content:stretch}.cycle-review-head label,.cycle-review-head select{width:100%}}
+
+.data-quality-protocol{margin:8px 0 12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.035)}
+.data-quality-protocol summary{cursor:pointer;font-weight:750}.data-quality-protocol p{margin:7px 0}.data-quality-protocol-line{display:block;margin:4px 0 8px;opacity:.88}
+.data-quality-warning{margin:8px 0;padding:0}.data-quality-warning:not(:empty){padding:10px 12px;border-radius:12px;border:1px solid rgba(255,180,90,.45);background:rgba(255,160,60,.08)}
+.data-quality-warning strong{display:block;margin-bottom:6px}.data-quality-warning p{margin:5px 0}

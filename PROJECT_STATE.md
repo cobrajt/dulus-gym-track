@@ -258,3 +258,10 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - El Centro de Acción puede señalar una revisión de ciclo solo con confianza suficiente y sin duplicar alertas más directas.
 - La interpretación de medidas depende del objetivo o meta activa; cambios ambiguos se muestran como contexto.
 - Caché PWA actualizado a `dulus-gym-track-v45`.
+
+## Calidad de datos de seguimiento
+- `data-quality.js` estandariza protocolos de medición corporal y pruebas físicas.
+- Los formularios de medidas y pruebas piden una segunda confirmación ante cambios grandes o repeticiones demasiado próximas.
+- El aviso no impide guardar un dato que coach/alumno sabe que es correcto.
+- Las pruebas QA temporales fueron eliminadas completamente.
+- Caché actual: `dulus-gym-track-v46`.

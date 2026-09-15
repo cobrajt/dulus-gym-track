@@ -371,3 +371,13 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Dolor relevante conserva prioridad aunque el ciclo esté incompleto.
 - El Centro de Acción solo recibe señal de ciclo cuando la confianza es suficiente y no hay una alerta más directa.
 - Pruebas: ciclo positivo, ciclo deteriorado, contexto de cintura y UI real sin errores.
+
+## 2026-09-15 — Control de calidad de datos
+- Añadido `data-quality.js` para protocolos cortos y validación de cambios sospechosos.
+- Medidas corporales muestran cómo repetir cada medición de forma comparable.
+- Pruebas físicas muestran protocolo específico por salto, sprint, dominadas y plancha.
+- Cambios grandes o registros demasiado próximos requieren una segunda confirmación antes de guardarse.
+- El sistema avisa pero no bloquea: coach/alumno pueden confirmar si el dato es correcto.
+- Prueba real reversible: cintura 90 → 97 cm mostró `Confirmar y guardar`; ambos datos QA se eliminaron después.
+- Validación adicional: brazo +4 cm y salto vertical +27.5% disparan advertencia de calidad.
+- Caché PWA actualizado a `dulus-gym-track-v46`.
