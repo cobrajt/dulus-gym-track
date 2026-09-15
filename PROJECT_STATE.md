@@ -382,3 +382,14 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Revocar un código que está siendo revisado cierra también su previsualización.
 - Supabase sincronizado hasta `2026091520`; caché actual `dulus-gym-track-v64`.
 - QA reversible aprobado sin cambios de membresía ni residuos temporales.
+
+## Seguridad previa a publicación — estado actual
+- Supabase sincronizado hasta `2026091521_security_hardening.sql`.
+- Políticas sensibles de planes, sesiones, mensajes y videos verifican acceso explícito del alumno o del coach actualmente vinculado.
+- La desvinculación coach–alumno corta el acceso operativo sin borrar historial.
+- Sustituciones temporales de ejercicios se guardan como `plannedExerciseId` + `exerciseId` real; una alternativa distinta requiere carga 0 kg.
+- El frontend bloquea la carga en 0 kg durante alternativas sin gym.
+- `dulus_finish_session` valida planificado/realizado y mantiene la transacción atómica.
+- QA transaccional real confirmó rollback completo ante un segundo dato inválido; no se creó sesión QA.
+- `npx supabase db lint --linked` devuelve `No schema errors found`.
+- Caché PWA actual: `dulus-gym-track-v65`.

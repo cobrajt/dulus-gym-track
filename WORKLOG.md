@@ -511,3 +511,16 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - Migración aplicada: `2026091520_invitation_consent.sql`.
 - QA reversible: crear → previsualizar → revocar; equipos antes/después idénticos, 0 errores y 0 invitaciones QA pendientes.
 - Caché PWA: `v64`.
+
+## 2026-09-15 — Auditoría y endurecimiento de seguridad
+- Auditoría estática de RLS, grants y funciones `security definer` en todas las migraciones.
+- `2026091521_security_hardening.sql` aplicada en Supabase.
+- Acceso a planes, sesiones, mensajes y videos usa comprobaciones explícitas alumno/coach.
+- Al terminar el vínculo, un coach anterior deja de cumplir las políticas sensibles.
+- `dulus_finish_session` acepta sustituciones temporales solo si `plannedExerciseId` pertenece al plan y la carga alternativa es 0 kg.
+- Frontend bloquea el campo de carga a 0 kg cuando se usa una alternativa sin gym.
+- Se eliminó el warning de variable no usada en `dulus_apply_load_progression`.
+- Supabase `db lint --linked`: `No schema errors found`.
+- QA frontend: Press banca → Flexiones conserva `plannedExerciseId=press-banca-barra`, `exerciseId=flexiones` y 0 kg.
+- QA backend transaccional: primer ejercicio alternativo válido + segundo dato inválido → error `22P02` y rollback completo; no quedó sesión QA.
+- Caché PWA: `v65`.
