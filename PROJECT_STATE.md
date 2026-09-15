@@ -340,3 +340,14 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Catálogo curado ampliado con `Flexiones pike` para empuje vertical sin pesas.
 - QA real de `prueba 2`: 5/5 ejercicios con equipo obtienen alternativa sin pesas; rutina original sin cambios y sin residuos QA locales.
 - Caché PWA actual: `dulus-gym-track-v60`.
+
+## Cobertura de ejercicios en casa — estado actual
+- Catálogo combinado auditado: 901 ejercicios, de los cuales 655 usan peso/equipo.
+- Los 655/655 tienen al menos una alternativa de casa (`Peso corporal`, `Sin equipamiento` u `Objeto doméstico`).
+- Dulus prioriza equivalencia por patrón de movimiento; en los 440 ejercicios con patrón reconocido, 440/440 tienen alternativa del mismo patrón.
+- Las alternativas curadas en español tienen prioridad sobre entradas importadas cuando son equivalentes.
+- Se añadieron variantes para remo, curl, hombro, bisagra, femoral, glúteo, pantorrilla, trapecio, aductores, abductores, cuello y core.
+- La dificultad de una alternativa de casa nunca supera la del ejercicio original.
+- La sesión real sigue guardando `plannedExerciseId` y `exerciseId` para separar adherencia de estadísticas de fuerza.
+- `prueba 2` mantiene conversión 5/5 en Modo casa; rutina persistida intacta y sin residuos QA.
+- Caché PWA actual: `dulus-gym-track-v61`.

@@ -468,3 +468,14 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - `prueba 2` pasó de 3/5 a 5/5 ejercicios convertibles: press banca→flexiones, press militar→flexiones pike, press francés→fondos, floor press→flexiones, clean and press→flexiones pike.
 - El detalle de sesión conserva `plannedExerciseId` y `exerciseId` real; cumplimiento y analítica de fuerza quedan separados correctamente.
 - QA de navegador: modo casa activado/revertido, rutina guardada intacta, 0 errores y estado QA local limpiado. Caché PWA: `v60`.
+
+## 2026-09-15 — Cobertura completa de alternativas en casa
+- Se amplió el catálogo curado con alternativas en español para espalda, hombros, bíceps, antebrazos, cuádriceps, isquiotibiales, glúteos, pantorrillas, core, trapecio, aductores, abductores y cuello.
+- Se añadió `Objeto doméstico` para variantes sin pesas que usan elementos simples y estables, como toalla, silla o suelo deslizante.
+- El motor de sustitución ahora prioriza mismo patrón de movimiento antes que solo compartir músculo principal.
+- Si el patrón coincide pero el músculo principal difiere, la explicación dice `Mismo patrón de movimiento` y no afirma músculo equivalente.
+- Auditoría global: 901 ejercicios totales, 655 con peso/equipo y 0 sin alternativa de casa.
+- De 440 ejercicios con patrón reconocido, 440/440 tienen alternativa del mismo patrón.
+- Casos QA: remo→remo con toalla, curl→auto-resistencia, RDL→bisagra sin peso, leg curl→deslizante, shrug→auto-resistencia, aperturas→aducción isométrica, press militar→flexiones pike.
+- Regresión real con `prueba 2`: 5/5 ejercicios convertibles a Modo casa, rutina original intacta y 0 errores.
+- Caché PWA: `v61`.
