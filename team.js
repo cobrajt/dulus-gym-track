@@ -50,7 +50,7 @@ const measurements=window.DulusMeasurements?.create({db,check,say});
 const bodyAssessment=window.DulusBodyAssessment?.create({db,check,say});
 const bodyGoals=window.DulusBodyGoals?.create({db,check,say,coach:()=>coach});
 const performanceGoals=window.DulusPerformanceGoals?.create({db,check,say,catalog:EXERCISES,getPlans:()=>plans,getSessions:()=>sessions});
-const initialAssessment=window.DulusInitialAssessment?.create({db,check,say});
+const initialAssessment=window.DulusInitialAssessment?.create({db,check,say,coach:()=>coach});
 const bridge=window.DulusBridge?.create({db,user:()=>currentUserId,team:()=>solo?'solo-'+currentUserId:teamId,coach:()=>coach,solo:()=>solo,student:()=>student,roster:()=>roster,plans:()=>plans,catalog:EXERCISES,open:openSession,select:openStudent});
 const trainingUI=window.DulusTraining.create({bridge,getPlans:()=>plans,catalog:EXERCISES,technique,today,getUser:()=>currentUserId,getStudent:()=>student,isCoach:()=>coach||solo,isSolo:()=>solo,getSessions:()=>sessions,createPlans:rows=>check(db.from('dulus_plans').insert(rows)),recordSession:(args,details)=>check(db.rpc(details?'dulus_finish_session':'dulus_record_session',details?{...args,p_details:details}:args)),refresh,say});
 run(refresh);

@@ -236,3 +236,10 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Evaluación inicial y formulario de medidas reutilizan el mismo perfil para evitar mensajes contradictorios.
 - Rendimiento deportivo puede usar salto/sprint sin obligar a registrar perímetros corporales.
 - Datos opcionales como sexo de referencia y fecha de nacimiento siguen sin bloquear el flujo.
+
+## Evaluación inicial guiada
+- El coach recibe una propuesta de seguimiento basada en el objetivo del alumno.
+- Puede aprobar/personalizar medidas corporales y pruebas de rendimiento; sexo y fecha de nacimiento siguen siendo opcionales.
+- El plan aprobado persiste en `dulus_students.tracking_plan` y reemplaza la propuesta automática hasta que el coach lo reinicie.
+- El Centro de Acción avisa si un alumno con objetivo todavía necesita aprobación de seguimiento.
+- Migración aplicada: `2026091411_tracking_plan.sql`.

@@ -341,3 +341,12 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - El formulario de Medidas coloca en primer plano solo lo recomendado; el resto queda en “Más medidas”.
 - Resumen e historial de medidas también siguen las métricas relevantes para el objetivo.
 - Pruebas real + sintéticas PASS; no se escribieron datos QA.
+
+## 2026-09-14 — Evaluación inicial guiada del coach
+- Dulus propone un plan de seguimiento según el objetivo del alumno y el coach decide qué conservar.
+- El coach puede aprobar medidas y pruebas concretas, añadir/quitar elementos y dejar una nota opcional.
+- El plan aprobado se guarda en `dulus_students.tracking_plan`; el alumno ve el mismo plan y las medidas se adaptan a él.
+- Se añadió estado de base registrada / falta base y prueba registrada / falta prueba.
+- El Centro de Acción muestra `Seguimiento por aprobar` mientras un alumno con objetivo no tenga el plan revisado.
+- Prueba real reversible con `prueba 2`: guardar plan → aparece `plan aprobado` → reiniciar → vuelve a `propuesta lista`.
+- No quedó ningún plan QA activo.
