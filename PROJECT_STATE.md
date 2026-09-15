@@ -289,3 +289,10 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - Agrupa varias señales del mismo alumno en una sola tarjeta y prioriza `Hoy` / `Esta semana`.
 - Muestra antigüedad únicamente cuando la señal tiene una fecha real y enlaza a alumno, detalle o avisos.
 - Estado validado en navegador real del coach con `prueba 2`; sin datos QA creados.
+
+## Estado actual — Agenda del Coach
+- `coach-agenda.js` está activo y usa las mismas señales explicables del Centro de Acción.
+- Prioriza alumnos en Hoy / Esta semana y conserva los demás fuera de la vista operativa.
+- `2026091413_agenda_snooze.sql` añade pospuestos privados por coach, con RLS y máximo 7 días.
+- La interfaz permite posponer 1 o 3 días solo asuntos de baja prioridad y recuperarlos manualmente.
+- El pospuesto se sincroniza entre dispositivos y no aplica a señales de seguridad/alta prioridad.

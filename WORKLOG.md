@@ -414,3 +414,10 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - `coach-action-center.js` ahora expone fechas útiles para dolor, inactividad, videos/comentarios, metas vencidas y seguimiento atrasado.
 - Prueba real con `prueba 2`: una sola tarjeta, video pendiente desde hace 2 días, `+2 asuntos más`, sin errores.
 - PWA actualizada a caché `v51`.
+
+## 2026-09-15 — Agenda inteligente + posponer seguimiento
+- La Agenda del Coach prioriza Hoy / Esta semana y muestra desde cuándo está pendiente cada señal.
+- Se añadió pospuesto sincronizado en Supabase (`dulus_agenda_snoozes`).
+- Solo señales de baja prioridad pueden posponerse; dolor alto/seguridad no se ocultan.
+- Acciones rápidas: Mañana, En 3 días y Volver a agenda.
+- Prueba real reversible completada: tarea salió de Hoy, apareció en Pospuestos y volvió sin dejar QA activo.

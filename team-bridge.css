@@ -130,3 +130,5 @@ body[data-team-theme] .account-shell label,body[data-team-theme] .account-shell 
 .coach-agenda-card-head{display:flex;justify-content:space-between;gap:.75rem;align-items:center}.coach-agenda-card-head span{font-size:.82rem;font-weight:700;opacity:.8}.coach-agenda-card p{margin:.45rem 0}.coach-agenda-card small{opacity:.72}.coach-agenda-actions{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.7rem}.coach-agenda-clear{padding:.8rem;border-radius:14px;background:rgba(255,255,255,.035)}
 @media(max-width:640px){.coach-agenda-stats{grid-template-columns:1fr}.coach-agenda-card-head{align-items:flex-start;flex-direction:column}.coach-agenda-actions button{flex:1 1 120px}}
 .coach-agenda-next{display:block;margin-top:.35rem;font-weight:650;opacity:.86}
+
+.coach-agenda-deferred{margin-top:12px;border-top:1px solid color-mix(in srgb,currentColor 18%,transparent);padding-top:10px}.coach-agenda-deferred>summary{cursor:pointer;font-weight:800}.coach-agenda-deferred article{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 0}.coach-agenda-deferred small{opacity:.72}.coach-agenda-actions button{min-height:38px}
