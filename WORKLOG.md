@@ -524,3 +524,16 @@ Este archivo es la memoria cronológica del proyecto. Antes de comenzar una sesi
 - QA frontend: Press banca → Flexiones conserva `plannedExerciseId=press-banca-barra`, `exerciseId=flexiones` y 0 kg.
 - QA backend transaccional: primer ejercicio alternativo válido + segundo dato inválido → error `22P02` y rollback completo; no quedó sesión QA.
 - Caché PWA: `v65`.
+
+## 2026-09-15 — Preparación de publicación PWA
+- Publicación todavía desactivada; no se cambió `main` ni se hizo pública la PWA.
+- Se creó `pwa.js` y el service worker se registra desde Inicio, Cuenta y Equipo.
+- `account.html` y `team.html` incluyen manifest y `theme-color`; entradas directas preparan la PWA sin pasar por Inicio.
+- Navegaciones cacheadas ignoran query string, por lo que `team.html?team=...` y `?solo=1` pueden cargar la carcasa offline.
+- Manifest usa `id`, `start_url` y `scope` relativos (`./`) para funcionar bajo GitHub Pages o futuro dominio.
+- Workflow manual `.github/workflows/pages.yml`; no despliega automáticamente con push.
+- Artefacto público excluye servidor local, inventario técnico de imágenes, Supabase/migraciones y documentación interna.
+- Auditoría de tamaño: paquete hospedado ~100.66 MB; `assets/catalog` aporta ~94.93 MB en imágenes bajo demanda.
+- Se eliminó el precache masivo de 1,749 imágenes. PWA `v67`: 49 recursos, 2.36 MB, 0 imágenes precargadas.
+- QA limpia: abrir Cuenta directamente instala PWA; con red offline, Equipo con `?team=` carga desde caché; conexión restaurada correctamente.
+- `PUBLICATION_CHECKLIST.md` documenta URL prevista y configuración pendiente de Supabase Auth antes del lanzamiento.

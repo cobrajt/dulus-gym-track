@@ -393,3 +393,16 @@ DATOSGYM (rnrciqyngdequkbmttxu), organizacion pinpollo, plan Free.
 - QA transaccional real confirmó rollback completo ante un segundo dato inválido; no se creó sesión QA.
 - `npx supabase db lint --linked` devuelve `No schema errors found`.
 - Caché PWA actual: `dulus-gym-track-v65`.
+
+## Preparación de publicación — estado actual
+- Dulus sigue sin publicarse; `main` no se tocó y el workflow de Pages es manual.
+- Destino previsto: `https://cobrajt.github.io/dulus-gym-track/`.
+- Callback previsto de Supabase Auth: `https://cobrajt.github.io/dulus-gym-track/account.html`.
+- Entradas `index.html`, `account.html` y `team.html` registran la PWA mediante `pwa.js`.
+- Manifest portable con `id/start_url/scope = ./`.
+- Service worker actual `dulus-gym-track-v67`; query strings de navegación usan la misma carcasa cacheada.
+- Precache inicial reducido a 49 recursos / ~2.36 MB, sin imágenes del catálogo; imágenes se cachean bajo demanda.
+- Workflow `.github/workflows/pages.yml` publica solo archivos runtime y assets; excluye archivos internos.
+- QA offline/directa y simulación del artefacto de Pages aprobadas.
+- Antes del lanzamiento real: autorizar Site URL + Redirect URL en Supabase Auth y ejecutar manualmente el workflow.
+- Ver detalles en `PUBLICATION_CHECKLIST.md`.
